@@ -6,7 +6,7 @@ using ClickClick.Data;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.SceneManagement;
 namespace ClickClick.Rank
 {
     public class MenuRankDisplay : MonoBehaviour
@@ -30,6 +30,20 @@ namespace ClickClick.Rank
         {
             dataManager = DataManager.Instance;
             StartCoroutine(InitializeRankDisplay());
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                PlayerPrefs.DeleteAll();
+                if (dataManager != null)
+                {
+                    dataManager.Initialize();
+                }
+                StartCoroutine(InitializeRankDisplay());
+                SceneManager.LoadScene("Menu");
+            }
         }
 
         public void GameStart()
