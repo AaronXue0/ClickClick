@@ -6,12 +6,14 @@ namespace ClickClick.Gameplay
 {
     public class FixObject : MonoBehaviour
     {
+        [SerializeField] private Sprite _emptySprite;
+
         private HandGesture _gesture;
         private Image image;
 
         private void Awake()
         {
-            image = GetComponent<Image>();
+            image = GetComponentInChildren<Image>();
         }
 
         public void AssignGesture(HandGesture gesture, Sprite sprite)
@@ -36,7 +38,7 @@ namespace ClickClick.Gameplay
         {
             GameManager.Instance.FixedGesture(_gesture);
 
-            image.sprite = null;
+            image.sprite = _emptySprite;
             _gesture = HandGesture.None;
         }
 
