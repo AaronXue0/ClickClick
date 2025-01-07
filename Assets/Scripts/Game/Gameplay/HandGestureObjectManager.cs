@@ -10,6 +10,7 @@ namespace ClickClick.GestureTracking
         [SerializeField] private HandGestureMappingGroup leftHandGestures;
         [SerializeField] private HandGestureMappingGroup rightHandGestures;
         [SerializeField] private UnityEngine.UI.Image rightHandDisplayImage;
+        [SerializeField] private Sprite _defaultSprite;
         [SerializeField] private MultiHandLandmarkListAnnotation handLandmarkAnnotation;
 
         private HandGestureDetector gestureDetector;
@@ -19,7 +20,7 @@ namespace ClickClick.GestureTracking
 
         private void Awake()
         {
-            rightHandDisplayImage.sprite = null;
+            rightHandDisplayImage.sprite = _defaultSprite;
             rightHandDisplayImage.transform.parent.gameObject.SetActive(false);
             needsUpdate = false;
         }
@@ -72,7 +73,7 @@ namespace ClickClick.GestureTracking
         {
             _isGameActive = false;
             needsUpdate = false;
-            rightHandDisplayImage.sprite = null;
+            rightHandDisplayImage.sprite = _defaultSprite;
             DisableAllObjects(leftHandGestures);
             DisableAllObjects(rightHandGestures);
             rightHandDisplayImage.transform.parent.gameObject.SetActive(false);

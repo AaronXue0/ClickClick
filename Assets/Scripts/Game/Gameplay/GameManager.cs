@@ -176,6 +176,7 @@ namespace ClickClick.Gameplay
 
         private void StartGame()
         {
+            // return;
             _isGameStarted = true;
             _countdownPanel.SetActive(false);
             _timeImage.gameObject.SetActive(true);
@@ -235,8 +236,7 @@ namespace ClickClick.Gameplay
         }
 
         private void SpawnRandomGesture()
-        {
-            // Find available fix objects
+        {            // Find available fix objects
             List<FixObject> availableObjects = _fixObjects.FindAll(obj => !obj.HasGesture);
 
             if (availableObjects.Count == 0)
