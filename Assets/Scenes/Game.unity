@@ -306,7 +306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -448535600, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44eca1d8e6fb90e4f810f4204ac7edf0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1498,7 +1498,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -350.92865, y: -97.77997}
+  m_AnchoredPosition: {x: -350.9287, y: -97.77997}
   m_SizeDelta: {x: -701.857, y: -195.56001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &839833553
@@ -1989,7 +1989,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 212765395, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 562262343c28f284d8114be7bd6cd198, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2284,7 +2284,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -475511985, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2731f5870521a4e4a9a87bd6742b7bb0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4401,9 +4401,9 @@ MonoBehaviour:
   _initialSpawnInterval: 3
   _minimumSpawnInterval: 0.8
   _difficultyRampUpTime: 45
-  _rockSprite: {fileID: -448535600, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
-  _paperSprite: {fileID: 212765395, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
-  _scissorsSprite: {fileID: -475511985, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+  _rockSprite: {fileID: 21300000, guid: 2731f5870521a4e4a9a87bd6742b7bb0, type: 3}
+  _paperSprite: {fileID: 21300000, guid: 44eca1d8e6fb90e4f810f4204ac7edf0, type: 3}
+  _scissorsSprite: {fileID: 21300000, guid: 562262343c28f284d8114be7bd6cd198, type: 3}
   _countdownText: {fileID: 542083189}
   _countdownDuration: 3
   _countdownPanel: {fileID: 1515709430}
@@ -4585,13 +4585,13 @@ MonoBehaviour:
   rightHandGestures:
     gestureMappings:
     - targetObject: {fileID: 0}
-      displayImage: {fileID: -475511985, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+      displayImage: {fileID: 21300000, guid: 2731f5870521a4e4a9a87bd6742b7bb0, type: 3}
       gestureType: 3
     - targetObject: {fileID: 0}
-      displayImage: {fileID: 212765395, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+      displayImage: {fileID: 21300000, guid: 562262343c28f284d8114be7bd6cd198, type: 3}
       gestureType: 2
     - targetObject: {fileID: 0}
-      displayImage: {fileID: -448535600, guid: e059464ece26e4d18a5622d43f2029dd, type: 3}
+      displayImage: {fileID: 21300000, guid: 44eca1d8e6fb90e4f810f4204ac7edf0, type: 3}
       gestureType: 1
   rightHandDisplayImage: {fileID: 1157979260}
   handLandmarkAnnotation: {fileID: 1740313527}
