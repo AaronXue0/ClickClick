@@ -15,6 +15,6 @@ MonoBehaviour:
   groupName: BGM
   assets:
   - clipName: Menu
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 75b4a137848814c6a8f4a967e7ea97cf, type: 3}
   - clipName: Game
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 75b4a137848814c6a8f4a967e7ea97cf, type: 3}
