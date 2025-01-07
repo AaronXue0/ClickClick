@@ -27,9 +27,10 @@ namespace ClickClick.Gameplay
         [SerializeField] private List<FixObject> _fixObjects = new List<FixObject>();
 
         [Header("Level Generation")]
-        [SerializeField] private float _initialSpawnInterval = 3f;
-        [SerializeField] private float _minimumSpawnInterval = 0.8f;
-        [SerializeField] private float _difficultyRampUpTime = 45f;
+        private float _initialSpawnInterval = 2.5f;
+        private float _minimumSpawnInterval = 0.5f;
+        private float _speedUpInterval = 10f;
+        private float _speedUpMultiplier = 0.7f;
         [SerializeField] private Sprite _rockSprite;
         [SerializeField] private Sprite _paperSprite;
         [SerializeField] private Sprite _scissorsSprite;
@@ -70,6 +71,8 @@ namespace ClickClick.Gameplay
         public bool IsGameOver => _isGameOver;
 
         private Sequence _countdownSequence;
+
+        private float _nextSpeedUpTime;
 
         private void Awake()
         {
@@ -189,6 +192,8 @@ namespace ClickClick.Gameplay
             }
 
             // Set initial spawn time
+            _nextSpeedUpTime = _time - _speedUpInterval;
+            _currentSpawnInterval = _initialSpawnInterval;
             _nextSpawnTime = Time.time + _currentSpawnInterval;
 
             SpawnRandomGesture();
@@ -217,16 +222,18 @@ namespace ClickClick.Gameplay
             _timeLeft -= Time.deltaTime;
             _timeImage.fillAmount = _timeLeft / _time;
 
+            // Check if it's time to speed up
+            if (_timeLeft <= _nextSpeedUpTime)
+            {
+                _currentSpawnInterval = Mathf.Max(_minimumSpawnInterval, _currentSpawnInterval * _speedUpMultiplier);
+                _nextSpeedUpTime -= _speedUpInterval;
+                Debug.Log($"Speed up! New spawn interval: {_currentSpawnInterval}");
+            }
+
             if (Time.time >= _nextSpawnTime)
             {
                 SpawnRandomGesture();
                 _nextSpawnTime = Time.time + _currentSpawnInterval;
-            }
-
-            if (_timeLeft <= _difficultyRampUpTime)
-            {
-                float difficultyProgress = 1 - (_timeLeft / _difficultyRampUpTime);
-                _currentSpawnInterval = Mathf.Lerp(_initialSpawnInterval, _minimumSpawnInterval, difficultyProgress);
             }
 
             if (_timeLeft <= 0)
