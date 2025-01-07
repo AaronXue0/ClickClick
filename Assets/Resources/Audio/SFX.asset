@@ -28,3 +28,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8972450cbc731494aa2c0ab9d51d82aa, type: 3}
   - clipName: "\u8F49\u5834"
     clip: {fileID: 8300000, guid: adecde62d8a4a48cbba4d997521811e9, type: 3}
+  - clipName: "\u5F97\u5206"
+    clip: {fileID: 8300000, guid: 3940d735dcacc4abbb55d6ac777b4137, type: 3}

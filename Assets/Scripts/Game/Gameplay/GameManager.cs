@@ -24,6 +24,7 @@ namespace ClickClick.Gameplay
         [SerializeField] private List<int> _scoreMultipliers = new List<int> { 2, 3, 4 };
 
         [Header("Fix Objects")]
+        [SerializeField] private AudioController _scoreUpSound;
         [SerializeField] private List<FixObject> _fixObjects = new List<FixObject>();
 
         [Header("Level Generation")]
@@ -302,6 +303,7 @@ namespace ClickClick.Gameplay
             Debug.Log(_scores);
 
             _scores += score;
+            _scoreUpSound.DoAction();
             _lastFixedGesture = gesture;
 
             _scoreText.text = "分數: " + _scores.ToString();
