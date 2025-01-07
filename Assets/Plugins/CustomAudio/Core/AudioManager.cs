@@ -80,8 +80,8 @@ public class AudioManager : SingletonManager<AudioManager>
 
     private void LoadAudioSettings()
     {
-        audioSettings.musicVolume = 0.3f;//DataManager.MusicVolume;
-        audioSettings.soundVolume = 0.4f;//DataManager.SoundVolume;
+        audioSettings.musicVolume = 0.1f;//DataManager.MusicVolume;
+        audioSettings.soundVolume = 1f;//DataManager.SoundVolume;
     }
 
     private void UpdateAudioSettings()
