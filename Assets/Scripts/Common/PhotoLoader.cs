@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
 
-namespace ClickClick
+namespace ClickClick.Manager
 {
     public class PhotoLoader : SingletonManager<PhotoLoader>
     {
@@ -13,6 +13,40 @@ namespace ClickClick
         public static void LoadPlayerPhoto(Image targetImage, string photoPath)
         {
             Instance.StartCoroutine(LoadPlayerPhotoCoroutine(targetImage, photoPath));
+        }
+
+        public static Sprite LoadPhotoAsSprite(string photoPath)
+        {
+            if (!File.Exists(photoPath))
+            {
+                Debug.LogWarning($"Player photo not found at path: {photoPath}");
+                return null;
+            }
+
+            if (photoCache.TryGetValue(photoPath, out Sprite cachedSprite))
+            {
+                return cachedSprite;
+            }
+
+            byte[] photoData = File.ReadAllBytes(photoPath);
+            Texture2D texture = new Texture2D(2, 2);
+
+            if (texture.LoadImage(photoData))
+            {
+                Sprite photoSprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+                photoCache[photoPath] = photoSprite;
+                return photoSprite;
+            }
+            else
+            {
+                Debug.LogError($"Failed to load player photo from path: {photoPath}");
+                Destroy(texture);
+                return null;
+            }
         }
 
         private static IEnumerator LoadPlayerPhotoCoroutine(Image targetImage, string photoPath)

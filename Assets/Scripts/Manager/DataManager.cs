@@ -147,6 +147,11 @@ namespace ClickClick.Manager
             return characterGroup.GetCharacterSprite(GetCurrentPlayer().characterId);
         }
 
+        public string GetCharacterName(int characterId)
+        {
+            return characterGroup.GetCharacterName(characterId);
+        }
+
         public string GetCurrentPlayerName()
         {
             return characterGroup.GetCharacterName(GetCurrentPlayer().characterId);

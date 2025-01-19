@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using ClickClick.Manager;
 
 namespace Carousel.Scripts
 {
@@ -26,15 +27,26 @@ namespace Carousel.Scripts
             if (_isSetup)
                 return;
 
-            var items = Enumerable.Range(0, _bannerCount)
-                .Select(i =>
+            var players = DataManager.Instance.GetAllPlayers()
+                .OrderBy(p => p.rank)  // Sort by rank
+                .Select(player =>
                 {
-                    var spriteResourceKey = $"Stingray";
-                    var text = $"Player Name";
-                    return new CarouselData(spriteResourceKey, "", text, 0, null);
+                    var characterSprite = DataManager.Instance.GetCharacterSprite(player.characterId);
+                    var playerName = DataManager.Instance.GetCharacterName(player.characterId);
+                    var photoPath = PhotoLoader.LoadPhotoAsSprite(player.playerPhotoPath);
+
+                    // Create a new CarouselData with player information
+                    return new CarouselData(
+                        avatarSprite: characterSprite,
+                        photoPath: photoPath,
+                        rank: player.rank,
+                        score: player.score,
+                        clicked: () => Debug.Log($"Clicked on player {playerName} with rank {player.rank} and score {player.score}")
+                    );
                 })
                 .ToArray();
-            _carouselView.Setup(items);
+
+            _carouselView.Setup(players);
             _isSetup = true;
         }
 

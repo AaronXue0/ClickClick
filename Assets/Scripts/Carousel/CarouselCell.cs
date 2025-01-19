@@ -6,8 +6,8 @@ namespace Carousel.Scripts
 {
     public class CarouselCell : CarouselCell<CarouselData, CarouselCell>
     {
-        [SerializeField] private Image _image;
         [SerializeField] private Image _playerAvatar;
+        [SerializeField] private Image _playerPhoto;
         [SerializeField] private Text _rankText;
         [SerializeField] private Text _scoreText;
         [SerializeField] private Button _button;
@@ -17,8 +17,9 @@ namespace Carousel.Scripts
         protected override void Refresh(CarouselData data)
         {
             _data = data;
-            _image.sprite = Resources.Load<Sprite>(data.SpriteResourceKey);
-            _rankText.text = data.Text;
+            _playerPhoto.sprite = data.PhotoPath;
+            _playerAvatar.sprite = data.AvatarSprite;
+            _rankText.text = data.Rank.ToString();
             _scoreText.text = data.Score.ToString();
         }
 
