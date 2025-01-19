@@ -106,6 +106,11 @@ namespace ClickClick.Manager
         {
             return players.Find(p => p.playerId == playerId);
         }
+
+        public List<PlayerData> GetAllPlayers()
+        {
+            return players;
+        }
         #endregion
 
         #region Google Sheets

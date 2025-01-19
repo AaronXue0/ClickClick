@@ -7,6 +7,7 @@ namespace Carousel.Scripts
     public class CarouselCell : CarouselCell<CarouselData, CarouselCell>
     {
         [SerializeField] private Image _image;
+        [SerializeField] private Image _playerAvatar;
         [SerializeField] private Text _rankText;
         [SerializeField] private Text _scoreText;
         [SerializeField] private Button _button;

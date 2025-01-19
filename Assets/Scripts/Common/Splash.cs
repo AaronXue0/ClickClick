@@ -4,6 +4,7 @@ using System.Collections;
 
 namespace ClickClick
 {
+    using ClickClick.Manager;
     public class Splash : MonoBehaviour
     {
         [SerializeField] private GameObject splash;
@@ -12,7 +13,24 @@ namespace ClickClick
 
         private void Start()
         {
+            StartCoroutine(InitializeDataManager());
             StartCoroutine(PlaySplashAnimation());
+        }
+
+        private IEnumerator InitializeDataManager()
+        {
+            yield return new WaitUntil(() => DataManager.Instance != null);
+            DataManager.Instance.Initialize();
+
+            // Load player photos for all players
+            foreach (var player in DataManager.Instance.GetAllPlayers())
+            {
+                if (!string.IsNullOrEmpty(player.playerPhotoPath))
+                {
+                    Image dummyImage = new GameObject().AddComponent<Image>(); // Create a dummy Image component
+                    PhotoLoader.LoadPlayerPhoto(dummyImage, player.playerPhotoPath);
+                }
+            }
         }
 
         private IEnumerator PlaySplashAnimation()
@@ -32,7 +50,7 @@ namespace ClickClick
             }
             logoImage.transform.localScale = Vector3.one;
 
-            // Transition to menu after animation
+            // Transition to menu after animation and data loading
             TransitionToMenu();
         }
 

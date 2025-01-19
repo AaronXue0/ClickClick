@@ -31,7 +31,7 @@ namespace Carousel.Scripts
                 {
                     var spriteResourceKey = $"Stingray";
                     var text = $"Player Name";
-                    return new CarouselData(spriteResourceKey, text, 0, null);
+                    return new CarouselData(spriteResourceKey, "", text, 0, null);
                 })
                 .ToArray();
             _carouselView.Setup(items);
