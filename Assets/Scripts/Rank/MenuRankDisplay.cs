@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+
 namespace ClickClick.Rank
 {
     public class MenuRankDisplay : MonoBehaviour
@@ -42,7 +43,11 @@ namespace ClickClick.Rank
                     dataManager.Initialize();
                 }
                 StartCoroutine(InitializeRankDisplay());
-                SceneManager.LoadScene("Menu");
+                SceneTransition.Instance.TransitionToScene("Splash");
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                SceneTransition.Instance.TransitionToScene("Standby");
             }
         }
 
