@@ -6,8 +6,8 @@ namespace Carousel.Scripts
 {
     public class CarouselController : MonoBehaviour
     {
-        [SerializeField] private CarouselView _carouselView;
-        [SerializeField][Range(1, 3)] private int _bannerCount = 3;
+        [SerializeField] private SimpleCarouselView _carouselView;
+        [SerializeField][Range(1, 15)] private int _bannerCount = 15;
         [SerializeField] private Button _setupButton;
         [SerializeField] private Button _cleanupButton;
 
@@ -29,9 +29,9 @@ namespace Carousel.Scripts
             var items = Enumerable.Range(0, _bannerCount)
                 .Select(i =>
                 {
-                    var spriteResourceKey = $"tex_demo_banner_{i:D2}";
-                    var text = $"Demo Banner {i:D2}";
-                    return new CarouselData(spriteResourceKey, text, () => Debug.Log($"Clicked: {text}"));
+                    var spriteResourceKey = $"Stingray";
+                    var text = $"Player Name";
+                    return new CarouselData(spriteResourceKey, text, 0, null);
                 })
                 .ToArray();
             _carouselView.Setup(items);

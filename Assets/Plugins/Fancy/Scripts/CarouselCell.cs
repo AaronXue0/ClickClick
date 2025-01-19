@@ -7,7 +7,8 @@ namespace Carousel.Scripts
     public class CarouselCell : CarouselCell<CarouselData, CarouselCell>
     {
         [SerializeField] private Image _image;
-        [SerializeField] private Text _text;
+        [SerializeField] private Text _rankText;
+        [SerializeField] private Text _scoreText;
         [SerializeField] private Button _button;
 
         private CarouselData _data;
@@ -16,7 +17,8 @@ namespace Carousel.Scripts
         {
             _data = data;
             _image.sprite = Resources.Load<Sprite>(data.SpriteResourceKey);
-            _text.text = data.Text;
+            _rankText.text = data.Text;
+            _scoreText.text = data.Score.ToString();
         }
 
         protected override void OnVisibilityChanged(bool visibility)
