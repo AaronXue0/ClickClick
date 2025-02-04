@@ -1,6 +1,7 @@
 ﻿using FancyCarouselView.Runtime.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Carousel.Scripts
 {
@@ -8,8 +9,8 @@ namespace Carousel.Scripts
     {
         [SerializeField] private Image _playerAvatar;
         [SerializeField] private Image _playerPhoto;
-        [SerializeField] private Text _rankText;
-        [SerializeField] private Text _scoreText;
+        [SerializeField] private TextMeshProUGUI _rankText;
+        [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _button;
 
         private CarouselData _data;

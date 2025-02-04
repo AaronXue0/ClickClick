@@ -12,7 +12,7 @@ namespace ClickClick.Rank
     public class RankManager : MonoBehaviour
     {
         [SerializeField] private Transform rankParent;
-        [SerializeField] private List<RankData> rankDataList;
+        [SerializeField] private List<RankObject> rankDataList;
         [SerializeField] private GameObject btn;
         [SerializeField] private float revealDuration = 3f; // Duration of the reveal animation
         [SerializeField] private float numberChangeInterval = 0.05f; // How fast numbers change
@@ -78,51 +78,51 @@ namespace ClickClick.Rank
             for (int i = 0; i < displayPlayers.Count && i < rankDataList.Count - 1; i++)
             {
                 PlayerData player = displayPlayers[i];
-                UpdateRankDisplay(rankDataList[i], player.rank, player.score);
-                rankDataList[i].rank = player.rank;
-                rankDataList[i].score = player.score;
+                UpdateRankDisplay(rankDataList[i].rankData, player.rank, player.score);
+                rankDataList[i].rankData.rank = player.rank;
+                rankDataList[i].rankData.score = player.score;
 
                 // Load avatar
-                if (rankDataList[i].avatarImage != null)
+                if (rankDataList[i].rankData.avatarImage != null)
                 {
                     Sprite characterSprite = DataManager.Instance.GetCharacterSprite(player.characterId);
                     if (characterSprite != null)
                     {
-                        rankDataList[i].avatarImage.sprite = characterSprite;
-                        rankDataList[i].avatarImage.gameObject.SetActive(true);
+                        rankDataList[i].rankData.avatarImage.sprite = characterSprite;
+                        rankDataList[i].rankData.avatarImage.gameObject.SetActive(true);
                     }
                     else
                     {
-                        rankDataList[i].avatarImage.gameObject.SetActive(false);
+                        rankDataList[i].rankData.avatarImage.gameObject.SetActive(false);
                     }
                 }
 
                 // Load player photo
-                if (rankDataList[i].playerPhotoImage != null && !string.IsNullOrEmpty(player.playerPhotoPath))
+                if (rankDataList[i].rankData.playerPhotoImage != null && !string.IsNullOrEmpty(player.playerPhotoPath))
                 {
-                    StartCoroutine(LoadPlayerPhoto(rankDataList[i].playerPhotoImage, player.playerPhotoPath));
+                    StartCoroutine(LoadPlayerPhoto(rankDataList[i].rankData.playerPhotoImage, player.playerPhotoPath));
                 }
-                else if (rankDataList[i].playerPhotoImage != null)
+                else if (rankDataList[i].rankData.playerPhotoImage != null)
                 {
-                    rankDataList[i].playerPhotoImage.gameObject.SetActive(false);
+                    rankDataList[i].rankData.playerPhotoImage.gameObject.SetActive(false);
                 }
             }
 
             // Load current player's images
             var currentPlayerRankData = rankDataList[rankDataList.Count - 1];
-            if (currentPlayerRankData.avatarImage != null)
+            if (currentPlayerRankData.rankData.avatarImage != null)
             {
                 Sprite characterSprite = DataManager.Instance.GetCharacterSprite(currentPlayer.characterId);
                 if (characterSprite != null)
                 {
-                    currentPlayerRankData.avatarImage.sprite = characterSprite;
-                    currentPlayerRankData.avatarImage.gameObject.SetActive(true);
+                    currentPlayerRankData.rankData.avatarImage.sprite = characterSprite;
+                    currentPlayerRankData.rankData.avatarImage.gameObject.SetActive(true);
                 }
             }
 
-            if (currentPlayerRankData.playerPhotoImage != null && !string.IsNullOrEmpty(currentPlayer.playerPhotoPath))
+            if (currentPlayerRankData.rankData.playerPhotoImage != null && !string.IsNullOrEmpty(currentPlayer.playerPhotoPath))
             {
-                StartCoroutine(LoadPlayerPhoto(currentPlayerRankData.playerPhotoImage, currentPlayer.playerPhotoPath));
+                StartCoroutine(LoadPlayerPhoto(currentPlayerRankData.rankData.playerPhotoImage, currentPlayer.playerPhotoPath));
             }
 
             // Start reveal animation
@@ -178,18 +178,18 @@ namespace ClickClick.Rank
             {
                 if (i < playerPosition)
                 {
-                    rankDataList[i].rank = rank - (playerPosition - i);
+                    rankDataList[i].rankData.rank = rank - (playerPosition - i);
                 }
                 else if (i > playerPosition)
                 {
-                    rankDataList[i].rank = rank + (i - playerPosition);
+                    rankDataList[i].rankData.rank = rank + (i - playerPosition);
                 }
                 else
                 {
-                    rankDataList[i].rank = rank;
+                    rankDataList[i].rankData.rank = rank;
                 }
 
-                if (rankDataList[i].rank < 1) rankDataList[i].rank = 1;
+                if (rankDataList[i].rankData.rank < 1) rankDataList[i].rankData.rank = 1;
             }
         }
 
@@ -224,10 +224,10 @@ namespace ClickClick.Rank
 
             for (int i = 0; i < rankObjects.Count - 1; i++) // Changed to exclude player's rank
             {
-                UpdateRankDisplay(rankDataList[i], rankDataList[i].rank, rankDataList[i].score);
+                UpdateRankDisplay(rankDataList[i].rankData, rankDataList[i].rankData.rank, rankDataList[i].rankData.score);
             }
 
-            rankDataList[rankDataList.Count - 1].rankText.text = "?";
+            rankDataList[rankDataList.Count - 1].rankData.rankText.text = "?";
 
             // yield return new WaitForSeconds(1f);
 
@@ -267,13 +267,13 @@ namespace ClickClick.Rank
             while (true)
             {
                 int index = 0;
-                foreach (RankData rankObj in rankDataList)
+                foreach (RankObject rankObj in rankDataList)
                 {
                     if (index != rankDataList.Count - 1)
                     {
                         int randomRank = Random.Range(1, 10000);
                         int randomScore = Random.Range(0, 1000000);
-                        UpdateRankDisplay(rankDataList[index], randomRank, randomScore);
+                        UpdateRankDisplay(rankObj.rankData, randomRank, randomScore);
                     }
                     index++;
                 }
@@ -307,7 +307,7 @@ namespace ClickClick.Rank
             for (int i = 0; i < displayPlayers.Count && i < rankDataList.Count - 1; i++)
             {
                 PlayerData player = displayPlayers[i];
-                UpdateRankDisplay(rankDataList[i], player.rank, player.score);
+                UpdateRankDisplay(rankDataList[i].rankData, player.rank, player.score);
                 yield return new WaitForSeconds(0.15f);
             }
 
@@ -321,7 +321,7 @@ namespace ClickClick.Rank
         private void UpdatePlayerRankDisplay(int rank)
         {
             PlayerData currentPlayer = DataManager.Instance.GetCurrentPlayer();
-            UpdateRankDisplay(rankDataList[rankDataList.Count - 1], rank, currentPlayer.score);
+            UpdateRankDisplay(rankDataList[rankDataList.Count - 1].rankData, rank, currentPlayer.score);
             transitionButtonContainer.SetActive(true);
         }
 
