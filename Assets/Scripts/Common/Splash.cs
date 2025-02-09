@@ -25,10 +25,10 @@ namespace ClickClick
             // Load player photos for all players
             foreach (var player in DataManager.Instance.GetAllPlayers())
             {
-                if (!string.IsNullOrEmpty(player.playerPhotoPath))
+                if (!string.IsNullOrEmpty(player.PlayerPhotoPath))
                 {
                     Image dummyImage = new GameObject().AddComponent<Image>(); // Create a dummy Image component
-                    PhotoLoader.LoadPlayerPhoto(dummyImage, player.playerPhotoPath);
+                    PhotoLoader.LoadPlayerPhoto(dummyImage, player.PlayerPhotoPath);
                 }
             }
         }

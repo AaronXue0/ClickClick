@@ -6,10 +6,27 @@ namespace ClickClick.Rank
 {
     public class RankObject : MonoBehaviour
     {
-        public RankData rankData;
+        private RankData rankData = new RankData(0, 0);
+
+        [SerializeField] private Image avatarImage;
+        [SerializeField] private Image photoImage;
+
         [SerializeField] private List<Sprite> numberSprites;
         [SerializeField] private List<Image> numberImages;
         [SerializeField] private List<Image> scoreImages;
+
+        public int Score => rankData.score;
+        public int Rank => rankData.rank;
+
+        public void SetAvatar(Sprite avatar)
+        {
+            avatarImage.sprite = avatar;
+        }
+
+        public void SetPhoto(Sprite photo)
+        {
+            photoImage.sprite = photo;
+        }
 
         public void SetRankDisplay(int rank)
         {

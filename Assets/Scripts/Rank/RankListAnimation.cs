@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using ClickClick.Manager;
 
 namespace ClickClick.Rank
 {
@@ -40,40 +41,50 @@ namespace ClickClick.Rank
                     playerRankObject = rankParent.GetChild(rankParent.childCount - 1);
                 }
             }
+
+            Invoke("InvokeAnimation", 0.3f);
         }
 
-        private void Update()
+        private void InvokeAnimation()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            (List<RankData> players, int targetRank) = RankManager.Instance.GetDatasForRankList();
+            Debug.Log("targetRank: " + targetRank);
+            Debug.Log("players: " + players.Count);
+            foreach (var player in players)
             {
-                List<RankData> players = new List<RankData>();
-                players.Add(new RankData(1, 40000));
-                players.Add(new RankData(2, 30000));
-                players.Add(new RankData(3, 20000));
-                players.Add(new RankData(4, 10000));
-                PlayAnimation(players, new RankData(99, 41000), 1, () => { });
+                Debug.Log("player: " + player.rank + " " + player.score);
             }
+
+            PlayAnimation(players, targetRank, () => { });
         }
 
-        // New overload to pass current player's data separately.
-        public void PlayAnimation(List<RankData> otherPlayers, RankData currentPlayer, int targetRank, System.Action onComplete)
+        public void PlayAnimation(List<RankData> players, int targetRank, System.Action onComplete)
         {
-            SetScores(otherPlayers, currentPlayer);
+            SetScores(players);
             SetRanks(targetRank);
 
             _targetRank = targetRank;
-            StartCoroutine(RevealRankSequence(otherPlayers, currentPlayer, onComplete));
+            StartCoroutine(RevealRankSequence(players, onComplete));
         }
 
-        private void SetScores(List<RankData> otherPlayers, RankData currentPlayer)
+        private void SetScores(List<RankData> players)
         {
-            // Combine scores from other players then append the current player's score.
-            var scores = otherPlayers.Select(r => r.score).ToList();
-            scores.Add(currentPlayer.score);
-
-            for (int i = 0; i < Mathf.Min(scores.Count, _rankObjects.Count); i++)
+            if (_rankObjects == null || _rankObjects.Count == 0)
             {
-                _rankObjects[i].SetScore(scores[i]);
+                Debug.LogError("_rankObjects list is not assigned or empty in RankListAnimation.");
+                return;
+            }
+
+            int count = Mathf.Min(_rankObjects.Count, players.Count);
+            for (int i = 0; i < count; i++)
+            {
+                if (_rankObjects[i] == null)
+                {
+                    Debug.LogWarning("RankObject at index " + i + " is null.");
+                    continue;
+                }
+                Debug.Log("Setting score for " + _rankObjects[i].name + " to " + players[i].score);
+                _rankObjects[i].SetScore(players[i].score);
             }
         }
 
@@ -106,7 +117,7 @@ namespace ClickClick.Rank
             }
         }
 
-        private IEnumerator RevealRankSequence(List<RankData> otherPlayers, RankData currentPlayer, System.Action onComplete)
+        private IEnumerator RevealRankSequence(List<RankData> players, System.Action onComplete)
         {
             Debug.Log("Starting RevealRankSequence");
             float elapsedTime = 0f;
@@ -134,11 +145,15 @@ namespace ClickClick.Rank
             if (randomizeCoroutine != null)
                 StopCoroutine(randomizeCoroutine);
 
-            foreach (RankObject rankObject in _rankObjects)
+            int rank = _rankObjects.Min(ro => ro.Rank);
+            int index = 0;
+            foreach (RankObject rankObject in _rankObjects.Where(ro => ro.Rank != 9999))
             {
-                rankObject.SetRankDisplay(0);
+                rankObject.SetRankDisplay(rank + index);
                 rankObject.SetScoreDisplay();
+                index++;
             }
+            _rankObjects.Where(ro => ro.Rank == 9999).ToList().ForEach(ro => ro.SetRankDisplay(ro.Rank));
 
             // Determine player position to animate (adjust based on target player's rank) 
             int targetPosition;

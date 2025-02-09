@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 771185156}
   - component: {fileID: 771185157}
   m_Layer: 0
-  m_Name: RankManager
+  m_Name: RankListManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -527,6 +527,10 @@ MonoBehaviour:
   drumRollAudio: {fileID: 1901429486}
   showRankAudio: {fileID: 1804907292}
   transitionButtonContainer: {fileID: 2038873737}
+  rankObjects: []
+  playerRankObject: {fileID: 0}
+  targetPlayerRank: 0
+  isRevealing: 0
 --- !u!1 &952496253
 GameObject:
   m_ObjectHideFlags: 0
@@ -4860,6 +4864,6 @@ SceneRoots:
   - {fileID: 8571076843645350808}
   - {fileID: 2038873739}
   - {fileID: 1221056881}
-  - {fileID: 771185156}
   - {fileID: 993471757}
+  - {fileID: 771185156}
   - {fileID: 1982563586}

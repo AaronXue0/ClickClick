@@ -140,9 +140,9 @@ namespace ClickClick.Rank
             }
 
             // First check if we have valid data
-            bool hasValidPhoto = container.playerPhotoImage != null && !string.IsNullOrEmpty(playerData.playerPhotoPath);
-            bool hasValidAvatar = container.avatarImage != null && playerData.characterId >= 0;
-            bool hasValidScore = playerData.score > 0;
+            bool hasValidPhoto = container.playerPhotoImage != null && !string.IsNullOrEmpty(playerData.PlayerPhotoPath);
+            bool hasValidAvatar = container.avatarImage != null && playerData.CharacterId >= 0;
+            bool hasValidScore = playerData.Score > 0;
 
             // Only show container if we have at least some valid data
             if (!hasValidPhoto && !hasValidAvatar && !hasValidScore)
@@ -156,13 +156,13 @@ namespace ClickClick.Rank
             // Update score
             if (container.scoreText != null)
             {
-                container.scoreText.text = playerData.score.ToString();
+                container.scoreText.text = playerData.Score.ToString();
             }
 
             // Update avatar image if available
             if (hasValidAvatar)
             {
-                Sprite characterSprite = dataManager.GetCharacterSprite(playerData.characterId);
+                Sprite characterSprite = dataManager.GetCharacterSprite(playerData.CharacterId);
                 if (characterSprite != null)
                 {
                     container.avatarImage.sprite = characterSprite;
@@ -181,7 +181,7 @@ namespace ClickClick.Rank
             // Update player photo if available
             if (hasValidPhoto)
             {
-                yield return StartCoroutine(LoadPlayerPhoto(container.playerPhotoImage, playerData.playerPhotoPath));
+                yield return StartCoroutine(LoadPlayerPhoto(container.playerPhotoImage, playerData.PlayerPhotoPath));
             }
             else if (container.playerPhotoImage != null)
             {

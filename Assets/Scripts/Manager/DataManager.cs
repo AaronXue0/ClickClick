@@ -1,7 +1,6 @@
 using UnityEngine;
 using ClickClick.Data;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 
 namespace ClickClick.Manager
@@ -36,10 +35,10 @@ namespace ClickClick.Manager
         {
             PlayerData newPlayer = new PlayerData
             {
-                playerId = currentPlayerId++,
-                characterId = characterId,
-                score = 0,
-                rank = 99999
+                PlayerId = currentPlayerId++,
+                CharacterId = characterId,
+                Score = 0,
+                Rank = 99999
             };
 
             players.Add(newPlayer);
@@ -61,7 +60,7 @@ namespace ClickClick.Manager
             foreach (PlayerData player in players)
             {
                 string jsonData = ConvertPlayerToJson(player);
-                PlayerPrefs.SetString($"Player_{player.playerId}", jsonData);
+                PlayerPrefs.SetString($"Player_{player.PlayerId}", jsonData);
             }
 
             PlayerPrefs.SetInt("CurrentPlayerId", currentPlayerId);
@@ -88,7 +87,7 @@ namespace ClickClick.Manager
         // Get player by ID
         public PlayerData GetPlayer(int playerId)
         {
-            return players.Find(p => p.playerId == playerId);
+            return players.Find(p => p.PlayerId == playerId);
         }
 
         public List<PlayerData> GetAllPlayers()
@@ -105,9 +104,9 @@ namespace ClickClick.Manager
 
         public void UploadPlayerData(PlayerData playerData)
         {
-            Debug.Log($"Uploading player data: {playerData.playerId}, {playerData.score}");
+            Debug.Log($"Uploading player data: {playerData.PlayerId}, {playerData.Score}");
 
-            if (playerData.score > 0)
+            if (playerData.Score > 0)
             {
                 StartCoroutine(googleSheetsManager.UploadPlayerData(playerData));
             }
@@ -128,7 +127,7 @@ namespace ClickClick.Manager
 
         public Sprite GetCharacterSprite()
         {
-            return characterGroup.GetCharacterSprite(GetCurrentPlayer().characterId);
+            return characterGroup.GetCharacterSprite(GetCurrentPlayer().CharacterId);
         }
 
         public string GetCharacterName(int characterId)
@@ -138,7 +137,7 @@ namespace ClickClick.Manager
 
         public string GetCurrentPlayerName()
         {
-            return characterGroup.GetCharacterName(GetCurrentPlayer().characterId);
+            return characterGroup.GetCharacterName(GetCurrentPlayer().CharacterId);
         }
 
         public PlayerData GetCurrentPlayer()
@@ -161,7 +160,7 @@ namespace ClickClick.Manager
             PlayerData player = GetPlayer(playerId);
             if (player != null)
             {
-                player.score = newScore;
+                player.Score = newScore;
                 RecalculateRanks();
                 SavePlayersData();
             }
@@ -174,7 +173,7 @@ namespace ClickClick.Manager
         public void UpdateCurrentPlayerScore(int newScore)
         {
             PlayerData player = GetCurrentPlayer();
-            player.score = newScore;
+            player.Score = newScore;
             RecalculateRanks();
             SavePlayersData();
         }
@@ -182,19 +181,19 @@ namespace ClickClick.Manager
         private void RecalculateRanks()
         {
             // Sort players by score in descending order
-            var sortedPlayers = players.OrderByDescending(p => p.score).ToList();
+            var sortedPlayers = players.OrderByDescending(p => p.Score).ToList();
 
             // Assign ranks (1-based index)
             for (int i = 0; i < sortedPlayers.Count; i++)
             {
                 // Handle tied scores
-                if (i > 0 && sortedPlayers[i].score == sortedPlayers[i - 1].score)
+                if (i > 0 && sortedPlayers[i].Score == sortedPlayers[i - 1].Score)
                 {
-                    sortedPlayers[i].rank = sortedPlayers[i - 1].rank;
+                    sortedPlayers[i].Rank = sortedPlayers[i - 1].Rank;
                 }
                 else
                 {
-                    sortedPlayers[i].rank = i + 1;
+                    sortedPlayers[i].Rank = i + 1;
                 }
             }
         }
@@ -202,13 +201,13 @@ namespace ClickClick.Manager
         public int GetPlayerRank(int playerId)
         {
             PlayerData player = GetPlayer(playerId);
-            return player?.rank ?? -1;
+            return player?.Rank ?? -1;
         }
 
         public List<PlayerData> GetTopPlayers(int count)
         {
             return players
-                .OrderByDescending(p => p.score)
+                .OrderByDescending(p => p.Score)
                 .Take(count)
                 .ToList();
         }
@@ -216,7 +215,7 @@ namespace ClickClick.Manager
         public void AddScoreToCurrentPlayer(int scoreToAdd)
         {
             PlayerData player = GetCurrentPlayer();
-            player.score += scoreToAdd;
+            player.Score += scoreToAdd;
             RecalculateRanks();
             SavePlayersData();
 
@@ -239,19 +238,19 @@ namespace ClickClick.Manager
         public int GetCurrentPlayerScore()
         {
             PlayerData player = GetCurrentPlayer();
-            return player.score;
+            return player.Score;
         }
 
         public bool IsHighScore(int score)
         {
             PlayerData player = GetCurrentPlayer();
-            return score > player.score;
+            return score > player.Score;
         }
 
         public void ResetCurrentPlayerScore()
         {
             PlayerData player = GetCurrentPlayer();
-            player.score = 0;
+            player.Score = 0;
             RecalculateRanks();
             SavePlayersData();
             UploadCurrentPlayer();
@@ -262,7 +261,7 @@ namespace ClickClick.Manager
             PlayerData player = GetCurrentPlayer();
             if (player != null)
             {
-                player.playerPhotoPath = photoPath;
+                player.PlayerPhotoPath = photoPath;
                 SavePlayersData();
                 UploadCurrentPlayer(); // Upload to Google Sheets if needed
             }

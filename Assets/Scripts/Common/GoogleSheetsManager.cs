@@ -8,17 +8,19 @@ namespace ClickClick.Manager
 {
     public class GoogleSheetsManager : MonoBehaviour
     {
+        [SerializeField] private bool isActive = false;
         private const string GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLsK_WH4savCI5APLz6fPFjbERNbsvjcvkIou1iNOY9oxLrC2l3UCsWJ3oVB2OQJLaV3x0mqXVrs_4/pub?gid=0&single=true&output=csv";
         private const string GOOGLE_FORM_URL = "https://docs.google.com/forms/d/1REAecoHDW6Tp25KPYGKfl4A6FdDKKildTzv28KOWpJ4/formResponse";
 
         public IEnumerator UploadPlayerData(PlayerData playerData)
         {
+            if (!isActive) yield break;
             // Create form data
             WWWForm form = new WWWForm();
-            form.AddField("entry.676096407", playerData.playerId.ToString());
-            form.AddField("entry.2099973968", playerData.characterId.ToString());
-            form.AddField("entry.531399903", playerData.score.ToString());
-            form.AddField("entry.654461480", playerData.rank.ToString());
+            form.AddField("entry.676096407", playerData.PlayerId.ToString());
+            form.AddField("entry.2099973968", playerData.CharacterId.ToString());
+            form.AddField("entry.531399903", playerData.Score.ToString());
+            form.AddField("entry.654461480", playerData.Rank.ToString());
 
             using (UnityWebRequest www = UnityWebRequest.Post(GOOGLE_FORM_URL, form))
             {
@@ -43,6 +45,8 @@ namespace ClickClick.Manager
 
         public IEnumerator GetAllPlayersData()
         {
+            if (!isActive) yield break;
+
             using (UnityWebRequest www = UnityWebRequest.Get(GOOGLE_SHEETS_URL))
             {
                 yield return www.SendWebRequest();

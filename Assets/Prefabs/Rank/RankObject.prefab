@@ -1110,15 +1110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b030f19242c54e3b819646c476f46f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rankData:
-    rankText: {fileID: 1692098951705543120}
-    scoreText: {fileID: 7961900138383218579}
-    avatarImage: {fileID: 5980283151559395067}
-    playerPhotoImage: {fileID: 7874078430432887028}
-    rank: 0
-    sprite: {fileID: 0}
-    rawImageTexture: {fileID: 0}
-    score: 0
+  avatarImage: {fileID: 5980283151559395067}
+  photoImage: {fileID: 7874078430432887028}
   numberSprites:
   - {fileID: 21300000, guid: 170745b4caa7d48e2b533bf01b8df3a5, type: 3}
   - {fileID: 21300000, guid: ebc037d8b3de24e8eb210ea484243754, type: 3}
@@ -1599,7 +1592,7 @@ GameObject:
   - component: {fileID: 8427387963108622586}
   - component: {fileID: 7874078430432887028}
   m_Layer: 5
-  m_Name: Avatar
+  m_Name: Photo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -28,20 +28,20 @@ namespace Carousel.Scripts
                 return;
 
             var players = DataManager.Instance.GetAllPlayers()
-                .OrderBy(p => p.rank)  // Sort by rank
+                .OrderBy(p => p.Rank)  // Sort by rank
                 .Select(player =>
                 {
-                    var characterSprite = DataManager.Instance.GetCharacterSprite(player.characterId);
-                    var playerName = DataManager.Instance.GetCharacterName(player.characterId);
-                    var photoPath = PhotoLoader.LoadPhotoAsSprite(player.playerPhotoPath);
+                    var characterSprite = DataManager.Instance.GetCharacterSprite(player.CharacterId);
+                    var playerName = DataManager.Instance.GetCharacterName(player.CharacterId);
+                    var photoPath = PhotoLoader.LoadPhotoAsSprite(player.PlayerPhotoPath);
 
                     // Create a new CarouselData with player information
                     return new CarouselData(
                         avatarSprite: characterSprite,
                         photoPath: photoPath,
-                        rank: player.rank,
-                        score: player.score,
-                        clicked: () => Debug.Log($"Clicked on player {playerName} with rank {player.rank} and score {player.score}")
+                        rank: player.Rank,
+                        score: player.Score,
+                        clicked: () => Debug.Log($"Clicked on player {playerName} with rank {player.Rank} and score {player.Score}")
                     );
                 })
                 .ToArray();

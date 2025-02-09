@@ -7,11 +7,6 @@ namespace ClickClick.Rank
     [System.Serializable]
     public class RankData
     {
-        public TMP_Text rankText;
-        public TMP_Text scoreText;
-        public UnityEngine.UI.Image avatarImage;
-        public UnityEngine.UI.Image playerPhotoImage;
-
         public RankData(int rank, int score)
         {
             this.rank = rank;

@@ -71,7 +71,7 @@ namespace ClickClick.Tool
                 characterNameText.text = characterData.characterName;
 
                 // Save the selected character to DataManager
-                Manager.DataManager.Instance.GetCurrentPlayer().characterId = characterData.characterId;
+                Manager.DataManager.Instance.GetCurrentPlayer().CharacterId = characterData.characterId;
                 Debug.Log("Selected character: " + characterData.characterName);
 
                 // Trigger the button click
