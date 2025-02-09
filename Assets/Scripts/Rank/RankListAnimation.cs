@@ -18,7 +18,7 @@ namespace ClickClick.Rank
 
         private List<GameObject> _rankGameObjects = new List<GameObject>();
         private Transform playerRankObject;
-        private int targetPlayerRank;
+        private int _targetRank;
 
         private void Start()
         {
@@ -51,43 +51,58 @@ namespace ClickClick.Rank
                 players.Add(new RankData(2, 30000));
                 players.Add(new RankData(3, 20000));
                 players.Add(new RankData(4, 10000));
-                PlayAnimation(players, new RankData(99, 41000), 99, () => { });
+                PlayAnimation(players, new RankData(99, 41000), 1, () => { });
             }
         }
 
         // New overload to pass current player's data separately.
         public void PlayAnimation(List<RankData> otherPlayers, RankData currentPlayer, int targetRank, System.Action onComplete)
         {
-            _rankObjects[0].SetScore(otherPlayers[0].score);
-            _rankObjects[1].SetScore(otherPlayers[1].score);
-            _rankObjects[2].SetScore(otherPlayers[2].score);
-            _rankObjects[3].SetScore(otherPlayers[3].score);
-            _rankObjects[4].SetScore(currentPlayer.score);
+            SetScores(otherPlayers, currentPlayer);
+            SetRanks(targetRank);
 
-            targetPlayerRank = targetRank;
+            _targetRank = targetRank;
             StartCoroutine(RevealRankSequence(otherPlayers, currentPlayer, onComplete));
         }
 
-        public void FetchRank(int rank)
+        private void SetScores(List<RankData> otherPlayers, RankData currentPlayer)
         {
-            int playerPosition = rank == 1 ? 0 : (rank == 2 ? 1 : 2);
+            // Combine scores from other players then append the current player's score.
+            var scores = otherPlayers.Select(r => r.score).ToList();
+            scores.Add(currentPlayer.score);
 
-            for (int i = 0; i < _rankObjects.Count; i++)
+            for (int i = 0; i < Mathf.Min(scores.Count, _rankObjects.Count); i++)
             {
-                if (i < playerPosition)
-                {
-                    _rankObjects[i].rankData.rank = rank - (playerPosition - i);
-                }
-                else if (i > playerPosition)
-                {
-                    _rankObjects[i].rankData.rank = rank + (i - playerPosition);
-                }
-                else
-                {
-                    _rankObjects[i].rankData.rank = rank;
-                }
+                _rankObjects[i].SetScore(scores[i]);
+            }
+        }
 
-                if (_rankObjects[i].rankData.rank < 1) _rankObjects[i].rankData.rank = 1;
+        private void SetRanks(int targetRank)
+        {
+            int[] desiredRanks;
+            if (targetRank == 1)
+            {
+                desiredRanks = new int[] { 2, 3, 4, 5, 1 };
+            }
+            else if (targetRank == 2)
+            {
+                desiredRanks = new int[] { 1, 3, 4, 5, 2 };
+            }
+            else
+            {
+                desiredRanks = new int[]
+                {
+                    targetRank - 2,
+                    targetRank - 1,
+                    targetRank + 1,
+                    targetRank + 2,
+                    targetRank
+                };
+            }
+
+            for (int i = 0; i < Mathf.Min(desiredRanks.Length, _rankObjects.Count); i++)
+            {
+                _rankObjects[i].SetRank(desiredRanks[i]);
             }
         }
 
@@ -97,7 +112,7 @@ namespace ClickClick.Rank
             float elapsedTime = 0f;
 
             // Set target player's rank from the separately passed current player's data
-            targetPlayerRank = currentPlayer.rank;
+            int targetRank = _targetRank;
 
             // Start random number animation for all non-player ranks
             Coroutine randomizeCoroutine = StartCoroutine(RandomizeNumbers());
@@ -109,7 +124,7 @@ namespace ClickClick.Rank
             {
                 elapsedTime += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsedTime / revealDuration);
-                int currentDisplayedRank = Mathf.RoundToInt(Mathf.Lerp(initialPlayerDisplayedRank, targetPlayerRank, t));
+                int currentDisplayedRank = Mathf.RoundToInt(Mathf.Lerp(initialPlayerDisplayedRank, targetRank, t));
                 // Directly update the player's rank display (assuming player's object is the last in rankDataList)
                 _rankObjects[_rankObjects.Count - 1].SetRankDisplay(currentDisplayedRank);
                 yield return null;
@@ -119,44 +134,22 @@ namespace ClickClick.Rank
             if (randomizeCoroutine != null)
                 StopCoroutine(randomizeCoroutine);
 
-            for (int i = 0; i < _rankObjects.Count; i++)
+            foreach (RankObject rankObject in _rankObjects)
             {
-                _rankObjects[i].SetRankDisplay();
-                _rankObjects[i].SetScoreDisplay();
+                rankObject.SetRankDisplay(0);
+                rankObject.SetScoreDisplay();
             }
-
-            // Ensure the player's rank is set exactly to the target value, then hide it for dramatic effect.
-            _rankObjects[_rankObjects.Count - 1].SetRankDisplay(targetPlayerRank);
 
             // Determine player position to animate (adjust based on target player's rank) 
             int targetPosition;
-            if (targetPlayerRank == 1)
+            if (targetRank == 1)
                 targetPosition = 0;
-            else if (targetPlayerRank == 2)
+            else if (targetRank == 2)
                 targetPosition = 1;
             else
                 targetPosition = 2;
 
             yield return StartCoroutine(AnimatePlayerToPosition(targetPosition));
-
-            yield return new WaitForSeconds(1f);
-
-            // Simulate rank up only if the player is not already at rank 1.
-            int updatedRank = Mathf.Max(1, currentPlayer.rank - 1);
-            if (currentPlayer.rank != updatedRank)
-            {
-                currentPlayer.rank = updatedRank;
-                targetPlayerRank = currentPlayer.rank;
-                FetchRank(targetPlayerRank);  // Update UI texts based on the new rank.
-
-                // Recalculate the target position based on the new rank.
-                int newTargetPosition = (targetPlayerRank == 1) ? 0 : (targetPlayerRank == 2 ? 1 : 2);
-                // If the player's UI element is not in the correct position yet, animate it again.
-                if (playerRankObject.GetSiblingIndex() > newTargetPosition)
-                {
-                    yield return StartCoroutine(AnimatePlayerToPosition(newTargetPosition));
-                }
-            }
 
             yield return new WaitForSeconds(1f);
             yield return StartCoroutine(DisplayFinalRanks());
@@ -199,32 +192,17 @@ namespace ClickClick.Rank
             showRankAudio.DoAction();
             yield return new WaitForSeconds(0.1f);
 
-            // Updated: sort the rank objects by their sibling index so the assignment follows the UI order
-            List<RankObject> resortedRankObjects = rankParent.GetComponentsInChildren<RankObject>().ToList();
+            var orderedRanks = GetOrderedRankObjects();
+            foreach (var rank in orderedRanks)
+            {
+                rank.SetRankDisplay();
+                rank.SetScoreDisplay();
+            }
+        }
 
-            if (targetPlayerRank == 1 || targetPlayerRank == 2)
-            {
-                int index = 1;
-                foreach (RankObject rankObject in resortedRankObjects)
-                {
-                    rankObject.SetRankDisplay(index);
-                    rankObject.SetScoreDisplay(rankObject.rankData.score);
-                    index++;
-                }
-            }
-            else
-            {
-                resortedRankObjects[0].SetRankDisplay(targetPlayerRank - 2);
-                resortedRankObjects[0].SetScoreDisplay();
-                resortedRankObjects[1].SetRankDisplay(targetPlayerRank - 1);
-                resortedRankObjects[1].SetScoreDisplay();
-                resortedRankObjects[2].SetRankDisplay(targetPlayerRank);
-                resortedRankObjects[2].SetScoreDisplay();
-                resortedRankObjects[3].SetRankDisplay(targetPlayerRank + 1);
-                resortedRankObjects[3].SetScoreDisplay();
-                resortedRankObjects[4].SetRankDisplay(targetPlayerRank + 2);
-                resortedRankObjects[4].SetScoreDisplay();
-            }
+        private List<RankObject> GetOrderedRankObjects()
+        {
+            return _rankObjects.OrderBy(ro => ro.transform.GetSiblingIndex()).ToList();
         }
     }
 }
