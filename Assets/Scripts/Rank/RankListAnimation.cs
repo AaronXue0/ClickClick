@@ -21,8 +21,15 @@ namespace ClickClick.Rank
         private Transform playerRankObject;
         private int _targetRank;
 
+        private bool _isTestMode = true;
+
         private void Start()
         {
+            if (_isTestMode)
+            {
+                TestMode();
+            }
+
             // If rankDataList is set in the inspector, use its last element as the player UI.
             if (_rankObjects != null && _rankObjects.Count > 0)
             {
@@ -56,6 +63,12 @@ namespace ClickClick.Rank
             }
 
             PlayAnimation(players, targetRank, () => { });
+        }
+
+        private void TestMode()
+        {
+            DataManager.Instance.CreateNewPlayer();
+            DataManager.Instance.UpdateCurrentPlayerScore(Random.Range(100, 10000));
         }
 
         public void PlayAnimation(List<RankData> players, int targetRank, System.Action onComplete)

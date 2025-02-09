@@ -25,6 +25,7 @@ namespace ClickClick.Manager
 
         public (List<RankData>, int) GetDatasForRankList()
         {
+            DataManager.Instance.Initialize();
             PlayerData currentPlayer = DataManager.Instance.GetCurrentPlayer() != null
                 ? DataManager.Instance.GetCurrentPlayer()
                 : new PlayerData(999, Random.Range(100, 10000));
@@ -116,7 +117,7 @@ namespace ClickClick.Manager
             int currentPlayerRank = result[0].Rank;
             foreach (var player in result)
             {
-                if (result[4].Score < currentPlayer.Score)
+                if (currentPlayer.Score < player.Score)
                 {
                     currentPlayerRank = player.Rank + 1;
                     break;

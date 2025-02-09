@@ -19,13 +19,39 @@ namespace ClickClick.Manager
         private void Start()
         {
             googleSheetsManager = gameObject.AddComponent<GoogleSheetsManager>();
+        }
+
+        private void OnEnable()
+        {
             Initialize();
+        }
+
+        private void OnDisable()
+        {
+            SavePlayersData();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                CreateNewPlayer();
+                UpdateCurrentPlayerScore(Random.Range(100, 10000));
+                RecalculateRanks();
+                SavePlayersData();
+            }
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                LoadPlayersData();
+                Debug.Log(players.Count);
+            }
         }
 
         public void Initialize()
         {
-            CurrentPhotoPath = "";
-            characterGroup.Initialize();
+            if (characterGroup != null)
+                characterGroup.Initialize();
+
             LoadPlayersData();
         }
 
