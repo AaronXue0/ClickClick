@@ -6,10 +6,8 @@ using System.Linq;
 
 namespace ClickClick.Manager
 {
-    public class DataManager : MonoBehaviour
+    public class DataManager : SingletonManager<DataManager>
     {
-        public static DataManager Instance { get; private set; }
-
         [SerializeField] private CharacterGroup characterGroup;
         private GoogleSheetsManager googleSheetsManager;
 
@@ -19,23 +17,9 @@ namespace ClickClick.Manager
 
         public string CurrentPhotoPath { get; set; }
 
-        private void Awake()
-        {
-            // Singleton pattern implementation
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
-
-            DontDestroyOnLoad(gameObject);
-
-            googleSheetsManager = gameObject.AddComponent<GoogleSheetsManager>();
-        }
-
         private void Start()
         {
+            googleSheetsManager = gameObject.AddComponent<GoogleSheetsManager>();
             Initialize();
         }
 

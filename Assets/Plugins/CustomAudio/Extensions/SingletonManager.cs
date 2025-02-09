@@ -3,13 +3,18 @@ using UnityEngine;
 public class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
 {
     protected static T instance;
-    protected static T Instance
+    public static T Instance
     {
         get
         {
             try
             {
-                if (!instance) instance = Instantiate(Resources.LoadAll<T>("SingletonManager")[0]).GetComponent<T>();
+                if (!instance)
+                {
+                    instance = Instantiate(Resources.LoadAll<T>("SingletonManager")[0]).GetComponent<T>();
+                    Debug.Log("instance: " + instance);
+                }
+
             }
             catch (System.Exception)
             {

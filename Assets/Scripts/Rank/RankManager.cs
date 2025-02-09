@@ -49,7 +49,9 @@ namespace ClickClick.Rank
 
         private void LoadPlayerRankings()
         {
-            PlayerData currentPlayer = DataManager.Instance.GetCurrentPlayer();
+            var dataManager = DataManager.Instance;
+            PlayerData currentPlayer = dataManager.GetCurrentPlayer();
+
             int currentRank = currentPlayer.rank;
 
             // Get all players except current player
@@ -348,23 +350,5 @@ namespace ClickClick.Rank
                 }
             }
         }
-    }
-
-    [System.Serializable]
-    public class RankData
-    {
-        public TMP_Text rankText;
-        public TMP_Text scoreText;
-        public UnityEngine.UI.Image avatarImage;
-        public UnityEngine.UI.Image playerPhotoImage;
-
-        [HideInInspector]
-        public int rank;
-        [HideInInspector]
-        public Sprite sprite;
-        [HideInInspector]
-        public Texture rawImageTexture;
-        [HideInInspector]
-        public int score;
     }
 }
