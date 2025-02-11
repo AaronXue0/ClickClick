@@ -9,7 +9,8 @@ namespace ClickClick
     {
         public static SceneTransition Instance { get; private set; }
 
-        [SerializeField] private GameObject canvas;
+        [SerializeField] private ParticleSystem transitionParticle;
+        [SerializeField] private Canvas canvas;
         [SerializeField] private float transitionDuration = 1f;
         [SerializeField] private Image fadeImage;
         [SerializeField] private float fadeDuration = 1f;
@@ -37,21 +38,38 @@ namespace ClickClick
 
         private IEnumerator TransitionCoroutine(string sceneName)
         {
-            canvas.SetActive(true);
+            canvas.worldCamera = Camera.main;
+            canvas.gameObject.SetActive(true);
             audioController.DoAction();
 
+            transitionParticle.Play();
             // Start the fade in
             yield return StartCoroutine(FadeIn());
 
             // Wait for the transition animation to complete
             yield return new WaitForSeconds(transitionDuration);
 
-            // Load the new scene
-            yield return SceneManager.LoadSceneAsync(sceneName);
+            // Start asynchronous loading with manual activation control
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            asyncLoad.allowSceneActivation = false; // Prevent automatic scene activation
 
-            // Start the fade out
+            // Optionally, you can monitor loading progress here (asyncLoad.progress goes from 0 to 0.9)
+            while (asyncLoad.progress < 0.9f)
+            {
+                // Insert code here for updating a progress bar, if needed.
+                yield return null; // wait one frame
+            }
+
+            // At this point, the loading is nearly complete.
+            // Update the canvas camera to the new scene's camera.
+            canvas.worldCamera = Camera.main;
+
+            // Start the fade out effect to reveal the new scene smoothly.
             yield return StartCoroutine(FadeOut());
-            canvas.SetActive(false);
+
+            // Now, allow the scene to activate.
+            asyncLoad.allowSceneActivation = true;
+            canvas.gameObject.SetActive(false);
         }
 
         private IEnumerator FadeIn()

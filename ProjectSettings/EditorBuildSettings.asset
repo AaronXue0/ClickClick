@@ -29,5 +29,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RankList.unity
     guid: e024dab350f234f99a5e045ec6dfe43e
+  - enabled: 1
+    path: Assets/Scenes/Lab/AnimationTest.unity
+    guid: 8bd0098b6ca6445f3b5e584aa643b6c7
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
