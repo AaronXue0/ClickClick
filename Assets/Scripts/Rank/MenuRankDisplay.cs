@@ -46,24 +46,6 @@ namespace ClickClick.Rank
             InitializeRankDisplay();
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                PlayerPrefs.DeleteAll();
-                if (dataManager != null)
-                {
-                    dataManager.Initialize();
-                }
-                InitializeRankDisplay();
-                SceneTransition.Instance.TransitionToScene("Splash");
-            }
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                SceneTransition.Instance.TransitionToScene("Standby");
-            }
-        }
-
         public void GameStart()
         {
             DataManager.Instance.CreateNewPlayer();
@@ -105,18 +87,27 @@ namespace ClickClick.Rank
 
         private IEnumerator UpdateRankDisplayCoroutine(List<PlayerData> topPlayers)
         {
-            if (topPlayers.Count > 0)
+            if (topPlayers != null && topPlayers.Count > 0)
             {
-                for (int i = 0; i < TOP_PLAYERS_COUNT; i++)
-                {
-                    Debug.Log("Updating rank display for player " + topPlayers[i].Score);
-                    if (i > 0)
-                        rankContainers[i].SetRank(i + 1);
+                int displayCount = Mathf.Min(TOP_PLAYERS_COUNT, topPlayers.Count, rankContainers.Length);
 
-                    yield return StartCoroutine(UpdateRankContainerCoroutine(rankContainers[i], topPlayers[i], i + 1));
+                for (int i = 0; i < displayCount; i++)
+                {
+                    if (i >= topPlayers.Count || topPlayers[i].PlayerId == -1)
+                    {
+                        continue;
+                    }
+
+                    if (topPlayers[i].Score > 0)
+                    {
+                        Debug.Log("Updating rank display for player " + topPlayers[i].Score);
+                        if (i > 0)
+                            rankContainers[i].SetRank(i + 1);
+
+                        yield return StartCoroutine(UpdateRankContainerCoroutine(rankContainers[i], topPlayers[i], i + 1));
+                    }
                 }
             }
-
         }
 
         private IEnumerator UpdateRankContainerCoroutine(RankObject container, PlayerData playerData, int rank)
