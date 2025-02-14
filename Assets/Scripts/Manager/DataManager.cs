@@ -26,32 +26,14 @@ namespace ClickClick.Manager
             SavePlayersData();
         }
 
-        private void Update()
-        {
-            // if (Input.GetKeyDown(KeyCode.Space))
-            // {
-            //     CreateNewPlayer();
-            //     UpdateCurrentPlayerScore(Random.Range(100, 10000));
-            //     RecalculateRanks();
-            //     SavePlayersData();
-            // }
-            // else if (Input.GetKeyDown(KeyCode.K))
-            // {
-            //     LoadPlayersData();
-            //     Debug.Log(players.Count);
-            // }
-            // if (Input.GetKeyDown(KeyCode.R))
-            // {
-            //     PlayerPrefs.DeleteAll();
-            // }
-        }
-
         public void Initialize()
         {
             if (characterGroup != null)
             {
                 characterGroup.Initialize();
             }
+
+            googleSheetsManager = GetComponent<GoogleSheetsManager>();
 
             LoadPlayersData();
         }
@@ -93,27 +75,32 @@ namespace ClickClick.Manager
         // Convert all players data to JSON
         private void SavePlayersData()
         {
-            foreach (PlayerData player in players)
-            {
-                string jsonData = ConvertPlayerToJson(player);
-                PlayerPrefs.SetString($"Players_Data", jsonData);
-            }
+            // Save the entire players list as one JSON string
+            string playersJson = JsonUtility.ToJson(new PlayerDataList { players = players });
+            PlayerPrefs.SetString("Players_Data", playersJson);
+            PlayerPrefs.Save();
         }
 
         // Load all saved players data
         private void LoadPlayersData()
         {
-            players.Clear();
-
-            for (int i = 0; i < currentPlayerId; i++)
+            string jsonData = PlayerPrefs.GetString("Players_Data", "");
+            if (!string.IsNullOrEmpty(jsonData))
             {
-                string jsonData = PlayerPrefs.GetString($"Players_Data", "");
-                if (!string.IsNullOrEmpty(jsonData))
+                PlayerDataList playerDataList = JsonUtility.FromJson<PlayerDataList>(jsonData);
+                if (playerDataList != null && playerDataList.players != null)
                 {
-                    PlayerData player = JsonUtility.FromJson<PlayerData>(jsonData);
-                    players.Add(player);
+                    players = playerDataList.players;
+                    if (players.Count > 0)
+                    {
+                        currentPlayerId = players.Max(p => p.PlayerId) + 1;
+                    }
                 }
             }
+
+            RecalculateRanks();
+
+            Debug.Log("Players loaded: " + players.Count);
         }
 
         // Get player by ID
@@ -201,7 +188,7 @@ namespace ClickClick.Manager
             SavePlayersData();
         }
 
-        private void RecalculateRanks()
+        public void RecalculateRanks()
         {
             // Sort players by score in descending order
             var sortedPlayers = players.OrderByDescending(p => p.Score).ToList();
@@ -267,5 +254,11 @@ namespace ClickClick.Manager
             }
         }
         #endregion
+    }
+
+    [System.Serializable]
+    public class PlayerDataList
+    {
+        public List<PlayerData> players;
     }
 }

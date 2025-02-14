@@ -31,12 +31,17 @@ namespace ClickClick.Rank
         {
             dataManager = DataManager.Instance;
 
+            // Uncomment this line to test with sample data
+            // CreateTestData();
+
             StartCoroutine(InitializeRankDisplayCoroutine());
         }
 
         private IEnumerator InitializeRankDisplayCoroutine()
         {
+            Debug.Log("Waiting for players data...");
             yield return new WaitUntil(() => dataManager.GetAllPlayers().Count > 0);
+            Debug.Log($"Players loaded: {dataManager.GetAllPlayers().Count}");
 
             InitializeRankDisplay();
         }
@@ -76,18 +81,14 @@ namespace ClickClick.Rank
         {
             if (dataManager == null)
             {
+                Debug.LogError("DataManager is null!");
                 return;
             }
 
             var topPlayers = dataManager.GetTopPlayers(TOP_PLAYERS_COUNT);
-            Debug.Log("Top players: " + topPlayers.Count);
+            Debug.Log($"Top players count: {topPlayers.Count}");
 
             if (topPlayers.Count == 0)
-            {
-                return;
-            }
-
-            if (topPlayers == null || topPlayers.Count == 0)
             {
                 Debug.Log("No player data available yet.");
                 return;
