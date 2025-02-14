@@ -64,11 +64,17 @@ namespace ClickClick
             // Update the canvas camera to the new scene's camera.
             canvas.worldCamera = Camera.main;
 
+            // Now, allow the scene to activate.
+            asyncLoad.allowSceneActivation = true;
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
             // Start the fade out effect to reveal the new scene smoothly.
             yield return StartCoroutine(FadeOut());
 
-            // Now, allow the scene to activate.
-            asyncLoad.allowSceneActivation = true;
             canvas.gameObject.SetActive(false);
         }
 

@@ -47,6 +47,7 @@ namespace ClickClick.Photograph
         private HandGesture? leftHandGesture;
         private HandGesture? rightHandGesture;
         private bool hasPhotoBeenTaken = false;
+        private bool photoSaved = false;
 
         private void Start()
         {
@@ -361,7 +362,9 @@ namespace ClickClick.Photograph
             // After transition button is shown, capture the masked photo
             yield return new WaitForSeconds(1f);
 
-            CaptureAndSaveMaskedPhoto();
+            yield return StartCoroutine(CaptureAndSaveMaskedPhoto());
+
+            yield return new WaitUntil(() => photoSaved);
 
             // Activate the transition button
             yield return new WaitForSeconds(1f);
@@ -373,13 +376,13 @@ namespace ClickClick.Photograph
             }
         }
 
-        private void CaptureAndSaveMaskedPhoto()
+        private IEnumerator CaptureAndSaveMaskedPhoto()
         {
             Canvas canvas = photoMaskRectTransform.GetComponentInParent<Canvas>();
             if (canvas.renderMode != RenderMode.ScreenSpaceOverlay)
             {
                 Debug.LogError("Canvas must be in ScreenSpaceOverlay mode for this to work");
-                return;
+                yield break;
             }
 
             // Get the rect in screen space
@@ -394,12 +397,15 @@ namespace ClickClick.Photograph
             int width = (int)(max.x - min.x);
             int height = (int)(max.y - min.y);
 
+            // Wait for end of frame to ensure all rendering is complete
+            yield return new WaitForEndOfFrame();
+
             // Create a new Texture2D and read the screen pixels
             Texture2D screenshot = new Texture2D(width, height, TextureFormat.RGBA32, false);
             screenshot.ReadPixels(new Rect(min.x, min.y, width, height), 0, 0);
             screenshot.Apply();
 
-            // Save the screenshot
+            // Save the screenshot asynchronously
             byte[] bytes = screenshot.EncodeToPNG();
             string fileName = $"photo_{System.DateTime.Now:yyyyMMdd_HHmmss}.png";
             string folderPath = Path.Combine(Application.persistentDataPath, "Photos");
@@ -412,6 +418,8 @@ namespace ClickClick.Photograph
             }
 
             string filePath = Path.Combine(folderPath, fileName);
+
+            yield return new WaitForEndOfFrame();
             File.WriteAllBytes(filePath, bytes);
 
             if (DataManager.Instance != null)
@@ -423,6 +431,8 @@ namespace ClickClick.Photograph
 
             // Clean up
             Destroy(screenshot);
+
+            photoSaved = true;
         }
 
         private void LoadPlayerInfo()

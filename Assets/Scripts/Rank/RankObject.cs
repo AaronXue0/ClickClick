@@ -8,8 +8,8 @@ namespace ClickClick.Rank
     {
         private RankData rankData = new RankData(0, 0);
 
-        [SerializeField] private Image avatarImage;
-        [SerializeField] private Image photoImage;
+        public Image avatarImage;
+        public Image photoImage;
 
         [SerializeField] private List<Sprite> numberSprites;
         [SerializeField] private List<Image> numberImages;

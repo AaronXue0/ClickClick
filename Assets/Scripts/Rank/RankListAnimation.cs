@@ -13,6 +13,8 @@ namespace ClickClick.Rank
         [SerializeField] private float revealDuration = 3f; // Duration of the reveal animation
         [SerializeField] private float numberChangeInterval = 0.05f; // How fast numbers change
 
+        [SerializeField] private GameObject targetButton;
+
         [Header("Audio")]
         [SerializeField] private AudioController drumRollAudio;
         [SerializeField] private AudioController showRankAudio;
@@ -21,14 +23,14 @@ namespace ClickClick.Rank
         private Transform playerRankObject;
         private int _targetRank;
 
-        private bool _isTestMode = true;
+        // private bool _isTestMode = false;
 
         private void Start()
         {
-            if (_isTestMode)
-            {
-                TestMode();
-            }
+            // if (_isTestMode)
+            // {
+            //     TestMode();
+            // }
 
             // If rankDataList is set in the inspector, use its last element as the player UI.
             if (_rankObjects != null && _rankObjects.Count > 0)
@@ -49,7 +51,7 @@ namespace ClickClick.Rank
                 }
             }
 
-            Invoke("InvokeAnimation", 0.3f);
+            Invoke("InvokeAnimation", 1f);
         }
 
         private void InvokeAnimation()
@@ -65,11 +67,11 @@ namespace ClickClick.Rank
             PlayAnimation(players, targetRank, () => { });
         }
 
-        private void TestMode()
-        {
-            DataManager.Instance.CreateNewPlayer();
-            DataManager.Instance.UpdateCurrentPlayerScore(Random.Range(100, 10000));
-        }
+        // private void TestMode()
+        // {
+        //     DataManager.Instance.CreateNewPlayer();
+        //     DataManager.Instance.UpdateCurrentPlayerScore(Random.Range(100, 10000));
+        // }
 
         public void PlayAnimation(List<RankData> players, int targetRank, System.Action onComplete)
         {
@@ -226,6 +228,8 @@ namespace ClickClick.Rank
                 rank.SetRankDisplay();
                 rank.SetScoreDisplay();
             }
+
+            targetButton.SetActive(true);
         }
 
         private List<RankObject> GetOrderedRankObjects()

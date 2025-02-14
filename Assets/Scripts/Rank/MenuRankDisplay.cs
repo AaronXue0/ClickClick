@@ -17,7 +17,7 @@ namespace ClickClick.Rank
         [SerializeField] private GameObject loadingContainer;
 
         [Header("Rank Display")]
-        [SerializeField] private RankContainer[] rankContainers;
+        [SerializeField] private RankObject[] rankContainers;
         private const int TOP_PLAYERS_COUNT = 4;
         private DataManager dataManager;
 
@@ -30,7 +30,7 @@ namespace ClickClick.Rank
         private void Start()
         {
             dataManager = DataManager.Instance;
-            StartCoroutine(InitializeRankDisplay());
+            InitializeRankDisplay();
         }
 
         private void Update()
@@ -42,7 +42,7 @@ namespace ClickClick.Rank
                 {
                     dataManager.Initialize();
                 }
-                StartCoroutine(InitializeRankDisplay());
+                InitializeRankDisplay();
                 SceneTransition.Instance.TransitionToScene("Splash");
             }
             if (Input.GetKeyDown(KeyCode.P))
@@ -56,29 +56,8 @@ namespace ClickClick.Rank
             DataManager.Instance.CreateNewPlayer();
         }
 
-        private IEnumerator InitializeRankDisplay()
+        private void InitializeRankDisplay()
         {
-            // Wait for DataManager to be fully initialized
-            while (dataManager == null)
-            {
-                dataManager = DataManager.Instance;
-                yield return new WaitForSeconds(0.1f);
-            }
-
-            while (dataManager.GetTopPlayers(TOP_PLAYERS_COUNT).Count == 0)
-            {
-                yield return new WaitForSeconds(0.1f);
-            }
-
-            // Initial hide of all containers
-            foreach (var container in rankContainers)
-            {
-                if (container.rankContainer != null)
-                {
-                    container.rankContainer.SetActive(false);
-                }
-            }
-
             UpdateRankDisplay();
 
             loadingContainer.SetActive(false);
@@ -89,11 +68,16 @@ namespace ClickClick.Rank
         {
             if (dataManager == null)
             {
-                Debug.LogWarning("DataManager is not initialized yet.");
                 return;
             }
 
             var topPlayers = dataManager.GetTopPlayers(TOP_PLAYERS_COUNT);
+            Debug.Log("Top players: " + topPlayers.Count);
+
+            if (topPlayers.Count == 0)
+            {
+                return;
+            }
 
             if (topPlayers == null || topPlayers.Count == 0)
             {
@@ -112,56 +96,31 @@ namespace ClickClick.Rank
 
         private IEnumerator UpdateRankDisplayCoroutine(List<PlayerData> topPlayers)
         {
-            // Update each rank container
-            for (int i = 0; i < TOP_PLAYERS_COUNT; i++)
+            if (topPlayers.Count > 0)
             {
-                if (i < topPlayers.Count)
+                for (int i = 0; i < TOP_PLAYERS_COUNT; i++)
                 {
+                    Debug.Log("Updating rank display for player " + topPlayers[i].Score);
+                    if (i > 0)
+                        rankContainers[i].SetRank(i + 1);
+
                     yield return StartCoroutine(UpdateRankContainerCoroutine(rankContainers[i], topPlayers[i], i + 1));
                 }
-                else
-                {
-                    if (rankContainers[i].rankContainer != null)
-                    {
-                        rankContainers[i].rankContainer.SetActive(false);
-                    }
-                }
-
-                // Add small delay between updates to prevent potential performance issues
-                yield return new WaitForSeconds(0.1f);
             }
+
         }
 
-        private IEnumerator UpdateRankContainerCoroutine(RankContainer container, PlayerData playerData, int rank)
+        private IEnumerator UpdateRankContainerCoroutine(RankObject container, PlayerData playerData, int rank)
         {
             if (container == null || playerData == null)
             {
                 yield break;
             }
 
-            // First check if we have valid data
-            bool hasValidPhoto = container.playerPhotoImage != null && !string.IsNullOrEmpty(playerData.PlayerPhotoPath);
-            bool hasValidAvatar = container.avatarImage != null && playerData.CharacterId >= 0;
-            bool hasValidScore = playerData.Score > 0;
-
-            // Only show container if we have at least some valid data
-            if (!hasValidPhoto && !hasValidAvatar && !hasValidScore)
-            {
-                container.rankContainer.SetActive(false);
-                yield break;
-            }
-
-            container.rankContainer.SetActive(true);
-
             // Update score
-            if (container.scoreText != null)
+            if (playerData != null)
             {
-                container.scoreText.text = playerData.Score.ToString();
-            }
-
-            // Update avatar image if available
-            if (hasValidAvatar)
-            {
+                container.SetScoreDisplay(playerData.Score);
                 Sprite characterSprite = dataManager.GetCharacterSprite(playerData.CharacterId);
                 if (characterSprite != null)
                 {
@@ -172,20 +131,12 @@ namespace ClickClick.Rank
                 {
                     container.avatarImage.gameObject.SetActive(false);
                 }
-            }
-            else if (container.avatarImage != null)
-            {
-                container.avatarImage.gameObject.SetActive(false);
-            }
 
-            // Update player photo if available
-            if (hasValidPhoto)
-            {
-                yield return StartCoroutine(LoadPlayerPhoto(container.playerPhotoImage, playerData.PlayerPhotoPath));
+                yield return StartCoroutine(LoadPlayerPhoto(container.photoImage, playerData.PlayerPhotoPath));
             }
-            else if (container.playerPhotoImage != null)
+            else
             {
-                container.playerPhotoImage.gameObject.SetActive(false);
+                container.SetScoreDisplay(0);
             }
         }
 
@@ -217,11 +168,6 @@ namespace ClickClick.Rank
                 targetImage.gameObject.SetActive(false);
                 Destroy(texture);
             }
-        }
-
-        public void RefreshDisplay()
-        {
-            StartCoroutine(InitializeRankDisplay());
         }
     }
 

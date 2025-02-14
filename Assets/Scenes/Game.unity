@@ -227,7 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4239eb6afddd44d66b1977c1606e30f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1729258745}
+  transitionParticle: {fileID: 0}
+  canvas: {fileID: 1729258749}
   transitionDuration: 0.5
   fadeImage: {fileID: 1120608075}
   fadeDuration: 0.5

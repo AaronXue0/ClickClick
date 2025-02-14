@@ -33,18 +33,22 @@ namespace ClickClick.Manager
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                CreateNewPlayer();
-                UpdateCurrentPlayerScore(Random.Range(100, 10000));
-                RecalculateRanks();
-                SavePlayersData();
-            }
-            else if (Input.GetKeyDown(KeyCode.K))
-            {
-                LoadPlayersData();
-                Debug.Log(players.Count);
-            }
+            // if (Input.GetKeyDown(KeyCode.Space))
+            // {
+            //     CreateNewPlayer();
+            //     UpdateCurrentPlayerScore(Random.Range(100, 10000));
+            //     RecalculateRanks();
+            //     SavePlayersData();
+            // }
+            // else if (Input.GetKeyDown(KeyCode.K))
+            // {
+            //     LoadPlayersData();
+            //     Debug.Log(players.Count);
+            // }
+            // if (Input.GetKeyDown(KeyCode.R))
+            // {
+            //     PlayerPrefs.DeleteAll();
+            // }
         }
 
         public void Initialize()
@@ -59,6 +63,15 @@ namespace ClickClick.Manager
         // Create a new player with default values
         public PlayerData CreateNewPlayer(int characterId = 0)
         {
+            if (players.Count == 0)
+            {
+                currentPlayerId = 0;
+            }
+            else
+            {
+                currentPlayerId = players.Count;
+            }
+
             PlayerData newPlayer = new PlayerData
             {
                 PlayerId = currentPlayerId++,
@@ -86,22 +99,18 @@ namespace ClickClick.Manager
             foreach (PlayerData player in players)
             {
                 string jsonData = ConvertPlayerToJson(player);
-                PlayerPrefs.SetString($"Player_{player.PlayerId}", jsonData);
+                PlayerPrefs.SetString($"Players_Data", jsonData);
             }
-
-            PlayerPrefs.SetInt("CurrentPlayerId", currentPlayerId);
-            PlayerPrefs.Save();
         }
 
         // Load all saved players data
         private void LoadPlayersData()
         {
-            currentPlayerId = PlayerPrefs.GetInt("CurrentPlayerId", 0);
             players.Clear();
 
             for (int i = 0; i < currentPlayerId; i++)
             {
-                string jsonData = PlayerPrefs.GetString($"Player_{i}", "");
+                string jsonData = PlayerPrefs.GetString($"Players_Data", "");
                 if (!string.IsNullOrEmpty(jsonData))
                 {
                     PlayerData player = JsonUtility.FromJson<PlayerData>(jsonData);
@@ -168,17 +177,8 @@ namespace ClickClick.Manager
 
         public PlayerData GetCurrentPlayer()
         {
+            Debug.Log("GetCurrentPlayer: " + currentPlayer.PlayerId);
             return currentPlayer;
-        }
-
-        public void SetCurrentPlayer(PlayerData player)
-        {
-            currentPlayer = player;
-        }
-
-        public void SetCurrentPlayer(int playerId)
-        {
-            currentPlayer = GetPlayer(playerId);
         }
 
         public void UpdatePlayerScore(int playerId, int newScore)
@@ -224,14 +224,13 @@ namespace ClickClick.Manager
             }
         }
 
-        public int GetPlayerRank(int playerId)
-        {
-            PlayerData player = GetPlayer(playerId);
-            return player?.Rank ?? -1;
-        }
-
         public List<PlayerData> GetTopPlayers(int count)
         {
+            if (players.Count == 0)
+            {
+                return new List<PlayerData>();
+            }
+
             return players
                 .OrderByDescending(p => p.Score)
                 .Take(count)
@@ -259,27 +258,6 @@ namespace ClickClick.Manager
                 // Upload to Google Sheets
                 UploadCurrentPlayer();
             }
-        }
-
-        public int GetCurrentPlayerScore()
-        {
-            PlayerData player = GetCurrentPlayer();
-            return player.Score;
-        }
-
-        public bool IsHighScore(int score)
-        {
-            PlayerData player = GetCurrentPlayer();
-            return score > player.Score;
-        }
-
-        public void ResetCurrentPlayerScore()
-        {
-            PlayerData player = GetCurrentPlayer();
-            player.Score = 0;
-            RecalculateRanks();
-            SavePlayersData();
-            UploadCurrentPlayer();
         }
 
         public void SetCurrentPlayerPhotoPath(string photoPath)

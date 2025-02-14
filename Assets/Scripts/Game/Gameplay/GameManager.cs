@@ -103,7 +103,7 @@ namespace ClickClick.Gameplay
             }
 
             // Start countdown
-            StartCountdown();
+            Invoke(nameof(StartCountdown), 1f);
         }
 
         private void StartCountdown()
@@ -327,6 +327,8 @@ namespace ClickClick.Gameplay
 
             // Notify listeners that game is over
             onGameOver?.Invoke();
+
+            DataManager.Instance.UpdateCurrentPlayerScore(_scores);
         }
 
         private void ShowGameOverPerformance()

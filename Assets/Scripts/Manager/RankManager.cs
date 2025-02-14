@@ -114,13 +114,18 @@ namespace ClickClick.Manager
                 result = temp;
             }
 
-            int currentPlayerRank = result[0].Rank;
-            foreach (var player in result)
+            // Add null check and handle empty result case
+            int currentPlayerRank = 1; // Default rank if no other players
+            if (result.Count > 0)
             {
-                if (currentPlayer.Score < player.Score)
+                currentPlayerRank = result[0].Rank;
+                foreach (var player in result)
                 {
-                    currentPlayerRank = player.Rank + 1;
-                    break;
+                    if (currentPlayer.Score < player.Score)
+                    {
+                        currentPlayerRank = player.Rank + 1;
+                        break;
+                    }
                 }
             }
 
