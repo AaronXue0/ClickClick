@@ -12,7 +12,7 @@ namespace ClickClick.Rank
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                RankData rankData = new RankData(1, 100);
+                RankData rankData = new RankData(1, 100, -1);
 
                 AssignRanks(new List<RankData> { rankData });
             }

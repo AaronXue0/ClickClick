@@ -30,6 +30,14 @@ namespace ClickClick.Rank
         private void Start()
         {
             dataManager = DataManager.Instance;
+
+            StartCoroutine(InitializeRankDisplayCoroutine());
+        }
+
+        private IEnumerator InitializeRankDisplayCoroutine()
+        {
+            yield return new WaitUntil(() => dataManager.GetAllPlayers().Count > 0);
+
             InitializeRankDisplay();
         }
 

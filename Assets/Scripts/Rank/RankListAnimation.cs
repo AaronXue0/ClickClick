@@ -76,10 +76,27 @@ namespace ClickClick.Rank
         public void PlayAnimation(List<RankData> players, int targetRank, System.Action onComplete)
         {
             SetScores(players);
+            SetPlayerPhoto(players);
             SetRanks(targetRank);
 
             _targetRank = targetRank;
-            StartCoroutine(RevealRankSequence(players, onComplete));
+            StartCoroutine(RevealRankSequence(onComplete));
+        }
+
+        private void SetPlayerPhoto(List<RankData> players)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].playerId != -1)
+                {
+                    Debug.Log("Setting photo for " + _rankObjects[i].name + " to " + players[i].photoPath);
+                    PhotoLoader.LoadPlayerPhoto(_rankObjects[i].photoImage, players[i].photoPath);
+                }
+                else
+                {
+                    Debug.Log("No photo for " + _rankObjects[i].name + " to " + players[i].playerId);
+                }
+            }
         }
 
         private void SetScores(List<RankData> players)
@@ -132,7 +149,7 @@ namespace ClickClick.Rank
             }
         }
 
-        private IEnumerator RevealRankSequence(List<RankData> players, System.Action onComplete)
+        private IEnumerator RevealRankSequence(System.Action onComplete)
         {
             Debug.Log("Starting RevealRankSequence");
             float elapsedTime = 0f;

@@ -6,7 +6,7 @@ namespace ClickClick.Rank
 {
     public class RankObject : MonoBehaviour
     {
-        private RankData rankData = new RankData(0, 0);
+        private RankData rankData = new RankData(0, 0, -1);
 
         public Image avatarImage;
         public Image photoImage;

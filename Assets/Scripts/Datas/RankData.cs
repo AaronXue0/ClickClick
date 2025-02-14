@@ -7,10 +7,11 @@ namespace ClickClick.Rank
     [System.Serializable]
     public class RankData
     {
-        public RankData(int rank, int score)
+        public RankData(int rank, int score, int playerId)
         {
             this.rank = rank;
             this.score = score;
+            this.playerId = playerId;
         }
 
         [HideInInspector]
@@ -21,5 +22,9 @@ namespace ClickClick.Rank
         public Texture rawImageTexture;
         [HideInInspector]
         public int score;
+        [HideInInspector]
+        public int playerId;
+        [HideInInspector]
+        public string photoPath;
     }
 }

@@ -54,7 +54,9 @@ namespace ClickClick.Manager
         public void Initialize()
         {
             if (characterGroup != null)
+            {
                 characterGroup.Initialize();
+            }
 
             LoadPlayersData();
         }
@@ -267,7 +269,6 @@ namespace ClickClick.Manager
             {
                 player.PlayerPhotoPath = photoPath;
                 SavePlayersData();
-                UploadCurrentPlayer(); // Upload to Google Sheets if needed
             }
         }
         #endregion
