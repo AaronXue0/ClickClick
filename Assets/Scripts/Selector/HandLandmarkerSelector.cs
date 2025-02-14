@@ -8,6 +8,8 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
 {
   public class HandLandmarkerSelector : VisionTaskApiRunner<HandLandmarker>
   {
+    [Header("Settings")]
+    [SerializeField] private int numberOfHands = 2;
     [SerializeField] private HandLandmarkerResultAnnotationController _handLandmarkerResultAnnotationController;
     [SerializeField] private CircularProgressOnHold _circularProgressOnHold;
 
@@ -24,12 +26,14 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
 
     protected override IEnumerator Run()
     {
-      Debug.Log($"Delegate = {config.Delegate}");
-      Debug.Log($"Running Mode = {config.RunningMode}");
-      Debug.Log($"NumHands = {config.NumHands}");
-      Debug.Log($"MinHandDetectionConfidence = {config.MinHandDetectionConfidence}");
-      Debug.Log($"MinHandPresenceConfidence = {config.MinHandPresenceConfidence}");
-      Debug.Log($"MinTrackingConfidence = {config.MinTrackingConfidence}");
+      // Debug.Log($"Delegate = {config.Delegate}");
+      // Debug.Log($"Running Mode = {config.RunningMode}");
+      // Debug.Log($"NumHands = {config.NumHands}");
+      // Debug.Log($"MinHandDetectionConfidence = {config.MinHandDetectionConfidence}");
+      // Debug.Log($"MinHandPresenceConfidence = {config.MinHandPresenceConfidence}");
+      // Debug.Log($"MinTrackingConfidence = {config.MinTrackingConfidence}");
+
+      config.NumHands = numberOfHands;
 
       yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
 

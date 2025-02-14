@@ -69,15 +69,19 @@ namespace ClickClick.Manager
 
         private List<PlayerData> SelectPlayersForRank(List<PlayerData> sortedPlayers, PlayerData currentPlayer)
         {
-            int currentPlayerIndex = sortedPlayers.FindIndex(p => p.Score <= currentPlayer.Score);
+            // Find index where current player should be inserted (handling ties)
+            int currentPlayerIndex = sortedPlayers.FindIndex(p => p.Score < currentPlayer.Score);
             if (currentPlayerIndex < 0) currentPlayerIndex = sortedPlayers.Count;
 
-            // Case 1: Current player has highest score
+            // Find how many players have the same score as current player
+            int tiedPlayersCount = sortedPlayers.Count(p => p.Score == currentPlayer.Score);
+
+            // Case 1: Current player has highest or tied for highest score
             if (currentPlayerIndex == 0)
             {
                 return sortedPlayers.Take(4).ToList();
             }
-            // Case 2: Current player has second highest score
+            // Case 2: Current player has second highest score or tied for second
             else if (currentPlayerIndex == 1)
             {
                 var result = new List<PlayerData> { sortedPlayers[0] };
@@ -93,7 +97,7 @@ namespace ClickClick.Manager
                 int higherStart = Math.Max(0, currentPlayerIndex - 2);
                 result.AddRange(sortedPlayers.Skip(higherStart).Take(2));
 
-                // Add two lower scores
+                // Add two lower scores, skipping tied scores if necessary
                 int lowerStart = currentPlayerIndex;
                 result.AddRange(sortedPlayers.Skip(lowerStart).Take(2));
 
@@ -105,22 +109,28 @@ namespace ClickClick.Manager
         {
             if (players.Count == 0) return 1;
 
-            foreach (var player in players)
-            {
-                if (currentPlayer.Score >= player.Score)
-                {
-                    return player.Rank;
-                }
-            }
+            // Count how many players have higher scores
+            int higherScores = players.Count(p => p.Score > currentPlayer.Score);
 
-            return players.Last().Rank + 1;
+            // The rank is one more than the number of players with higher scores
+            return higherScores + 1;
         }
 
         private List<RankData> HandleAddPlayer(List<PlayerData> players, PlayerData currentPlayer)
         {
-            var result = players.Select(p => new RankData(p.Rank, p.Score, p.PlayerId)).ToList();
+            var result = new List<RankData>();
 
-            var playerRankData = new RankData(currentPlayer.Rank, currentPlayer.Score, currentPlayer.PlayerId);
+            // First convert existing players to RankData
+            foreach (var player in players)
+            {
+                // Calculate rank based on scores
+                int rank = players.Count(p => p.Score > player.Score) + 1;
+                result.Add(new RankData(rank, player.Score, player.PlayerId));
+            }
+
+            // Add current player with correct rank
+            int currentPlayerRank = players.Count(p => p.Score > currentPlayer.Score) + 1;
+            var playerRankData = new RankData(currentPlayerRank, currentPlayer.Score, currentPlayer.PlayerId);
             playerRankData.photoPath = currentPlayer.PlayerPhotoPath;
             result.Add(playerRankData);
 

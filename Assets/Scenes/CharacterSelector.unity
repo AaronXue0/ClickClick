@@ -2424,6 +2424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4239eb6afddd44d66b1977c1606e30f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionParticle: {fileID: 0}
   canvas: {fileID: 1039423922}
   transitionDuration: 0.5
   fadeImage: {fileID: 1703531906}
@@ -3283,6 +3284,7 @@ MonoBehaviour:
     type: 3}
   screen: {fileID: 2020366214865908328}
   runningMode: 0
+  numberOfHands: 1
   _handLandmarkerResultAnnotationController: {fileID: 1385281029}
   _circularProgressOnHold: {fileID: 2038873741}
 --- !u!114 &2038873741

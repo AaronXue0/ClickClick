@@ -16,11 +16,6 @@ namespace ClickClick.Manager
 
         public string CurrentPhotoPath { get; set; }
 
-        private void Start()
-        {
-            googleSheetsManager = gameObject.AddComponent<GoogleSheetsManager>();
-        }
-
         private void OnEnable()
         {
             Initialize();
