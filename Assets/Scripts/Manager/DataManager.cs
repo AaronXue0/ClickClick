@@ -113,6 +113,18 @@ namespace ClickClick.Manager
         {
             return players.Where(p => p.Score > 0).ToList();
         }
+
+        public void ResetAllData()
+        {
+            // Clear all players data
+            players.Clear();
+            currentPlayerId = 0;
+            currentPlayer = null;
+            CurrentPhotoPath = null;
+
+            // Save empty state to PlayerPrefs
+            SavePlayersData();
+        }
         #endregion
 
         #region Google Sheets

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ClickClick.Manager;
+using System.Collections;
 namespace ClickClick.Dev
 {
     public class DevPanel : MonoBehaviour
@@ -12,11 +13,17 @@ namespace ClickClick.Dev
         [SerializeField] private Button MenuButton;
         [SerializeField] private Button ResetButton;
 
+        [Header("Message")]
+        [SerializeField] private GameObject _messagePanel;
+        [SerializeField] private TextMeshProUGUI _messageText;
+
+        bool _enableClose = true;
+
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) && _enableClose)
             {
-                _devPanel.SetActive(!_devPanel.activeSelf);
+                RevertPnaelStatus();
             }
         }
 
@@ -29,17 +36,62 @@ namespace ClickClick.Dev
 
         private void OnScreenSaverButtonClick()
         {
-            SceneTransition.Instance.TransitionToScene("Standby");
+            StartCoroutine(ChangeSceneCoroutine("Standby"));
         }
 
         private void OnMenuButtonClick()
         {
-            SceneTransition.Instance.TransitionToScene("Menu");
+            StartCoroutine(ChangeSceneCoroutine("Menu"));
+        }
+
+        private IEnumerator ChangeSceneCoroutine(string sceneName)
+        {
+            _enableClose = false;
+
+            _messageText.text = "場景轉換中...";
+            _messagePanel.SetActive(true);
+
+            yield return new WaitForSeconds(1f);
+
+            SceneTransition.Instance.TransitionToScene(sceneName);
+
+            RevertPnaelStatus();
+
+            _enableClose = true;
         }
 
         private void OnResetButtonClick()
         {
+            StartCoroutine(ResetCoroutine());
+        }
+
+        private IEnumerator ResetCoroutine()
+        {
+            _enableClose = false;
+
+            _messageText.text = "資料重置中...";
+            _messagePanel.SetActive(true);
+
+            // Clear all PlayerPrefs data
             PlayerPrefs.DeleteAll();
+
+            // Reset DataManager
+            DataManager.Instance.ResetAllData();
+
+            yield return new WaitForSeconds(3f);
+
+            SceneTransition.Instance.TransitionToScene("Menu");
+
+            RevertPnaelStatus();
+
+            _enableClose = true;
+        }
+
+        private void RevertPnaelStatus()
+        {
+            _messagePanel.SetActive(false);
+            _messageText.text = "";
+            _devPanel.SetActive(!_devPanel.activeSelf);
         }
     }
 }
