@@ -188,10 +188,12 @@ namespace ClickClick.Manager
             SavePlayersData();
         }
 
-        public void RecalculateRanks()
+        private void RecalculateRanks()
         {
-            // Sort players by score in descending order
-            var sortedPlayers = players.OrderByDescending(p => p.Score).ToList();
+            // Filter out zero-score players and sort remaining players by score in descending order
+            var sortedPlayers = players.Where(p => p.Score > 0)
+                                     .OrderByDescending(p => p.Score)
+                                     .ToList();
 
             // Assign ranks (1-based index)
             for (int i = 0; i < sortedPlayers.Count; i++)
@@ -216,6 +218,7 @@ namespace ClickClick.Manager
             }
 
             return players
+                .Where(p => p.Score > 0)
                 .OrderByDescending(p => p.Score)
                 .Take(count)
                 .ToList();

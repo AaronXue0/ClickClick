@@ -4703,7 +4703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125e9c269356e492fb5c9215812cc4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _time: 3
+  _time: 60
   _timeImage: {fileID: 839833555}
   _scoreObtained: 100
   _scoreText: {fileID: 1861392033}
