@@ -56,26 +56,30 @@ namespace ClickClick.Manager
 
         private (List<RankData>, int) CreateDefaultRankData(PlayerData currentPlayer)
         {
-            // Ensure current player has a valid score
-            currentPlayer.Score = currentPlayer.Score <= 0 ? Random.Range(100, 10000) : currentPlayer.Score;
-
-            var defaultRankData = new List<RankData>()
+            // Create 4 empty rank data entries
+            var defaultRankData = new List<RankData>();
+            for (int i = 0; i < 4; i++)
             {
-                new RankData(1, Random.Range(currentPlayer.Score + 10, currentPlayer.Score + 100), -1),
-                new RankData(2, Random.Range(currentPlayer.Score + 1, currentPlayer.Score + 9), -1),
-                new RankData(3, Random.Range(1, currentPlayer.Score - 1), -1),
-                new RankData(4, Random.Range(1, currentPlayer.Score - 1), -1),
-                new RankData(9999, currentPlayer.Score, currentPlayer.PlayerId)
-                {
-                    photoPath = currentPlayer.PlayerPhotoPath
-                }
-            };
+                defaultRankData.Add(new RankData(0, 0, -1));
+            }
 
-            return (defaultRankData, 5);
+            // Add current player as the last entry
+            defaultRankData.Add(new RankData(1, currentPlayer.Score, currentPlayer.PlayerId)
+            {
+                photoPath = currentPlayer.PlayerPhotoPath
+            });
+
+            return (defaultRankData, 1);
         }
 
         private List<PlayerData> SelectPlayersForRank(List<PlayerData> sortedPlayers, PlayerData currentPlayer)
         {
+            // If there are no other players (after reset), return empty list
+            if (sortedPlayers.Count == 0)
+            {
+                return new List<PlayerData>();
+            }
+
             // Find index where current player would be inserted
             int currentPlayerIndex = sortedPlayers.FindIndex(p => p.Score < currentPlayer.Score);
             if (currentPlayerIndex < 0) currentPlayerIndex = sortedPlayers.Count;
@@ -109,7 +113,6 @@ namespace ClickClick.Manager
                 result.Add(new PlayerData(-1, 0));
             }
 
-            // Take only the first 4 if we somehow got more
             return result.Take(4).ToList();
         }
 
@@ -128,32 +131,34 @@ namespace ClickClick.Manager
         {
             var result = new List<RankData>();
 
-            // Get up to 4 other players (excluding current player)
+            // Get other players (excluding current player)
             var otherPlayers = players.Take(4).ToList();
 
-            // Fill remaining slots with empty data if we have less than 4 other players
-            while (otherPlayers.Count < 4)
-            {
-                otherPlayers.Add(new PlayerData(-1, 0));
-            }
-
-            // Convert other players to RankData, ensuring ranks are calculated correctly
+            // Calculate ranks for other players
             foreach (var player in otherPlayers)
             {
                 if (player.PlayerId == -1)
                 {
-                    // For empty data, assign a rank that puts it below the current player
-                    result.Add(new RankData(9999, 0, -1));
+                    // For empty slots, use rank 0 and score 0
+                    result.Add(new RankData(0, 0, -1));
                 }
                 else
                 {
                     int rank = player.Score > currentPlayer.Score ?
                         players.Count(p => p.Score > player.Score) + 1 :
                         players.Count(p => p.Score >= player.Score) + 2;
-                    var rankData = new RankData(rank, player.Score, player.PlayerId);
-                    rankData.photoPath = player.PlayerPhotoPath;
+                    var rankData = new RankData(rank, player.Score, player.PlayerId)
+                    {
+                        photoPath = player.PlayerPhotoPath
+                    };
                     result.Add(rankData);
                 }
+            }
+
+            // Fill remaining slots with empty data to ensure we have 4 entries before current player
+            while (result.Count < 4)
+            {
+                result.Add(new RankData(0, 0, -1));
             }
 
             // Add current player as the last entry
