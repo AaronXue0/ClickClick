@@ -60,6 +60,7 @@ namespace ClickClick.Rank
 
         private void DisplayRankImages(int rank)
         {
+            // First deactivate all images
             foreach (var img in numberImages)
             {
                 img.sprite = null;
@@ -67,14 +68,29 @@ namespace ClickClick.Rank
             }
 
             string rankString = rank.ToString("D4");
+            bool leadingZero = true;
+
             for (int i = 0; i < rankString.Length; i++)
             {
                 int digit = int.Parse(rankString[i].ToString());
                 if (i < numberImages.Count)
                 {
-                    numberImages[i].sprite = numberSprites[digit];
-                    numberImages[i].gameObject.SetActive(true);
+                    // If it's not zero or we've already encountered a non-zero number
+                    if (digit != 0 || !leadingZero)
+                    {
+                        leadingZero = false;
+                        numberImages[i].sprite = numberSprites[digit];
+                        numberImages[i].gameObject.SetActive(true);
+                    }
                 }
+            }
+
+            // Always show at least the last digit even if it's zero
+            int lastIndex = rankString.Length - 1;
+            if (lastIndex < numberImages.Count)
+            {
+                numberImages[lastIndex].sprite = numberSprites[int.Parse(rankString[lastIndex].ToString())];
+                numberImages[lastIndex].gameObject.SetActive(true);
             }
         }
 

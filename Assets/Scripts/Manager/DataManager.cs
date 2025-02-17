@@ -111,7 +111,7 @@ namespace ClickClick.Manager
 
         public List<PlayerData> GetAllPlayers()
         {
-            return players;
+            return players.Where(p => p.Score > 0).ToList();
         }
         #endregion
 

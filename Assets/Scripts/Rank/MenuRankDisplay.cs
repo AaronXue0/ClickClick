@@ -102,7 +102,7 @@ namespace ClickClick.Rank
                     {
                         Debug.Log("Updating rank display for player " + topPlayers[i].Score);
                         if (i > 0)
-                            rankContainers[i].SetRank(i + 1);
+                            rankContainers[i].SetRankDisplay(topPlayers[i].Rank);
 
                         yield return StartCoroutine(UpdateRankContainerCoroutine(rankContainers[i], topPlayers[i], i + 1));
                     }
