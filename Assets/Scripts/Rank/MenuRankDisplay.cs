@@ -101,8 +101,8 @@ namespace ClickClick.Rank
                     if (topPlayers[i].Score > 0)
                     {
                         Debug.Log("Updating rank display for player " + topPlayers[i].Score);
-                        if (i > 0)
-                            rankContainers[i].SetRankDisplay(topPlayers[i].Rank);
+                        // if (i > 0)
+                        //     rankContainers[i].SetRankDisplay(topPlayers[i].Rank);
 
                         yield return StartCoroutine(UpdateRankContainerCoroutine(rankContainers[i], topPlayers[i], i + 1));
                     }
