@@ -1486,8 +1486,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u9650\u664260\u79D2\u5167\uFF0C\u900F\u904E\u4F60\u7684\u96D9\u624B\u4FEE\u597D\u9375\u5E3D\uFF0C\u62EF\u6551\u53EF\u7ACB\u53EF\uFF01"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 34a9ad16a7fcc2b45a27e42ff0c3bfd6, type: 2}
-  m_sharedMaterial: {fileID: -5842010929344550104, guid: 34a9ad16a7fcc2b45a27e42ff0c3bfd6,
+  m_fontAsset: {fileID: 11400000, guid: b26f41db1c5544a4eaaa8d2fc896705e, type: 2}
+  m_sharedMaterial: {fileID: 8353337317795325046, guid: b26f41db1c5544a4eaaa8d2fc896705e,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
