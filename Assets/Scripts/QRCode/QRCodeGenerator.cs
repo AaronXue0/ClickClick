@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using QRCoder;
 using System.Drawing;
 using System.IO;
+using System.Collections;
+using UnityEngine.Networking;
+using ClickClick.Manager;
+using ClickClick.Data;
 
 namespace ClickClick
 {
@@ -12,13 +16,76 @@ namespace ClickClick
         [SerializeField] private int qrCodeSize = 256;
         [SerializeField] private int pixelsPerModule = 20; // Size of each QR code module
 
+        [Header("Loading")]
+        [SerializeField] private UnityEngine.UI.Image loadingImage;
+
+        [Header("Avatart")]
+        [SerializeField] private UnityEngine.UI.Image characterImage;
+        [SerializeField] private UnityEngine.UI.Image avatarImage;
+
         [SerializeField] private string testUrl = "https://www.google.com";
+
+        private void Awake()
+        {
+            qrCodeImage.gameObject.SetActive(false);
+        }
+
+        private void Start()
+        {
+            UpdateAvatar();
+        }
+
+        private void UpdateAvatar()
+        {
+            PlayerData playerData = DataManager.Instance.GetCurrentPlayer();
+
+            if (playerData == null)
+            {
+                playerData = DataManager.Instance.GetTopPlayers(1)[0];
+            }
+
+            Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId);
+            characterImage.sprite = characterSprite;
+            StartCoroutine(LoadPlayerPhoto(avatarImage, playerData.PlayerPhotoPath));
+        }
+
+        private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)
+        {
+            if (!File.Exists(photoPath))
+            {
+                Debug.LogWarning($"Player photo not found at path: {photoPath}");
+                targetImage.gameObject.SetActive(false);
+                yield break;
+            }
+
+            byte[] photoData = File.ReadAllBytes(photoPath);
+            Texture2D texture = new Texture2D(2, 2);
+
+            if (texture.LoadImage(photoData))
+            {
+                Sprite photoSprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+                targetImage.sprite = photoSprite;
+                targetImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError($"Failed to load player photo from path: {photoPath}");
+                targetImage.gameObject.SetActive(false);
+                Destroy(texture);
+            }
+
+            UploadToGoogleScript();
+        }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                URL = testUrl;
+                // URL = testUrl;
             }
         }
 
@@ -62,11 +129,56 @@ namespace ClickClick
                     new Vector2(0.5f, 0.5f)
                 );
 
+                loadingImage.gameObject.SetActive(false);
+
                 // Apply sprite to image
                 qrCodeImage.sprite = qrCodeSprite;
                 qrCodeImage.preserveAspect = true; // Maintain aspect ratio
                 qrCodeImage.gameObject.SetActive(true);
             }
+        }
+
+        private string googleScriptUrl = "https://script.google.com/macros/s/AKfycbwt0ZiDtTZxi7JNoNjPOMfhBvCWKRSCE8bAqhMUKzhX0w8bWupIFb-QuTnXD_9Cx-kq/exec";
+
+        private void UploadToGoogleScript()
+        {
+            StartCoroutine(CaptureAndUploadScreenshot());
+        }
+
+        private IEnumerator CaptureAndUploadScreenshot()
+        {
+            yield return new WaitForEndOfFrame();
+
+            Texture2D screenImage = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            screenImage.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+            screenImage.Apply();
+
+            byte[] imageBytes = screenImage.EncodeToPNG();
+            string base64Image = System.Convert.ToBase64String(imageBytes);
+            string fileName = "screenshot_" + System.DateTime.Now.Ticks + ".png";
+
+            // Manually build POST data
+            string postData = $"fileName={UnityWebRequest.EscapeURL(fileName)}&imageBase64={UnityWebRequest.EscapeURL(base64Image)}";
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(postData);
+
+            UnityWebRequest www = new UnityWebRequest(googleScriptUrl, "POST");
+            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            www.downloadHandler = new DownloadHandlerBuffer();
+            www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Upload success! File URL: " + www.downloadHandler.text);
+                URL = www.downloadHandler.text;
+            }
+            else
+            {
+                Debug.LogError("Upload failed: " + www.error);
+            }
+
+            Destroy(screenImage);
         }
     }
 }

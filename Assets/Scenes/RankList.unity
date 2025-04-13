@@ -3301,7 +3301,7 @@ MonoBehaviour:
   rightHandGameObject: {fileID: 1803348850}
   leftHandGameObject: {fileID: 2039741782}
   handLandmarkAnnotation: {fileID: 176648958}
-  sceneToTransitionTo: Menu
+  sceneToTransitionTo: QRCode
   allowHandVisibilityChange: 1
   stateChangeCooldown: 0.2
   stateChangeDuration: 0.3

@@ -173,7 +173,10 @@ namespace ClickClick.Manager
 
         public PlayerData GetCurrentPlayer()
         {
-            Debug.Log("GetCurrentPlayer: " + currentPlayer.PlayerId);
+            if (currentPlayer != null)
+            {
+                Debug.Log("GetCurrentPlayer: " + currentPlayer.PlayerId);
+            }
             return currentPlayer;
         }
 
