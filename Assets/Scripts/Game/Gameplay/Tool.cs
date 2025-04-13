@@ -143,7 +143,21 @@ namespace ClickClick.Gameplay
 
         public void SetGesture(HandGesture gesture)
         {
+            // If the gesture is changing and we're currently fixing an object,
+            // cancel the fixing process
+            if (_gesture != gesture && _currentFixObject != null && _currentFixObject.IsBeingFixed)
+            {
+                _currentFixObject.CancelFixing();
+                _currentFixObject = null;
+                StopFixingAnimation();
+            }
+
             _gesture = gesture;
+        }
+
+        public HandGesture GetGesture()
+        {
+            return _gesture;
         }
 
         private void OnDestroy()

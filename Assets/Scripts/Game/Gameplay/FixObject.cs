@@ -57,6 +57,13 @@ namespace ClickClick.Gameplay
         {
             if (!_isBeingFixed) return;
 
+            // Verify that the tool still has the correct gesture
+            if (_currentTool != null && _currentTool.GetGesture() != _gesture)
+            {
+                CancelFixing();
+                return;
+            }
+
             _fixingTimer += deltaTime;
 
             // Complete fixing if timer exceeds duration
