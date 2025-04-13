@@ -32,9 +32,14 @@ namespace ClickClick.Gameplay
         private float _minimumSpawnInterval = 0.5f;
         private float _speedUpInterval = 10f;
         private float _speedUpMultiplier = 0.7f;
+
+        [Header("Gesture Sprites")]
         [SerializeField] private Sprite _rockSprite;
         [SerializeField] private Sprite _paperSprite;
         [SerializeField] private Sprite _scissorsSprite;
+        [SerializeField] private Sprite _rockSpriteFixed;
+        [SerializeField] private Sprite _paperSpriteFixed;
+        [SerializeField] private Sprite _scissorsSpriteFixed;
 
         [Header("Countdown")]
         [SerializeField] private TextMeshProUGUI _countdownText;
@@ -265,8 +270,25 @@ namespace ClickClick.Gameplay
                 _ => null
             };
 
+            Sprite fixedSprite;
+            switch (randomGesture)
+            {
+                case HandGesture.Rock:
+                    fixedSprite = _rockSpriteFixed;
+                    break;
+                case HandGesture.Paper:
+                    fixedSprite = _paperSpriteFixed;
+                    break;
+                case HandGesture.Scissors:
+                    fixedSprite = _scissorsSpriteFixed;
+                    break;
+                default:
+                    fixedSprite = null;
+                    break;
+            }
+
             // Assign gesture and sprite
-            selectedObject.AssignGesture(randomGesture, gestureSprite);
+            selectedObject.AssignGesture(randomGesture, gestureSprite, fixedSprite);
         }
 
         public void FixedGesture(HandGesture gesture)

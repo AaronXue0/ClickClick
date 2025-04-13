@@ -11,18 +11,24 @@ namespace ClickClick.Gameplay
         private HandGesture _gesture;
         private Image image;
 
+        private Sprite _fixedSprite;
+        private bool _isBeingFixed = false;
+        private float _fixingTimer = 0f;
+        private const float _fixingDuration = 1.5f;
+
         private void Awake()
         {
             image = GetComponentInChildren<Image>();
         }
 
-        public void AssignGesture(HandGesture gesture, Sprite sprite)
+        public void AssignGesture(HandGesture gesture, Sprite sprite, Sprite fixedSprite)
         {
             if (_gesture != HandGesture.None)
                 return;
 
             _gesture = gesture;
             image.sprite = sprite;
+            _fixedSprite = fixedSprite;
         }
 
         public void TryFix(HandGesture gesture)
@@ -31,17 +37,62 @@ namespace ClickClick.Gameplay
                 return;
 
             if (_gesture == gesture)
+            {
+                if (!_isBeingFixed)
+                {
+                    StartFixing();
+                }
+            }
+        }
+
+        public void StartFixing()
+        {
+            _isBeingFixed = true;
+            _fixingTimer = 0f;
+        }
+
+        public void ContinueFixing(float deltaTime)
+        {
+            if (!_isBeingFixed) return;
+
+            _fixingTimer += deltaTime;
+
+            // Complete fixing if timer exceeds duration
+            if (_fixingTimer >= _fixingDuration)
+            {
                 ObjectFixed();
+            }
+        }
+
+        public void CancelFixing()
+        {
+            if (_isBeingFixed)
+            {
+                _isBeingFixed = false;
+                _fixingTimer = 0f;
+            }
         }
 
         public void ObjectFixed()
         {
             GameManager.Instance.FixedGesture(_gesture);
 
+            _isBeingFixed = false;
+            _fixingTimer = 0f;
+
+            image.sprite = _fixedSprite;
+            Invoke(nameof(Reset), 1.25f);
+        }
+
+        public void Reset()
+        {
             image.sprite = _emptySprite;
             _gesture = HandGesture.None;
+            _isBeingFixed = false;
+            _fixingTimer = 0f;
         }
 
         public bool HasGesture => _gesture != HandGesture.None;
+        public bool IsBeingFixed => _isBeingFixed;
     }
 }
