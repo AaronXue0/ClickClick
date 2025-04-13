@@ -338,8 +338,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gesture: 1
-  _fixingAnimation: {fileID: 0}
-  _idleAnimation: {fileID: 0}
+  _originalSprite: {fileID: 21300000, guid: 44eca1d8e6fb90e4f810f4204ac7edf0, type: 3}
+  _fixingSprite: {fileID: 21300000, guid: ac5b821dc960b4d8594992045a945f9c, type: 3}
+  _spriteSwapInterval: 0.15
+  _scaleDownDuration: 1
+  _scaleDownAmount: 0.7
 --- !u!1 &95960418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,7 +1855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1890,8 +1893,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gesture: 2
-  _fixingAnimation: {fileID: 0}
-  _idleAnimation: {fileID: 0}
+  _originalSprite: {fileID: 21300000, guid: c9aa5c75c70044c79ba239a982f3a17e, type: 3}
+  _fixingSprite: {fileID: 21300000, guid: c5cad288e6e304386a6e1f3bdd17274b, type: 3}
+  _spriteSwapInterval: 0.15
+  _scaleDownDuration: 1
+  _scaleDownAmount: 0.7
 --- !u!95 &1080506661
 Animator:
   serializedVersion: 7
@@ -2345,8 +2351,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gesture: 3
-  _fixingAnimation: {fileID: 0}
-  _idleAnimation: {fileID: 0}
+  _originalSprite: {fileID: 21300000, guid: 93add32e974a64ce9b9342e699f552aa, type: 3}
+  _fixingSprite: {fileID: 21300000, guid: e3ed891db33764957b8a5e99b28b0f54, type: 3}
+  _spriteSwapInterval: 0.15
+  _scaleDownDuration: 1
+  _scaleDownAmount: 0.7
 --- !u!1 &1152670285
 GameObject:
   m_ObjectHideFlags: 0

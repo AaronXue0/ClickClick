@@ -15,6 +15,7 @@ namespace ClickClick.Gameplay
         private bool _isBeingFixed = false;
         private float _fixingTimer = 0f;
         private const float _fixingDuration = 1.5f;
+        private Tool _currentTool; // Reference to the tool that's fixing this object
 
         private void Awake()
         {
@@ -31,7 +32,7 @@ namespace ClickClick.Gameplay
             _fixedSprite = fixedSprite;
         }
 
-        public void TryFix(HandGesture gesture)
+        public void TryFix(HandGesture gesture, Tool tool)
         {
             if (_gesture == HandGesture.None)
                 return;
@@ -40,6 +41,7 @@ namespace ClickClick.Gameplay
             {
                 if (!_isBeingFixed)
                 {
+                    _currentTool = tool;
                     StartFixing();
                 }
             }
@@ -70,6 +72,7 @@ namespace ClickClick.Gameplay
             {
                 _isBeingFixed = false;
                 _fixingTimer = 0f;
+                _currentTool = null;
             }
         }
 
@@ -81,6 +84,14 @@ namespace ClickClick.Gameplay
             _fixingTimer = 0f;
 
             image.sprite = _fixedSprite;
+
+            // Notify the tool that the object is fixed
+            if (_currentTool != null)
+            {
+                _currentTool.ObjectFixed();
+                _currentTool = null;
+            }
+
             Invoke(nameof(Reset), 1.25f);
         }
 

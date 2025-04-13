@@ -1,25 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ClickClick.GestureTracking;
+using DG.Tweening;
 
 namespace ClickClick.Gameplay
 {
     public class Tool : MonoBehaviour
     {
         [SerializeField] HandGesture _gesture;
-        [SerializeField] private AnimationClip _fixingAnimation;
-        [SerializeField] private AnimationClip _idleAnimation;
+        [SerializeField] Sprite _originalSprite;
+        [SerializeField] Sprite _fixingSprite;
+        [SerializeField] float _spriteSwapInterval = 0.15f;
+        [SerializeField] float _scaleDownDuration = 1f;
+        [SerializeField] float _scaleDownAmount = 0.7f;
 
         private Image _image;
         private RectTransform _rectTransform;
-        private Animator _animator;
         private FixObject _currentFixObject;
+        private Sequence _spriteSwapSequence;
+        private Vector3 _originalScale;
+        private bool _isAnimating = false;
 
         void Awake()
         {
             _image = GetComponent<Image>();
             _rectTransform = GetComponent<RectTransform>();
-            _animator = GetComponent<Animator>();
+            _originalScale = transform.localScale;
         }
 
         void Update()
@@ -52,11 +58,11 @@ namespace ClickClick.Gameplay
                         if (_currentFixObject != null)
                         {
                             _currentFixObject.CancelFixing();
-                            PlayIdleAnimation();
+                            StopFixingAnimation();
                         }
 
                         _currentFixObject = fixObject;
-                        fixObject.TryFix(_gesture);
+                        fixObject.TryFix(_gesture, this);
 
                         if (fixObject.IsBeingFixed)
                         {
@@ -79,31 +85,76 @@ namespace ClickClick.Gameplay
             {
                 _currentFixObject.CancelFixing();
                 _currentFixObject = null;
-                PlayIdleAnimation();
+                StopFixingAnimation();
             }
         }
 
         private void PlayFixingAnimation()
         {
-            if (_animator != null && _fixingAnimation != null)
+            if (_isAnimating) return;
+
+            _isAnimating = true;
+
+            // Kill any existing sequences
+            if (_spriteSwapSequence != null)
             {
-                // Play the animation directly
-                _animator.Play(_fixingAnimation.name);
+                _spriteSwapSequence.Kill();
+                _spriteSwapSequence = null;
             }
+
+            // Create a new sequence for sprite swapping
+            _spriteSwapSequence = DOTween.Sequence();
+
+            // Add sprite swap callbacks
+            _spriteSwapSequence.AppendCallback(() => _image.sprite = _fixingSprite)
+                .AppendInterval(_spriteSwapInterval)
+                .AppendCallback(() => _image.sprite = _originalSprite)
+                .AppendInterval(_spriteSwapInterval)
+                .SetLoops(-1); // Infinite loop
         }
 
-        private void PlayIdleAnimation()
+        private void StopFixingAnimation()
         {
-            if (_animator != null && _idleAnimation != null)
+            _isAnimating = false;
+
+            // Kill the sequence if it exists
+            if (_spriteSwapSequence != null)
             {
-                // Play the animation directly
-                _animator.Play(_idleAnimation.name);
+                _spriteSwapSequence.Kill();
+                _spriteSwapSequence = null;
             }
+
+            // Reset to original sprite
+            _image.sprite = _originalSprite;
+        }
+
+        public void ObjectFixed()
+        {
+            StopFixingAnimation();
+
+            // Scale down animation
+            transform.DOScale(_originalScale * _scaleDownAmount, _scaleDownDuration)
+                .OnComplete(() =>
+                {
+                    // Return to original scale
+                    transform.DOScale(_originalScale, 0.3f);
+                });
         }
 
         public void SetGesture(HandGesture gesture)
         {
             _gesture = gesture;
+        }
+
+        private void OnDestroy()
+        {
+            // Clean up any active tweens when the object is destroyed
+            if (_spriteSwapSequence != null)
+            {
+                _spriteSwapSequence.Kill();
+                _spriteSwapSequence = null;
+            }
+            DOTween.Kill(transform);
         }
     }
 }
