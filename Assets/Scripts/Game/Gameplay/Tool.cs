@@ -137,7 +137,7 @@ namespace ClickClick.Gameplay
                 .OnComplete(() =>
                 {
                     // Return to original scale
-                    transform.DOScale(_originalScale, 0.3f);
+                    transform.DOScale(_originalScale, 0.5f);
                 });
         }
 

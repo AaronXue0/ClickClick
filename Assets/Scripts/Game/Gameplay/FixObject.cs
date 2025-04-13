@@ -14,7 +14,7 @@ namespace ClickClick.Gameplay
         private Sprite _fixedSprite;
         private bool _isBeingFixed = false;
         private float _fixingTimer = 0f;
-        private const float _fixingDuration = 1.5f;
+        private const float _fixingDuration = 1f;
         private Tool _currentTool; // Reference to the tool that's fixing this object
 
         private void Awake()
