@@ -5,7 +5,7 @@ using ClickClick.Manager;
 using System.Collections;
 namespace ClickClick.Dev
 {
-    public class DevPanel : MonoBehaviour
+    public class DevPanel : SingletonManager<DevPanel>
     {
         [SerializeField] private GameObject _devPanel;
         [Header("Buttons")]
@@ -16,6 +16,10 @@ namespace ClickClick.Dev
         [Header("Message")]
         [SerializeField] private GameObject _messagePanel;
         [SerializeField] private TextMeshProUGUI _messageText;
+
+        [Header("Audio Settings")]
+        [SerializeField] private Button _muteBgmButton;
+        [SerializeField] private Button _unmuteBgmButton;
 
         bool _enableClose = true;
 
@@ -32,6 +36,18 @@ namespace ClickClick.Dev
             ScreenSaverButton.onClick.AddListener(OnScreenSaverButtonClick);
             MenuButton.onClick.AddListener(OnMenuButtonClick);
             ResetButton.onClick.AddListener(OnResetButtonClick);
+            _muteBgmButton.onClick.AddListener(OnMuteBgmButtonClick);
+            _unmuteBgmButton.onClick.AddListener(OnUnmuteBgmButtonClick);
+        }
+
+        private void OnMuteBgmButtonClick()
+        {
+            AudioManager.UpdateMusicVolume(0);
+        }
+
+        private void OnUnmuteBgmButtonClick()
+        {
+            AudioManager.UpdateMusicVolume(0.1f);
         }
 
         private void OnScreenSaverButtonClick()
