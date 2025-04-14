@@ -1135,7 +1135,6 @@ MonoBehaviour:
   - {fileID: 8406856601111852852}
   - {fileID: 1195882747099179756}
   - {fileID: 4001516169925132648}
-  avatarImages: []
 --- !u!1 &6288902218614226563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,7 +1246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -172, y: -219}
+  m_AnchoredPosition: {x: -160, y: -180}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8148397389191277146

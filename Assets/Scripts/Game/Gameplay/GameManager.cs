@@ -321,11 +321,9 @@ namespace ClickClick.Gameplay
                 switch (_strikes)
                 {
                     case 1:
-                        break;
-                    case 2:
                         score *= _scoreMultipliers[0];
                         break;
-                    case 3:
+                    case 2:
                         score *= _scoreMultipliers[1];
                         break;
                     default:
