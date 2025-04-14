@@ -1484,6 +1484,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c93bc11d50646d692ea1d0b777acf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &764772003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 764772004}
+  - component: {fileID: 764772005}
+  m_Layer: 0
+  m_Name: TenSecond
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &764772004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764772003}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1676891004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &764772005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764772003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionOnStart: 0
+  audioAction:
+    type: 1
+    bgmActionType: 0
+    soundActionType: 0
+    clipReferenceType: 1
+    groupName: SFX
+    clipName: "\u5012\u6578\u5341\u79D2"
+    clip: {fileID: 0}
+    loop: 0
+    bgmResumeFadeIn: 1
+    fadeDuration: 1
+    soundMode: 0
+    rndPitch: 1
+    rndRange: {x: -0.7, y: 0.7}
 --- !u!1001 &790242880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4226,6 +4285,7 @@ Transform:
   - {fileID: 369232221}
   - {fileID: 344326538}
   - {fileID: 1614090324}
+  - {fileID: 764772004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1720096688
@@ -5130,6 +5190,7 @@ MonoBehaviour:
   _numberScaleDuration: 0.5
   _numberFadeDuration: 0.3
   _numberScaleEase: 27
+  _tenSecondsAudio: {fileID: 764772005}
   _gameOverPanel: {fileID: 0}
 --- !u!4 &1929104661
 Transform:

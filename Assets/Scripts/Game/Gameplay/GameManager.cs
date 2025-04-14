@@ -56,6 +56,7 @@ namespace ClickClick.Gameplay
         [SerializeField] private Ease _numberScaleEase = Ease.OutBack;
 
         [Header("Game Over")]
+        [SerializeField] private AudioController _tenSecondsAudio;
         [SerializeField] private GameObject _gameOverPanel;
 
         public List<FixObject> GetFixObjects => _fixObjects;
@@ -236,6 +237,12 @@ namespace ClickClick.Gameplay
             // Original game update logic
             _timeLeft -= Time.deltaTime;
             _timeImage.fillAmount = _timeLeft / _time;
+
+            // Play audio when 10 seconds are left
+            if (_timeLeft <= 10f)
+            {
+                _tenSecondsAudio.DoAction();
+            }
 
             // Check if it's time to speed up
             if (_timeLeft <= _nextSpeedUpTime)
