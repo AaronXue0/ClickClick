@@ -49,6 +49,7 @@ namespace ClickClick.Gameplay
         [SerializeField] private AudioSource _gameStartSound;
 
         [Header("Countdown Animation")]
+        [SerializeField] private AudioController _countdownAudio;
         [SerializeField] private float _numberScaleMultiplier = 1.5f;
         [SerializeField] private float _numberScaleDuration = 0.5f;
         [SerializeField] private float _numberFadeDuration = 0.3f;
@@ -119,6 +120,8 @@ namespace ClickClick.Gameplay
                 _countdownSequence.Kill();
             }
 
+            _countdownAudio.DoAction();
+
             _countdownSequence = DOTween.Sequence();
 
             // Reset countdown text
@@ -130,6 +133,11 @@ namespace ClickClick.Gameplay
             for (int i = (int)_countdownDuration; i >= 1; i--)
             {
                 int numberToShow = i;
+
+                // Each number animation takes exactly 1 second
+                float scaleUpTime = 0.3f;    // Scale up takes 0.3 seconds
+                float scaleDownTime = 0.4f;  // Scale down takes 0.4 seconds
+                float holdTime = 0.3f;       // Hold the number for 0.3 seconds
 
                 // Add number animation
                 _countdownSequence
@@ -145,15 +153,16 @@ namespace ClickClick.Gameplay
                         }
                     })
                     .Append(_countdownText.transform
-                        .DOScale(Vector3.one * _numberScaleMultiplier, _numberScaleDuration * 0.4f)
+                        .DOScale(Vector3.one * _numberScaleMultiplier, scaleUpTime)
                         .SetEase(_numberScaleEase))
+                    .AppendInterval(holdTime)  // Hold the number at full scale
                     .Append(_countdownText.transform
-                        .DOScale(Vector3.one, _numberScaleDuration * 0.6f)
+                        .DOScale(Vector3.one, scaleDownTime)
                         .SetEase(Ease.InBack))
                     .Join(_countdownText
-                        .DOFade(0, _numberFadeDuration)
-                        .SetEase(Ease.InQuad))
-                    .AppendInterval(0.1f); // Small pause between numbers
+                        .DOFade(0, scaleDownTime)
+                        .SetEase(Ease.InQuad));
+                // Total time: 0.3 + 0.3 + 0.4 = 1.0 second per number
             }
 
             // Add "GO!" animation
@@ -170,16 +179,16 @@ namespace ClickClick.Gameplay
                     }
                 })
                 .Append(_countdownText.transform
-                    .DOScale(Vector3.one * _numberScaleMultiplier * 1.2f, _numberScaleDuration * 0.3f)
+                    .DOScale(Vector3.one * _numberScaleMultiplier * 1.2f, 0.3f)
                     .SetEase(_numberScaleEase))
                 .Join(_countdownText
-                    .DOFade(1f, _numberScaleDuration * 0.3f))
-                .AppendInterval(0.2f)
+                    .DOFade(1f, 0.3f))
+                .AppendInterval(0.3f)
                 .Append(_countdownText.transform
-                    .DOScale(Vector3.zero, _numberScaleDuration * 0.2f)
+                    .DOScale(Vector3.zero, 0.4f)
                     .SetEase(Ease.InBack))
                 .Join(_countdownText
-                    .DOFade(0f, _numberFadeDuration * 0.5f))
+                    .DOFade(0f, 0.4f))
                 .AppendCallback(() => StartGame());
         }
 
@@ -325,7 +334,7 @@ namespace ClickClick.Gameplay
             Debug.Log(_scores);
 
             _scores += score;
-            _scoreUpSound.DoAction();
+            // _scoreUpSound.DoAction();
             _lastFixedGesture = gesture;
 
             _scoreText.text = "分數: " + _scores.ToString();
