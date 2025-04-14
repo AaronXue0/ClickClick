@@ -3505,7 +3505,7 @@ MonoBehaviour:
   allowHandVisibilityChange: 0
   stateChangeCooldown: 0.2
   stateChangeDuration: 0.3
-  defaultPreviewSprite: {fileID: 21300000, guid: 4022c25f407664b6d92c9cd507bced57,
+  defaultPreviewSprite: {fileID: 21300000, guid: a706d79542de34b01ba744e8a665cdb2,
     type: 3}
   characters:
   - id: 1

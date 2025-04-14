@@ -5338,11 +5338,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box
       objectReference: {fileID: 0}
-    - target: {fileID: 4992691103733930896, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7650012767838140226, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5443,12 +5438,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9098971511208088419, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
-        type: 3}
-      propertyPath: _emptySprite
-      value: 
-      objectReference: {fileID: 21300000, guid: cb96a7f1044224c57aff912cbda1460c,
-        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
