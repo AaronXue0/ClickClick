@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using ClickClick.Manager;
 using ClickClick.Data;
+using TMPro;
 
 namespace ClickClick
 {
@@ -22,7 +23,7 @@ namespace ClickClick
         [Header("Avatart")]
         [SerializeField] private UnityEngine.UI.Image characterImage;
         [SerializeField] private UnityEngine.UI.Image avatarImage;
-
+        [SerializeField] private TMP_Text characterName;
         [SerializeField] private string testUrl = "https://www.google.com";
 
         private void Awake()
@@ -47,6 +48,8 @@ namespace ClickClick
             Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId);
             characterImage.sprite = characterSprite;
             StartCoroutine(LoadPlayerPhoto(avatarImage, playerData.PlayerPhotoPath));
+
+            characterName.text = DataManager.Instance.GetCharacterName(playerData.CharacterId);
         }
 
         private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)

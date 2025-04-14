@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: LensCrab
   m_EditorClassIdentifier: 
   characterId: 4
-  characterName: "\u5E95\u7247\u87F9"
+  characterName: "\u93E1\u982D\u87F9"
   characterSprite: {fileID: 21300000, guid: 44e550829c6274a8195c8d8e9e2388fa, type: 3}

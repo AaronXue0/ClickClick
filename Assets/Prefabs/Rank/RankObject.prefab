@@ -1124,6 +1124,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d4fbd0b7b2fc74ac084994185ffb5573, type: 3}
   - {fileID: 21300000, guid: 28e341765bbdc4828ac4ce833f8aef22, type: 3}
   - {fileID: 21300000, guid: 8402985e9f3bb4465ada4e894f32cc54, type: 3}
+  rankSprites:
+  - {fileID: 21300000, guid: c189f79497ff94a918137eeeb332441b, type: 3}
+  - {fileID: 21300000, guid: acb7ed1d10a184c32a990a51f38a65bf, type: 3}
+  - {fileID: 21300000, guid: 2143c4c190a2d4ef8b5b590ba8e63d66, type: 3}
+  - {fileID: 21300000, guid: 432c8e15867dc47cc81290792d72713e, type: 3}
+  - {fileID: 21300000, guid: 40f5cca17221f47358412303af1edf2c, type: 3}
+  - {fileID: 21300000, guid: 1dcb2d0a133894694bf2735d4da4966d, type: 3}
+  - {fileID: 21300000, guid: 60f6fa100a8d24c798d1a0d9ad52e408, type: 3}
+  - {fileID: 21300000, guid: eb68ae97c9e0c4803bcdcb7e16d0f699, type: 3}
+  - {fileID: 21300000, guid: dcd590f4ebdc4416db5b72224e8aed03, type: 3}
+  - {fileID: 21300000, guid: cb7f273ee592b4d919e517147b672da8, type: 3}
   numberImages:
   - {fileID: 3292384003669867678}
   - {fileID: 5759354235569213374}

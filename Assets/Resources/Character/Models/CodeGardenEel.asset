@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CodeGardenEel
   m_EditorClassIdentifier: 
   characterId: 6
-  characterName: "\u82B1\u5712\u9C3B"
+  characterName: "\u7A0B\u5F0F\u82B1\u5712\u9C3B"
   characterSprite: {fileID: 21300000, guid: de84197fb85b84e83ae6f5cc59101665, type: 3}

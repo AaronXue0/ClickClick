@@ -14,6 +14,7 @@ namespace ClickClick.Rank
         public Image photoImage;
 
         [SerializeField] private List<Sprite> numberSprites;
+        [SerializeField] private List<Sprite> rankSprites;
         [SerializeField] private List<Image> numberImages;
         [SerializeField] private List<Image> scoreImages;
 
@@ -99,7 +100,7 @@ namespace ClickClick.Rank
                     if (digit != 0 || !leadingZero)
                     {
                         leadingZero = false;
-                        numberImages[i].sprite = numberSprites[digit];
+                        numberImages[i].sprite = rankSprites[digit];
                         numberImages[i].gameObject.SetActive(true);
                     }
                 }
@@ -109,7 +110,7 @@ namespace ClickClick.Rank
             int lastIndex = rankString.Length - 1;
             if (lastIndex < numberImages.Count)
             {
-                numberImages[lastIndex].sprite = numberSprites[int.Parse(rankString[lastIndex].ToString())];
+                numberImages[lastIndex].sprite = rankSprites[int.Parse(rankString[lastIndex].ToString())];
                 numberImages[lastIndex].gameObject.SetActive(true);
             }
         }

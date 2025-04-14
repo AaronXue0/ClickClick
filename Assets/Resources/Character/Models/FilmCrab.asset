@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: FilmCrab
   m_EditorClassIdentifier: 
   characterId: 3
-  characterName: "\u93E1\u982D\u87F9"
+  characterName: "\u5E95\u7247\u87F9"
   characterSprite: {fileID: 21300000, guid: 39fbbe8194dff45bd9ad7187d7ec0aa4, type: 3}

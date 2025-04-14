@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Stingray
   m_EditorClassIdentifier: 
   characterId: 2
-  characterName: "\u96FB\u7E6A\u8F5F"
+  characterName: "\u96FB\u7E6A\u9B5F"
   characterSprite: {fileID: 21300000, guid: 05a130dc490b4405db0e25f26e141826, type: 3}

@@ -738,8 +738,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7E3D\u5206\uFF1A870\n\u6392\u540D\uFF1A50"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 77ccc8e1243984a2d97a9ca745e3d5fb, type: 2}
-  m_sharedMaterial: {fileID: 8353337317795325046, guid: 77ccc8e1243984a2d97a9ca745e3d5fb,
+  m_fontAsset: {fileID: 11400000, guid: 395d32d5147c7456fa35bb7b86d0da72, type: 2}
+  m_sharedMaterial: {fileID: 7042566521191724835, guid: 395d32d5147c7456fa35bb7b86d0da72,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2501,6 +2501,7 @@ MonoBehaviour:
   loadingImage: {fileID: 619690960}
   characterImage: {fileID: 664254577}
   avatarImage: {fileID: 1907118092}
+  characterName: {fileID: 1146276301}
   testUrl: https://www.google.com
 --- !u!4 &933436843
 Transform:
