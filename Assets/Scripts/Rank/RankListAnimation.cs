@@ -127,11 +127,11 @@ namespace ClickClick.Rank
             int[] desiredRanks;
             if (targetRank == 1)
             {
-                desiredRanks = new int[] { 2, 3, 4, 5, 1 };
+                desiredRanks = new int[] { 2, 3, 4, 1 };
             }
             else if (targetRank == 2)
             {
-                desiredRanks = new int[] { 1, 3, 4, 5, 2 };
+                desiredRanks = new int[] { 1, 3, 4, 2 };
             }
             else
             {
@@ -140,7 +140,6 @@ namespace ClickClick.Rank
                     targetRank - 2,
                     targetRank - 1,
                     targetRank + 1,
-                    targetRank + 2,
                     targetRank
                 };
             }

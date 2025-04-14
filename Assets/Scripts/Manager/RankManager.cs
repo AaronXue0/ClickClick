@@ -58,7 +58,7 @@ namespace ClickClick.Manager
         {
             // Create 4 empty rank data entries
             var defaultRankData = new List<RankData>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 defaultRankData.Add(new RankData(0, 0, -1));
             }
@@ -89,7 +89,7 @@ namespace ClickClick.Manager
             if (currentPlayerIndex == 0)
             {
                 // Current player is highest - take next 4 players
-                result.AddRange(sortedPlayers.Take(4));
+                result.AddRange(sortedPlayers.Take(3));
             }
             else if (currentPlayerIndex == 1)
             {
@@ -108,12 +108,12 @@ namespace ClickClick.Manager
             }
 
             // Ensure we have exactly 4 players (pad with empty data if needed)
-            while (result.Count < 4)
+            while (result.Count < 3)
             {
                 result.Add(new PlayerData(-1, 0));
             }
 
-            return result.Take(4).ToList();
+            return result.Take(3).ToList();
         }
 
         private int CalculateCurrentPlayerRank(List<PlayerData> allPlayers, PlayerData currentPlayer)
@@ -132,7 +132,7 @@ namespace ClickClick.Manager
             var result = new List<RankData>();
 
             // Get other players (excluding current player)
-            var otherPlayers = players.Take(4).ToList();
+            var otherPlayers = players.Take(3).ToList();
 
             // Calculate ranks for other players
             foreach (var player in otherPlayers)
@@ -156,7 +156,7 @@ namespace ClickClick.Manager
             }
 
             // Fill remaining slots with empty data to ensure we have 4 entries before current player
-            while (result.Count < 4)
+            while (result.Count < 3)
             {
                 result.Add(new RankData(0, 0, -1));
             }
