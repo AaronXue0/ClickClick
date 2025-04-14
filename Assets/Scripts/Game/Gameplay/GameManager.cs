@@ -307,7 +307,7 @@ namespace ClickClick.Gameplay
             selectedObject.AssignGesture(randomGesture, gestureSprite, fixedSprite);
         }
 
-        public void FixedGesture(HandGesture gesture)
+        public void FixedGesture(HandGesture gesture, FixObject fixObject)
         {
             if (gesture == HandGesture.None)
                 return;
@@ -339,6 +339,8 @@ namespace ClickClick.Gameplay
             }
 
             Debug.Log(_scores);
+
+            fixObject.ShowScoreAnimation(score);
 
             _scores += score;
             // _scoreUpSound.DoAction();
