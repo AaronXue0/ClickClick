@@ -1540,7 +1540,7 @@ MonoBehaviour:
     loop: 0
     bgmResumeFadeIn: 1
     fadeDuration: 1
-    soundMode: 0
+    soundMode: 1
     rndPitch: 1
     rndRange: {x: -0.7, y: 0.7}
 --- !u!1001 &790242880

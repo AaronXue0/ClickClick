@@ -39,6 +39,9 @@ namespace ClickClick.Photograph
         [SerializeField] private GameObject transitionButtonContainer;
         [SerializeField] private SingleButtonProgress transitionButton;
 
+        [Header("Audio")]
+        [SerializeField] private AudioController _takePhotoAudio;
+
         private HandGestureDetector gestureDetector;
         private HandLandmarkerResult currentResult;
         private bool needsUpdate = false;
@@ -184,6 +187,8 @@ namespace ClickClick.Photograph
         private IEnumerator PhotoEffect()
         {
             flashEffect.gameObject.SetActive(true);
+
+            _takePhotoAudio.DoAction();
 
             // Flash in
             float elapsed = 0;

@@ -23,7 +23,7 @@ MonoBehaviour:
   - clipName: "\u5012\u6578\u5341\u79D2"
     clip: {fileID: 8300000, guid: 3c17a5a3b85ab40bf9a2058d3b11534a, type: 3}
   - clipName: "\u62CD\u7167\u8072"
-    clip: {fileID: 8300000, guid: 968077328936d4d579bab8f07c2b06ce, type: 3}
+    clip: {fileID: 8300000, guid: ddf4201474a554219b7808c887774995, type: 3}
   - clipName: "\u6309\u9215"
     clip: {fileID: 8300000, guid: 8972450cbc731494aa2c0ab9d51d82aa, type: 3}
   - clipName: "\u8F49\u5834"
@@ -36,7 +36,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cfd0a8637884c47a7a6362719cf73225, type: 3}
   - clipName: "\u5E03"
     clip: {fileID: 8300000, guid: d465201dc89b749c7b2fdcaf63b8427e, type: 3}
-  - clipName: "\u62CD\u7167\u8072"
-    clip: {fileID: 8300000, guid: ddf4201474a554219b7808c887774995, type: 3}
   - clipName: "\u904A\u6232\u958B\u59CB"
     clip: {fileID: 8300000, guid: bfddac299b3434cb1a04639365ce544e, type: 3}
