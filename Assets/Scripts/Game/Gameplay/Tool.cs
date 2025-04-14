@@ -14,6 +14,10 @@ namespace ClickClick.Gameplay
         [SerializeField] float _scaleDownDuration = 1f;
         [SerializeField] float _scaleDownAmount = 0.7f;
 
+        [SerializeField] private AudioController _audioController;
+
+        public bool ImageEnabled => _image.enabled;
+
         private Image _image;
         private RectTransform _rectTransform;
         private FixObject _currentFixObject;
@@ -41,7 +45,7 @@ namespace ClickClick.Gameplay
 
             foreach (var fixObject in fixObjects)
             {
-                if (!fixObject.HasGesture) continue;
+                if (!fixObject.HasGesture || fixObject.IsFixed) continue;
 
                 // Get the RectTransform of the FixObject
                 var fixObjectRect = fixObject.GetComponent<RectTransform>();
@@ -106,14 +110,28 @@ namespace ClickClick.Gameplay
             _spriteSwapSequence = DOTween.Sequence();
 
             // Add sprite swap callbacks
-            _spriteSwapSequence.AppendCallback(() => _image.sprite = _fixingSprite)
+            _spriteSwapSequence.AppendCallback(() =>
+            {
+                _image.sprite = _fixingSprite;
+                if (_image.enabled)
+                {
+                    _audioController.DoAction(); // Play audio when switching to fixing sprite
+                }
+            })
                 .AppendInterval(_spriteSwapInterval)
-                .AppendCallback(() => _image.sprite = _originalSprite)
+                .AppendCallback(() =>
+                {
+                    _image.sprite = _originalSprite;
+                    if (_image.enabled)
+                    {
+                        _audioController.DoAction(); // Play audio when switching back to original sprite
+                    }
+                })
                 .AppendInterval(_spriteSwapInterval)
                 .SetLoops(-1); // Infinite loop
         }
 
-        private void StopFixingAnimation()
+        public void StopFixingAnimation()
         {
             _isAnimating = false;
 
@@ -137,12 +155,12 @@ namespace ClickClick.Gameplay
                 .OnComplete(() =>
                 {
                     // Hide the image
-                    _image.enabled = false;
+                    // _image.enabled = false;
 
                     // Wait for a second then restore original scale and show the image
                     DOVirtual.DelayedCall(1f, () =>
                     {
-                        _image.enabled = true;
+                        // _image.enabled = true;
                         transform.DOScale(_originalScale, 0f);
                     });
                 });

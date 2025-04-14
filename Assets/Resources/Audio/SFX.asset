@@ -30,3 +30,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: adecde62d8a4a48cbba4d997521811e9, type: 3}
   - clipName: "\u5F97\u5206"
     clip: {fileID: 8300000, guid: 3940d735dcacc4abbb55d6ac777b4137, type: 3}
+  - clipName: "\u77F3\u982D"
+    clip: {fileID: 8300000, guid: b0e82d5b840ff41999476ad200593b46, type: 3}
+  - clipName: "\u526A\u5200"
+    clip: {fileID: 8300000, guid: cfd0a8637884c47a7a6362719cf73225, type: 3}
+  - clipName: "\u5E03"
+    clip: {fileID: 8300000, guid: d465201dc89b749c7b2fdcaf63b8427e, type: 3}
