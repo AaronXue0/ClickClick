@@ -136,8 +136,15 @@ namespace ClickClick.Gameplay
             transform.DOScale(_originalScale * _scaleDownAmount, _scaleDownDuration)
                 .OnComplete(() =>
                 {
-                    // Return to original scale
-                    transform.DOScale(_originalScale, 0.5f);
+                    // Hide the image
+                    _image.enabled = false;
+
+                    // Wait for a second then restore original scale and show the image
+                    DOVirtual.DelayedCall(1f, () =>
+                    {
+                        _image.enabled = true;
+                        transform.DOScale(_originalScale, 0f);
+                    });
                 });
         }
 
