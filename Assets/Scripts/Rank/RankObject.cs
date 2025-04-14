@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using ClickClick.Manager;
+using ClickClick.Data;
 
 namespace ClickClick.Rank
 {
@@ -17,10 +19,23 @@ namespace ClickClick.Rank
 
         public int Score => rankData.score;
         public int Rank => rankData.rank;
+        public int PlayerId => rankData.playerId;
 
         public void SetAvatar(Sprite avatar)
         {
             avatarImage.sprite = avatar;
+        }
+
+        public void UpdateAvatarByPlayerId(int playerId)
+        {
+            if (playerId != -1)
+            {
+                PlayerData player = DataManager.Instance.GetPlayer(playerId);
+                if (player != null)
+                {
+                    SetAvatar(DataManager.Instance.GetCharacterSprite(player.CharacterId));
+                }
+            }
         }
 
         public void SetPhoto(Sprite photo)
@@ -56,6 +71,11 @@ namespace ClickClick.Rank
         public void SetScore(int score)
         {
             rankData.score = score;
+        }
+
+        public void SetPlayerId(int playerId)
+        {
+            rankData.playerId = playerId;
         }
 
         private void DisplayRankImages(int rank)
