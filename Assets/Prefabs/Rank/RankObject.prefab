@@ -1135,6 +1135,7 @@ MonoBehaviour:
   - {fileID: 8406856601111852852}
   - {fileID: 1195882747099179756}
   - {fileID: 4001516169925132648}
+  avatarImages: []
 --- !u!1 &6288902218614226563
 GameObject:
   m_ObjectHideFlags: 0

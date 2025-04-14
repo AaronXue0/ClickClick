@@ -91,6 +91,7 @@ namespace ClickClick.Rank
                 {
                     Debug.Log("Setting photo for " + _rankObjects[i].name + " to " + players[i].photoPath);
                     PhotoLoader.LoadPlayerPhoto(_rankObjects[i].photoImage, players[i].photoPath);
+                    _rankObjects[i].SetAvatar(DataManager.Instance.GetCharacterSprite(players[i].playerId));
                 }
                 else
                 {
