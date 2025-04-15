@@ -24,6 +24,8 @@ public class AudioManager : SingletonManager<AudioManager>
     private List<Sound> soundList = new List<Sound>();
     private AudioData audioSettings = new AudioData();
 
+    public float bgmVolume = 1f;
+
     private bool IsMuteBgm
     {
         get { return audioSettings.isMuteBgm; }
@@ -80,7 +82,7 @@ public class AudioManager : SingletonManager<AudioManager>
 
     private void LoadAudioSettings()
     {
-        audioSettings.musicVolume = 0.1f;//DataManager.MusicVolume;
+        audioSettings.musicVolume = bgmVolume;//DataManager.MusicVolume;
         audioSettings.soundVolume = 1f;//DataManager.SoundVolume;
     }
 

@@ -47,7 +47,7 @@ namespace ClickClick.Dev
 
         private void OnUnmuteBgmButtonClick()
         {
-            AudioManager.UpdateMusicVolume(0.1f);
+            AudioManager.UpdateMusicVolume(AudioManager.Instance.bgmVolume);
         }
 
         private void OnScreenSaverButtonClick()
