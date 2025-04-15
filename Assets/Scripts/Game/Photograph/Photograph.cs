@@ -9,6 +9,8 @@ using System.Collections;
 using ClickClick.Tool;
 using System.IO;
 using ClickClick.Manager;
+using Mediapipe.Unity.Sample.HandLandmarkDetection;
+
 namespace ClickClick.Photograph
 {
     public class Photograph : MonoBehaviour
@@ -42,6 +44,11 @@ namespace ClickClick.Photograph
         [Header("Audio")]
         [SerializeField] private AudioController _takePhotoAudio;
 
+        [Header("Story")]
+        [SerializeField] private PhotoGraphStory photoGraphStory;
+        [SerializeField] private HandLandmarkerRunnerPhotograph handLandmarkSelector;
+
+
         private HandGestureDetector gestureDetector;
         private HandLandmarkerResult currentResult;
         private bool needsUpdate = false;
@@ -68,6 +75,16 @@ namespace ClickClick.Photograph
             }
 
             LoadPlayerInfo();
+
+            PlayStory();
+        }
+
+        private void PlayStory()
+        {
+            StartCoroutine(photoGraphStory.PlayStoryCoroutine(() =>
+            {
+                handLandmarkSelector.enabled = true;
+            }));
         }
 
         private void Update()
@@ -446,7 +463,7 @@ namespace ClickClick.Photograph
 
         private void LoadPlayerInfo()
         {
-            if (DataManager.Instance != null)
+            if (DataManager.Instance != null && DataManager.Instance.GetCurrentPlayer() != null)
             {
                 string playerName = DataManager.Instance.GetCurrentPlayerName();
                 playerNameText.text = playerName;

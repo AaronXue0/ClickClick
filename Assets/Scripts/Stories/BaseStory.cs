@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,8 @@ namespace ClickClick
         [SerializeField] protected float typingSpeed = 0.05f;
 
         [Header("Sound")]
-        [SerializeField] protected List<AudioController> typingSounds;
+        [SerializeField] protected GameObject sfxParent;
+        private List<AudioController> typingSounds;
 
         protected virtual void Awake()
         {
@@ -33,6 +35,8 @@ namespace ClickClick
             {
                 backgroundImage.color = colors[0];
             }
+
+            typingSounds = sfxParent.GetComponentsInChildren<AudioController>().ToList();
         }
 
         public abstract IEnumerator PlayStoryCoroutine(Action onComplete);
