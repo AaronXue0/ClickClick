@@ -3804,7 +3804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73487287b24aa41af86d5369e21d0b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 2
+  duration: 1
   targetButtonScaleDownFactor: 0.9
   audioController: {fileID: 1193863232}
   rightHandGameObject: {fileID: 1803348850}

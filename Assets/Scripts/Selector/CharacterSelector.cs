@@ -29,8 +29,8 @@ namespace ClickClick.Tool
         [SerializeField] private CharacterGroup characterGroup;
 
         private CharacterButtonData currentTarget;
+        private CharacterButtonData selectedCharacter;
         private Dictionary<Button, Vector3> originalButtonScales = new Dictionary<Button, Vector3>();
-        private bool isSelectionLocked = false;
 
         protected override float ProgressFillAmount
         {
@@ -58,21 +58,23 @@ namespace ClickClick.Tool
 
         protected override void HandleProgressComplete()
         {
-            if (currentTarget != null && !isSelectionLocked)
+            if (currentTarget != null)
             {
-                // Lock the selection
-                isSelectionLocked = true;
-
                 // Fetch CharacterData using ID
                 var characterData = characterGroup.GetCharacterData(currentTarget.id);
+                selectedCharacter = currentTarget;
 
                 // Update preview
                 previewImage.sprite = characterData.characterSprite;
                 characterNameText.text = characterData.characterName;
 
                 // Save the selected character to DataManager
-                Manager.DataManager.Instance.GetCurrentPlayer().CharacterId = characterData.characterId;
-                Debug.Log("Selected character: " + characterData.characterName);
+                if (Manager.DataManager.Instance != null &&
+                    Manager.DataManager.Instance.GetCurrentPlayer() != null)
+                {
+                    Manager.DataManager.Instance.GetCurrentPlayer().CharacterId = characterData.characterId;
+                    Debug.Log("Selected character: " + characterData.characterName);
+                }
 
                 // Trigger the button click
                 currentTarget.characterButton.onClick.Invoke();
@@ -87,20 +89,29 @@ namespace ClickClick.Tool
 
         private IEnumerator TransitionAfterDelay(string sceneName)
         {
-            // Wait for a short moment to show the final state
-            yield return new WaitForSeconds(0.5f);
-            // Transition to the determined scene
-            SceneTransition.Instance.TransitionToScene(sceneName);
+            yield return new WaitForSeconds(0f);
+
+            _sceneName = sceneName;
+
+            UpdatePreview(selectedCharacter);
+            ResetProgress();
+            isCompleted = false;
+        }
+
+        private string _sceneName;
+
+        private void FixedUpdate()
+        {
+            if (selectedCharacter != null && Input.GetKey(KeyCode.Space))
+            {
+                isCompleted = true;
+                ResetProgress();
+                SceneTransition.Instance.TransitionToScene(_sceneName);
+            }
         }
 
         protected override bool IsOverlappingTargetButton(GameObject gestureObject)
         {
-            // If selection is locked, prevent any further changes
-            if (isSelectionLocked)
-            {
-                return currentTarget != null;
-            }
-
             if (gestureObject == null || gameObject.activeSelf == false)
             {
                 return false;
@@ -129,20 +140,30 @@ namespace ClickClick.Tool
 
                     if (gestureRectangle.Overlaps(buttonRectangle))
                     {
+                        Debug.Log("IsOverlappingTargetButton");
                         if (previousTarget != null && previousTarget != character)
                         {
                             ResetProgress();
                         }
 
-                        currentTarget = character;
-                        UpdatePreview(character);
-                        return true;
+                        if (character.id != selectedCharacter?.id)
+                        {
+                            currentTarget = character;
+                            return true;
+                        }
+                        else if (selectedCharacter == null)
+                        {
+                            currentTarget = character;
+                            return true;
+                        }
+
+                        // UpdatePreview(character);
                     }
                 }
             }
 
             currentTarget = null;
-            UpdatePreview(null);
+            // UpdatePreview(null);
             return false;
         }
 
@@ -162,12 +183,15 @@ namespace ClickClick.Tool
             }
 
             // Scale the current target button if there is one
-            if (currentTarget != null)
+            if (currentTarget != null && currentTarget.id != selectedCharacter?.id)
             {
+                Debug.Log("UpdateTargetButtonScale: " + currentTarget.id + " " + selectedCharacter?.id);
                 Vector3 originalScale = originalButtonScales[currentTarget.characterButton];
                 Vector3 targetScale = isOverlapping ?
                     originalScale * targetButtonScaleDownFactor :
                     originalScale;
+
+                Debug.Log("UpdateTargetButtonScale: " + targetScale);
 
                 currentTarget.characterButton.transform.DOScale(targetScale, stateChangeDuration);
             }
@@ -175,11 +199,10 @@ namespace ClickClick.Tool
 
         protected override void ResetProgress()
         {
-            // Only reset if selection is not locked
-            if (!isSelectionLocked)
+            base.ResetProgress();
+            currentTarget = null;
+            if (selectedCharacter == null)
             {
-                base.ResetProgress();
-                currentTarget = null;
                 UpdatePreview(null);
             }
         }

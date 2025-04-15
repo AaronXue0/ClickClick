@@ -87,6 +87,7 @@ namespace ClickClick.Tool
                 {
                     isCompleted = true;
                     HandleProgressComplete();
+                    audioController.DoAction();
                 }
 
                 // Only fade out hand if allowed
