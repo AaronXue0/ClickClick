@@ -46,3 +46,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 72f14dca6b8264b949aae4a3ccf600f4, type: 3}
   - clipName: "\u7AE0\u9B5A\u8AAA\u8A714"
     clip: {fileID: 8300000, guid: 8f0da6cf3358e40e2b59fb33b040a72b, type: 3}
+  - clipName: "\u7AE0\u9B5A\u8AAA\u8A715"
+    clip: {fileID: 8300000, guid: 19614ab8820364879811480df7c4e6b1, type: 3}
+  - clipName: "\u7AE0\u9B5A\u8AAA\u8A716"
+    clip: {fileID: 8300000, guid: 731dc626df3c142b4b7b04a10428070a, type: 3}
+  - clipName: "Logo\u51FA\u73FE"
+    clip: {fileID: 8300000, guid: 20bdb22ed519a4d0eb86cb47cb75602f, type: 3}

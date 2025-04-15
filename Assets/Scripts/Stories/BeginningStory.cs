@@ -26,6 +26,11 @@ namespace ClickClick
         [SerializeField] private AudioController typingSound2;
         [SerializeField] private AudioController typingSound3;
         [SerializeField] private AudioController typingSound4;
+        [SerializeField] private AudioController typingSound5;
+        [SerializeField] private AudioController typingSound6;
+        [SerializeField] private AudioController logoSound;
+
+
 
         private Color tempTextColor;
 
@@ -87,7 +92,7 @@ namespace ClickClick
             Sequence sequence = DOTween.Sequence();
             sequence.Append(logoImage.DOFade(1f, 1f));
             sequence.Join(logoImage.transform.DOScale(1f, 1.5f).SetEase(Ease.OutBack));
-
+            logoSound.DoAction();
             yield return sequence.WaitForCompletion();
         }
 
@@ -106,7 +111,7 @@ namespace ClickClick
             sequence.Join(backgroundImage.DOColor(colors[1], 1f));
 
             yield return sequence.WaitForCompletion();
-            yield return new WaitForSeconds(defaultDelay / 2);
+            yield return new WaitForSeconds(defaultDelay / 5);
 
             // Play script[1] and script[2]
             text.text = "";
@@ -117,13 +122,22 @@ namespace ClickClick
             text.text = "";
             text.gameObject.SetActive(true);
             yield return TypeText(scripts[2]);
+
+            text.text = "";
+            text.gameObject.SetActive(true);
+            yield return TypeText(scripts[3]);
         }
 
         private IEnumerator FourthCutCoroutine()
         {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(characterImage.DOFade(0f, 0.3f));
+            sequence.Join(backgroundImage.DOColor(colors[2], 0.3f));
+            yield return sequence.WaitForCompletion();
+
             // Play script[3]
             text.text = "";
-            yield return TypeText(scripts[3]);
+            yield return TypeText(scripts[4]);
         }
 
         private IEnumerator EndStoryCoroutine()
@@ -159,7 +173,9 @@ namespace ClickClick
                 typingSound1,
                 typingSound2,
                 typingSound3,
-                typingSound4
+                typingSound4,
+                typingSound5,
+                typingSound6
             };
 
             // Filter out null references
