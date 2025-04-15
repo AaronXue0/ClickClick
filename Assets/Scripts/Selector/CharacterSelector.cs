@@ -28,6 +28,7 @@ namespace ClickClick.Tool
         [SerializeField] private TMP_Text characterNameText;
         [SerializeField] private RectTransform screenshotArea;
         [SerializeField] private CharacterGroup characterGroup;
+        [SerializeField] private TextMeshProUGUI hintText;
 
         [Header("Story")]
         [SerializeField] private BeginningStory beginningStory;
@@ -89,6 +90,8 @@ namespace ClickClick.Tool
 
                 // Transition to the appropriate scene after a short delay
                 StartCoroutine(TransitionAfterDelay(targetScene));
+
+                hintText.gameObject.SetActive(true);
             }
         }
 
@@ -231,6 +234,8 @@ namespace ClickClick.Tool
         {
             // If you want to set it in code, uncomment the line below
             allowHandVisibilityChange = false;
+
+            hintText.gameObject.SetActive(false);
 
             base.Start();
 
