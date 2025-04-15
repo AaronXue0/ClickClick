@@ -6,6 +6,9 @@ using TMPro;
 using DG.Tweening;
 using ClickClick.Data;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using Mediapipe.Tasks.Vision.HandLandmarker;
+using ClickClick.GestureTracking;
+using Mediapipe.Unity;
 
 namespace ClickClick.Tool
 {
@@ -19,7 +22,7 @@ namespace ClickClick.Tool
         public TMP_Text characterNameText;
     }
 
-    public class CharacterSelector : CircularProgressOnHold
+    public class CharacterSelector : MonoBehaviour
     {
         [Header("Character Selection")]
         [SerializeField] private Sprite defaultPreviewSprite;
@@ -34,23 +37,68 @@ namespace ClickClick.Tool
         [SerializeField] private BeginningStory beginningStory;
         [SerializeField] private HandLandmarkerSelector handLandmarkSelector;
 
+        [Header("Hand Gesture")]
+        [SerializeField] private GameObject rightHandGameObject;
+        [SerializeField] private GameObject leftHandGameObject;
+        [SerializeField] private MultiHandLandmarkListAnnotation handLandmarkAnnotation;
+        [SerializeField] private string sceneToTransitionTo;
+        [SerializeField] private float waveDetectionThreshold = 0.5f;
+        [SerializeField] private int requiredWaveCount = 1;
+        [SerializeField] private float waveDetectionCooldown = 0.5f;
+        [SerializeField] private float selectionCooldownDuration = 2.0f;
+
+        [Header("Audio")]
+        [SerializeField] private AudioController audioController;
+
+        [Header("UI")]
+        [SerializeField] private float targetButtonScaleDownFactor = 0.9f;
+        [SerializeField] private float stateChangeDuration = 0.3f;
+
         private CharacterButtonData currentTarget;
         private CharacterButtonData selectedCharacter;
         private Dictionary<Button, Vector3> originalButtonScales = new Dictionary<Button, Vector3>();
 
-        protected override float ProgressFillAmount
+        private HandGestureDetector gestureDetector;
+        private HandLandmarkerResult currentResult;
+        private bool needsUpdate = false;
+        private bool isOverlapping = false;
+        private bool isCompleted = false;
+        private float lastStateChangeTime;
+        private string _sceneName;
+
+        // Hand waving detection variables
+        private Vector3 previousHandPosition;
+        private int waveCounter = 0;
+        private float lastWaveTime;
+        private bool isWaving = false;
+        private List<Vector3> recentHandPositions = new List<Vector3>();
+        private float lastWaveDirection = 0f;
+
+        private float lastSelectionTime;
+        private bool isInSelectionCooldown = false;
+
+        private void Start()
         {
-            get => currentTarget?.progressImage.fillAmount ?? 0f;
-            set
+            gestureDetector = new HandGestureDetector();
+            lastStateChangeTime = -waveDetectionCooldown;
+            lastWaveTime = -waveDetectionCooldown;
+            lastSelectionTime = -selectionCooldownDuration;
+            InitializeTargetButton();
+
+            hintText.gameObject.SetActive(false);
+
+            // Initialize button images at start
+            foreach (var character in characters)
             {
-                if (currentTarget != null)
-                {
-                    currentTarget.progressImage.fillAmount = value;
-                }
+                var characterData = characterGroup.GetCharacterData(character.id);
+                character.characterImage.sprite = characterData.characterSprite;
             }
+
+            // Play story
+            PlayStory();
         }
 
-        protected override void InitializeTargetButton()
+        private void InitializeTargetButton()
         {
             UpdatePreview(null);
             foreach (var character in characters)
@@ -59,13 +107,26 @@ namespace ClickClick.Tool
                 var characterData = characterGroup.GetCharacterData(character.id);
                 character.characterImage.sprite = characterData.characterSprite;
                 character.characterNameText.text = characterData.characterName;
+                // Hide progress images as they're not needed for wave detection
+                if (character.progressImage != null)
+                {
+                    character.progressImage.gameObject.SetActive(false);
+                }
             }
         }
 
-        protected override void HandleProgressComplete()
+        private void HandleCharacterSelection()
         {
             if (currentTarget != null)
             {
+                // Set cooldown flag and timestamp
+                isInSelectionCooldown = true;
+                lastSelectionTime = Time.time;
+
+                // Reset all movement tracking
+                ResetWaveDetection();
+                previousHandPosition = Vector3.zero;
+
                 // Fetch CharacterData using ID
                 var characterData = characterGroup.GetCharacterData(currentTarget.id);
                 selectedCharacter = currentTarget;
@@ -92,7 +153,35 @@ namespace ClickClick.Tool
                 StartCoroutine(TransitionAfterDelay(targetScene));
 
                 hintText.gameObject.SetActive(true);
+
+                // Play selection sound
+                audioController.DoAction();
             }
+        }
+
+        private void Update()
+        {
+            if (needsUpdate)
+            {
+                UpdateGestureObjectsInternal(currentResult);
+                needsUpdate = false;
+            }
+
+            // Check if we should exit the cooldown period
+            if (isInSelectionCooldown && Time.time - lastSelectionTime > selectionCooldownDuration)
+            {
+                isInSelectionCooldown = false;
+            }
+        }
+
+        private void ResetWaveDetection()
+        {
+            waveCounter = 0;
+            isWaving = false;
+            lastWaveDirection = 0f;
+            recentHandPositions.Clear();
+            // Reset previous hand position to prevent false detection after reset
+            previousHandPosition = Vector3.zero;
         }
 
         private IEnumerator TransitionAfterDelay(string sceneName)
@@ -102,23 +191,20 @@ namespace ClickClick.Tool
             _sceneName = sceneName;
 
             UpdatePreview(selectedCharacter);
-            ResetProgress();
+            ResetWaveDetection();
             isCompleted = false;
         }
-
-        private string _sceneName;
 
         private void FixedUpdate()
         {
             if (selectedCharacter != null && Input.GetKey(KeyCode.Space))
             {
                 isCompleted = true;
-                ResetProgress();
                 SceneTransition.Instance.TransitionToScene(_sceneName);
             }
         }
 
-        protected override bool IsOverlappingTargetButton(GameObject gestureObject)
+        private bool IsOverlappingTargetButton(GameObject gestureObject)
         {
             if (gestureObject == null || gameObject.activeSelf == false)
             {
@@ -148,10 +234,11 @@ namespace ClickClick.Tool
 
                     if (gestureRectangle.Overlaps(buttonRectangle))
                     {
-                        Debug.Log("IsOverlappingTargetButton");
                         if (previousTarget != null && previousTarget != character)
                         {
-                            ResetProgress();
+                            ResetWaveDetection();
+                            // Force reset previous hand position to prevent false wave detection
+                            previousHandPosition = Vector3.zero;
                         }
 
                         if (character.id != selectedCharacter?.id)
@@ -164,18 +251,22 @@ namespace ClickClick.Tool
                             currentTarget = character;
                             return true;
                         }
-
-                        // UpdatePreview(character);
                     }
                 }
             }
 
+            // If we lost targeting completely, reset wave detection
+            if (previousTarget != null && currentTarget == null)
+            {
+                ResetWaveDetection();
+                previousHandPosition = Vector3.zero;
+            }
+
             currentTarget = null;
-            // UpdatePreview(null);
             return false;
         }
 
-        protected override void UpdateTargetButtonScale(bool isOverlapping)
+        private void UpdateTargetButtonScale(bool isOverlapping)
         {
             // Reset all buttons to original scale except the current target
             foreach (var character in characters)
@@ -186,32 +277,18 @@ namespace ClickClick.Tool
                         originalButtonScales[character.characterButton],
                         stateChangeDuration
                     );
-                    character.progressImage.fillAmount = 0f;
                 }
             }
 
             // Scale the current target button if there is one
             if (currentTarget != null && currentTarget.id != selectedCharacter?.id)
             {
-                Debug.Log("UpdateTargetButtonScale: " + currentTarget.id + " " + selectedCharacter?.id);
                 Vector3 originalScale = originalButtonScales[currentTarget.characterButton];
                 Vector3 targetScale = isOverlapping ?
                     originalScale * targetButtonScaleDownFactor :
                     originalScale;
 
-                Debug.Log("UpdateTargetButtonScale: " + targetScale);
-
                 currentTarget.characterButton.transform.DOScale(targetScale, stateChangeDuration);
-            }
-        }
-
-        protected override void ResetProgress()
-        {
-            base.ResetProgress();
-            currentTarget = null;
-            if (selectedCharacter == null)
-            {
-                UpdatePreview(null);
             }
         }
 
@@ -230,24 +307,154 @@ namespace ClickClick.Tool
             }
         }
 
-        protected override void Start()
+        public void UpdateGestureObjects(HandLandmarkerResult result)
         {
-            // If you want to set it in code, uncomment the line below
-            allowHandVisibilityChange = false;
+            currentResult = result;
+            needsUpdate = true;
+        }
 
-            hintText.gameObject.SetActive(false);
+        private void UpdateGestureObjectsInternal(HandLandmarkerResult result)
+        {
+            DisableAllObjects(rightHandGameObject);
+            DisableAllObjects(leftHandGameObject);
 
-            base.Start();
-
-            // Initialize button images at start
-            foreach (var character in characters)
+            if (ReferenceEquals(result, null) || result.handLandmarks == null || result.handLandmarks.Count == 0)
             {
-                var characterData = characterGroup.GetCharacterData(character.id);
-                character.characterImage.sprite = characterData.characterSprite;
+                return;
             }
 
-            // Play story
-            PlayStory();
+            for (int i = 0; i < result.handLandmarks.Count; i++)
+            {
+                var landmarks = result.handLandmarks[i];
+                var handedness = result.handedness[i];
+                bool isRightHand = handedness.categories[0].categoryName.ToLower().Contains("left");
+                var gestureGroup = isRightHand ? rightHandGameObject : leftHandGameObject;
+
+                if (gestureGroup == null)
+                    continue;
+
+                var gesture = gestureDetector.DetectGesture(landmarks);
+                UpdateHandGestureObject(gestureGroup, gesture, i);
+
+                // Get the palm position for wave detection (using wrist landmark)
+                if (landmarks.landmarks != null && landmarks.landmarks.Count > 0)
+                {
+                    Vector3 handPosition = new Vector3(landmarks.landmarks[0].x, landmarks.landmarks[0].y, landmarks.landmarks[0].z);
+                    DetectWaving(handPosition, gestureGroup);
+                }
+            }
+        }
+
+        private void DetectWaving(Vector3 currentHandPosition, GameObject gestureGroup)
+        {
+            // Skip wave detection during cooldown period
+            if (isInSelectionCooldown)
+            {
+                return;
+            }
+
+            // Only process waving if overlapping a button and not completed
+            if (!isOverlapping || isCompleted || currentTarget == null)
+            {
+                previousHandPosition = currentHandPosition;
+                return;
+            }
+
+            // If this is the first position tracked, just store it without calculating movement
+            if (previousHandPosition == Vector3.zero)
+            {
+                previousHandPosition = currentHandPosition;
+                return;
+            }
+
+            // Calculate the x-axis movement (side to side)
+            float xMovement = currentHandPosition.x - previousHandPosition.x;
+
+            // Debug log to track movement
+            if (Mathf.Abs(xMovement) > 0.01f)
+            {
+                Debug.Log($"Hand movement: {xMovement}, threshold: {waveDetectionThreshold}");
+            }
+
+            // Detect movement with enough magnitude
+            if (Mathf.Abs(xMovement) > waveDetectionThreshold)
+            {
+                Debug.Log($"Wave detected with magnitude: {Mathf.Abs(xMovement)}");
+
+                // Increment wave counter
+                waveCounter++;
+                lastWaveTime = Time.time;
+
+                // Visual feedback
+                gestureGroup.transform.DOScale(1.2f, 0.1f).OnComplete(() =>
+                {
+                    gestureGroup.transform.DOScale(1f, 0.1f);
+                });
+
+                // If we've detected enough waves, select the character
+                if (waveCounter >= requiredWaveCount && Time.time - lastStateChangeTime > waveDetectionCooldown)
+                {
+                    Debug.Log("Character selected by wave gesture!");
+                    HandleCharacterSelection();
+                    lastStateChangeTime = Time.time;
+                }
+            }
+
+            // Reset wave counter if no movement detected for a while
+            if (Time.time - lastWaveTime > waveDetectionCooldown * 2)
+            {
+                ResetWaveDetection();
+            }
+
+            previousHandPosition = currentHandPosition;
+        }
+
+        private void UpdateHandGestureObject(GameObject gestureGroup, HandGesture gesture, int handIndex)
+        {
+            gestureGroup.SetActive(true);
+            UpdateObjectPosition(gestureGroup, handIndex);
+
+            // Check if rightHandGameObject or leftHandGameObject is overlapping targetButton
+            bool newOverlappingState = IsOverlappingTargetButton(gestureGroup);
+            if (newOverlappingState)
+            {
+                isOverlapping = newOverlappingState;
+                // Update the visual feedback of the buttons
+                UpdateTargetButtonScale(true);
+            }
+            else if (Time.time - lastStateChangeTime >= waveDetectionCooldown)
+            {
+                isOverlapping = newOverlappingState;
+                lastStateChangeTime = Time.time;
+                // Reset the visual feedback of the buttons
+                UpdateTargetButtonScale(false);
+            }
+        }
+
+        private void UpdateObjectPosition(GameObject targetObject, int handIndex)
+        {
+            if (handLandmarkAnnotation == null || handLandmarkAnnotation.transform.childCount <= handIndex)
+            {
+                return;
+            }
+
+            var handAnnotation = handLandmarkAnnotation.transform.GetChild(handIndex);
+            var pointListAnnotation = handAnnotation?.GetChild(0);
+
+            if (pointListAnnotation != null && pointListAnnotation.childCount > 9)
+            {
+                var middleFingerBase = pointListAnnotation.GetChild(9);
+                if (middleFingerBase != null)
+                {
+                    targetObject.transform.SetParent(middleFingerBase, false);
+                    targetObject.transform.localPosition = Vector3.zero;
+                }
+            }
+        }
+
+        private void DisableAllObjects(GameObject gameObject)
+        {
+            gameObject.SetActive(false);
         }
 
         private void PlayStory()
