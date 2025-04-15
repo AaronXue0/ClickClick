@@ -25,6 +25,9 @@ namespace ClickClick
         [SerializeField] protected GameObject sfxParent;
         private List<AudioController> typingSounds;
 
+        [Header("Test")]
+        [SerializeField] protected bool isTest = false;
+
         protected virtual void Awake()
         {
             text.gameObject.SetActive(false);

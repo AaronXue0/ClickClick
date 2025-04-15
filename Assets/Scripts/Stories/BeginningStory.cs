@@ -17,26 +17,34 @@ namespace ClickClick
             group.gameObject.SetActive(true);
             group.alpha = 1f;
 
-            yield return new WaitForSeconds(0.3f);
+            if (isTest == false)
+            {
 
-            // First Cut
-            yield return FirstCutCoroutine();
-            yield return new WaitForSeconds(defaultDelay);
+                yield return new WaitForSeconds(0.3f);
 
-            // Second Cut
-            yield return SecondCutCoroutine();
-            yield return new WaitForSeconds(defaultDelay);
+                // First Cut
+                yield return FirstCutCoroutine();
+                yield return new WaitForSeconds(defaultDelay);
 
-            // Third Cut
-            yield return ThirdCutCoroutine();
-            yield return new WaitForSeconds(defaultDelay);
+                // Second Cut
+                yield return SecondCutCoroutine();
+                yield return new WaitForSeconds(defaultDelay);
 
-            // Fourth Cut
-            yield return FourthCutCoroutine();
-            yield return new WaitForSeconds(defaultDelay);
+                // Third Cut
+                yield return ThirdCutCoroutine();
+                yield return new WaitForSeconds(defaultDelay);
 
-            // End Story
-            yield return EndStoryCoroutine();
+                // Fourth Cut
+                yield return FourthCutCoroutine();
+                yield return new WaitForSeconds(defaultDelay);
+
+                // End Story
+                yield return EndStoryCoroutine();
+            }
+            else
+            {
+                yield return EndStoryCoroutine();
+            }
 
             onComplete?.Invoke();
         }
