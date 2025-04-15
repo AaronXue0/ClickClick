@@ -26,6 +26,9 @@ namespace ClickClick
         [SerializeField] private TMP_Text characterName;
         [SerializeField] private string testUrl = "https://www.google.com";
 
+        [Header("Text")]
+        [SerializeField] private TMP_Text scoreAndRankText;
+
         private void Awake()
         {
             qrCodeImage.gameObject.SetActive(false);
@@ -50,6 +53,9 @@ namespace ClickClick
             StartCoroutine(LoadPlayerPhoto(avatarImage, playerData.PlayerPhotoPath));
 
             characterName.text = DataManager.Instance.GetCharacterName(playerData.CharacterId);
+
+            // Update score and rank text
+            scoreAndRankText.text = $"總分：{playerData.Score}\n排名：{playerData.Rank}";
         }
 
         private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)

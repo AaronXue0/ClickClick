@@ -2503,6 +2503,7 @@ MonoBehaviour:
   avatarImage: {fileID: 1907118092}
   characterName: {fileID: 1146276301}
   testUrl: https://www.google.com
+  scoreAndRankText: {fileID: 412092935}
 --- !u!4 &933436843
 Transform:
   m_ObjectHideFlags: 0
