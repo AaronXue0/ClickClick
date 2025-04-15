@@ -38,3 +38,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d465201dc89b749c7b2fdcaf63b8427e, type: 3}
   - clipName: "\u904A\u6232\u958B\u59CB"
     clip: {fileID: 8300000, guid: bfddac299b3434cb1a04639365ce544e, type: 3}
+  - clipName: "\u7AE0\u9B5A\u8AAA\u8A711"
+    clip: {fileID: 8300000, guid: 96ecc23edede0440f9e770e707c9857a, type: 3}
+  - clipName: "\u7AE0\u9B5A\u8AAA\u8A712"
+    clip: {fileID: 8300000, guid: c6fc0cee1c51b401da0ed8919a00166c, type: 3}
+  - clipName: "\u7AE0\u9B5A\u8AAA\u8A713"
+    clip: {fileID: 8300000, guid: 72f14dca6b8264b949aae4a3ccf600f4, type: 3}
+  - clipName: "\u7AE0\u9B5A\u8AAA\u8A714"
+    clip: {fileID: 8300000, guid: 8f0da6cf3358e40e2b59fb33b040a72b, type: 3}

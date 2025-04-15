@@ -5,6 +5,7 @@ using System.Collections;
 using TMPro;
 using DG.Tweening;
 using ClickClick.Data;
+using Mediapipe.Unity.Sample.HandLandmarkDetection;
 
 namespace ClickClick.Tool
 {
@@ -27,6 +28,10 @@ namespace ClickClick.Tool
         [SerializeField] private TMP_Text characterNameText;
         [SerializeField] private RectTransform screenshotArea;
         [SerializeField] private CharacterGroup characterGroup;
+
+        [Header("Story")]
+        [SerializeField] private BeginningStory beginningStory;
+        [SerializeField] private HandLandmarkerSelector handLandmarkSelector;
 
         private CharacterButtonData currentTarget;
         private CharacterButtonData selectedCharacter;
@@ -235,6 +240,17 @@ namespace ClickClick.Tool
                 var characterData = characterGroup.GetCharacterData(character.id);
                 character.characterImage.sprite = characterData.characterSprite;
             }
+
+            // Play story
+            PlayStory();
+        }
+
+        private void PlayStory()
+        {
+            StartCoroutine(beginningStory.PlayFirstStoryCoroutine(() =>
+            {
+                handLandmarkSelector.enabled = true;
+            }));
         }
     }
 }
