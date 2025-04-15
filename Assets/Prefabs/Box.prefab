@@ -1,5 +1,64 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2093743102136157839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6584115541723162143}
+  - component: {fileID: 1633413740458317056}
+  m_Layer: 0
+  m_Name: Scissor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6584115541723162143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093743102136157839}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3928818811018524122}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1633413740458317056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093743102136157839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionOnStart: 0
+  audioAction:
+    type: 1
+    bgmActionType: 0
+    soundActionType: 0
+    clipReferenceType: 1
+    groupName: SFX
+    clipName: "\u526A\u5200"
+    clip: {fileID: 0}
+    loop: 0
+    bgmResumeFadeIn: 1
+    fadeDuration: 1
+    soundMode: 0
+    rndPitch: 1
+    rndRange: {x: -0.7, y: 0.7}
 --- !u!1 &2569481239616420700
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +135,65 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3165160522058308229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5795259986545841112}
+  - component: {fileID: 251079676185183610}
+  m_Layer: 0
+  m_Name: Rock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5795259986545841112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3165160522058308229}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3928818811018524122}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &251079676185183610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3165160522058308229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionOnStart: 0
+  audioAction:
+    type: 1
+    bgmActionType: 0
+    soundActionType: 0
+    clipReferenceType: 1
+    groupName: SFX
+    clipName: "\u5F97\u5206"
+    clip: {fileID: 0}
+    loop: 0
+    bgmResumeFadeIn: 1
+    fadeDuration: 1
+    soundMode: 0
+    rndPitch: 1
+    rndRange: {x: -0.7, y: 0.7}
 --- !u!1 &3491156143974666146
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,6 +271,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4103243907737923992}
+  - {fileID: 3779468094600403791}
+  - {fileID: 6584115541723162143}
+  - {fileID: 5795259986545841112}
   m_Father: {fileID: 7165602618230172296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -212,6 +333,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _emptySprite: {fileID: 21300000, guid: cb96a7f1044224c57aff912cbda1460c, type: 3}
   _scoreText: {fileID: 386637551991152652}
+  _paperSound: {fileID: 569764875532901109}
+  _scissorsSound: {fileID: 1633413740458317056}
+  _rockSound: {fileID: 251079676185183610}
+--- !u!1 &5448731642244694632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3779468094600403791}
+  - component: {fileID: 569764875532901109}
+  m_Layer: 0
+  m_Name: Paper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3779468094600403791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5448731642244694632}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3928818811018524122}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &569764875532901109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5448731642244694632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionOnStart: 0
+  audioAction:
+    type: 1
+    bgmActionType: 0
+    soundActionType: 0
+    clipReferenceType: 1
+    groupName: SFX
+    clipName: "\u5E03"
+    clip: {fileID: 0}
+    loop: 0
+    bgmResumeFadeIn: 1
+    fadeDuration: 1
+    soundMode: 0
+    rndPitch: 1
+    rndRange: {x: -0.7, y: 0.7}
 --- !u!1 &7365920391730936805
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ namespace ClickClick.Gameplay
         [SerializeField] float _scaleDownDuration = 1f;
         [SerializeField] float _scaleDownAmount = 0.7f;
 
-        [SerializeField] private AudioController _audioController;
+        // [SerializeField] private AudioController _audioController;
 
         public bool ImageEnabled => _image.enabled;
 
@@ -113,19 +113,11 @@ namespace ClickClick.Gameplay
             _spriteSwapSequence.AppendCallback(() =>
             {
                 _image.sprite = _fixingSprite;
-                if (_image.enabled)
-                {
-                    _audioController.DoAction(); // Play audio when switching to fixing sprite
-                }
             })
                 .AppendInterval(_spriteSwapInterval)
                 .AppendCallback(() =>
                 {
                     _image.sprite = _originalSprite;
-                    if (_image.enabled)
-                    {
-                        _audioController.DoAction(); // Play audio when switching back to original sprite
-                    }
                 })
                 .AppendInterval(_spriteSwapInterval)
                 .SetLoops(-1); // Infinite loop

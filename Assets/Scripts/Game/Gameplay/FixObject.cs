@@ -21,6 +21,10 @@ namespace ClickClick.Gameplay
 
         [SerializeField] private TextMeshProUGUI _scoreText;
 
+        [SerializeField] private AudioController _paperSound;
+        [SerializeField] private AudioController _scissorsSound;
+        [SerializeField] private AudioController _rockSound;
+
         private void Awake()
         {
             image = GetComponentInChildren<Image>();
@@ -102,6 +106,19 @@ namespace ClickClick.Gameplay
             {
                 _currentTool.ObjectFixed();
                 _currentTool = null;
+            }
+
+            if (_gesture == HandGesture.Paper)
+            {
+                _paperSound.DoAction();
+            }
+            else if (_gesture == HandGesture.Scissors)
+            {
+                _scissorsSound.DoAction();
+            }
+            else if (_gesture == HandGesture.Rock)
+            {
+                _rockSound.DoAction();
             }
 
             Invoke(nameof(Reset), 1.25f);

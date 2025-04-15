@@ -343,7 +343,7 @@ MonoBehaviour:
   _spriteSwapInterval: 0.15
   _scaleDownDuration: 0
   _scaleDownAmount: 0.7
-  _audioController: {fileID: 344326539}
+  _audioController: {fileID: 0}
 --- !u!1 &95960418
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,124 +823,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325685439}
   m_CullTransparentMesh: 1
---- !u!1 &344326537
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 344326538}
-  - component: {fileID: 344326539}
-  m_Layer: 0
-  m_Name: Rock
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &344326538
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344326537}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1676891004}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &344326539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344326537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionOnStart: 0
-  audioAction:
-    type: 1
-    bgmActionType: 0
-    soundActionType: 0
-    clipReferenceType: 1
-    groupName: SFX
-    clipName: "\u5F97\u5206"
-    clip: {fileID: 0}
-    loop: 0
-    bgmResumeFadeIn: 1
-    fadeDuration: 1
-    soundMode: 0
-    rndPitch: 1
-    rndRange: {x: -0.7, y: 0.7}
---- !u!1 &369232220
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 369232221}
-  - component: {fileID: 369232222}
-  m_Layer: 0
-  m_Name: Scissor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &369232221
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369232220}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1676891004}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &369232222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369232220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionOnStart: 0
-  audioAction:
-    type: 1
-    bgmActionType: 0
-    soundActionType: 0
-    clipReferenceType: 1
-    groupName: SFX
-    clipName: "\u526A\u5200"
-    clip: {fileID: 0}
-    loop: 0
-    bgmResumeFadeIn: 1
-    fadeDuration: 1
-    soundMode: 0
-    rndPitch: 1
-    rndRange: {x: -0.7, y: 0.7}
 --- !u!1 &542083187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,65 +1851,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 888328216}
   m_CullTransparentMesh: 1
---- !u!1 &1027022045
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1027022046}
-  - component: {fileID: 1027022047}
-  m_Layer: 0
-  m_Name: Paper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1027022046
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027022045}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1676891004}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1027022047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027022045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionOnStart: 0
-  audioAction:
-    type: 1
-    bgmActionType: 0
-    soundActionType: 0
-    clipReferenceType: 1
-    groupName: SFX
-    clipName: "\u5E03"
-    clip: {fileID: 0}
-    loop: 0
-    bgmResumeFadeIn: 1
-    fadeDuration: 1
-    soundMode: 0
-    rndPitch: 1
-    rndRange: {x: -0.7, y: 0.7}
 --- !u!1 &1080506656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2123,7 +1946,7 @@ MonoBehaviour:
   _spriteSwapInterval: 0.15
   _scaleDownDuration: 0
   _scaleDownAmount: 0.7
-  _audioController: {fileID: 1027022047}
+  _audioController: {fileID: 0}
 --- !u!95 &1080506661
 Animator:
   serializedVersion: 7
@@ -2582,7 +2405,7 @@ MonoBehaviour:
   _spriteSwapInterval: 0.15
   _scaleDownDuration: 0
   _scaleDownAmount: 0.7
-  _audioController: {fileID: 369232222}
+  _audioController: {fileID: 0}
 --- !u!1 &1152670285
 GameObject:
   m_ObjectHideFlags: 0
@@ -3562,6 +3385,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9098971511208088419, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
+        type: 3}
+      propertyPath: _rockSound
+      value: 
+      objectReference: {fileID: 1395063523}
+    - target: {fileID: 9098971511208088419, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
+        type: 3}
+      propertyPath: _paperSound
+      value: 
+      objectReference: {fileID: 1395063525}
+    - target: {fileID: 9098971511208088419, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
+        type: 3}
+      propertyPath: _scissorsSound
+      value: 
+      objectReference: {fileID: 1395063524}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3583,6 +3421,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3c93bc11d50646d692ea1d0b777acf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1395063523 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 251079676185183610, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1395063520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1395063524 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1633413740458317056, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1395063520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1395063525 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 569764875532901109, guid: 4e0b3648a8ab54b3da6eb081b08605d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1395063520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a843ab7436a3c4c9b9c93553e76d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1410238767
@@ -4281,9 +4155,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1027022046}
-  - {fileID: 369232221}
-  - {fileID: 344326538}
   - {fileID: 1614090324}
   - {fileID: 764772004}
   m_Father: {fileID: 0}
