@@ -247,7 +247,7 @@ namespace ClickClick.Tool
 
         private void PlayStory()
         {
-            StartCoroutine(beginningStory.PlayFirstStoryCoroutine(() =>
+            StartCoroutine(beginningStory.PlayStoryCoroutine(() =>
             {
                 handLandmarkSelector.enabled = true;
             }));

@@ -8,42 +8,11 @@ using DG.Tweening;
 
 namespace ClickClick
 {
-    public class BeginningStory : MonoBehaviour
+    public class BeginningStory : BaseStory
     {
-        [SerializeField] private CanvasGroup group;
-        [SerializeField] private Image backgroundImage;
-        [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private Image characterImage;
-        [SerializeField] private Image logoImage;
+        [SerializeField] protected AudioController logoSound;
 
-        [SerializeField] private List<string> scripts;
-        [SerializeField] private List<Color> colors;
-        [SerializeField] private float defaultDelay = 2f;
-        [SerializeField] private float typingSpeed = 0.05f;
-
-        [Header("Sound")]
-        [SerializeField] private AudioController typingSound1;
-        [SerializeField] private AudioController typingSound2;
-        [SerializeField] private AudioController typingSound3;
-        [SerializeField] private AudioController typingSound4;
-        [SerializeField] private AudioController typingSound5;
-        [SerializeField] private AudioController typingSound6;
-        [SerializeField] private AudioController logoSound;
-
-
-
-        private Color tempTextColor;
-
-        private void Awake()
-        {
-            text.gameObject.SetActive(false);
-            logoImage.gameObject.SetActive(false);
-            characterImage.gameObject.SetActive(false);
-
-            backgroundImage.color = colors[0];
-        }
-
-        public IEnumerator PlayFirstStoryCoroutine(Action onComplete)
+        public override IEnumerator PlayStoryCoroutine(Action onComplete)
         {
             group.gameObject.SetActive(true);
             group.alpha = 1f;
@@ -79,7 +48,7 @@ namespace ClickClick
         private IEnumerator SecondCutCoroutine()
         {
             // Fade out text first
-            tempTextColor = text.color;
+            Color tempTextColor = text.color;
             yield return text.DOFade(0f, 0.5f).WaitForCompletion();
             text.gameObject.SetActive(false);
             text.color = tempTextColor;
@@ -106,6 +75,9 @@ namespace ClickClick
             characterImage.gameObject.SetActive(true);
             characterImage.color = new Color(1f, 1f, 1f, 0f);
 
+            text.color = new Color(1f, 1f, 1f, 0f);
+            text.gameObject.SetActive(true);
+
             Sequence sequence = DOTween.Sequence();
             sequence.Append(characterImage.DOFade(1f, 1f));
             sequence.Join(backgroundImage.DOColor(colors[1], 1f));
@@ -114,29 +86,24 @@ namespace ClickClick
             yield return new WaitForSeconds(defaultDelay / 5);
 
             // Play script[1] and script[2]
-            text.text = "";
-            text.gameObject.SetActive(true);
             yield return TypeText(scripts[1]);
+
             yield return new WaitForSeconds(defaultDelay);
 
-            text.text = "";
-            text.gameObject.SetActive(true);
             yield return TypeText(scripts[2]);
 
-            text.text = "";
-            text.gameObject.SetActive(true);
             yield return TypeText(scripts[3]);
         }
 
         private IEnumerator FourthCutCoroutine()
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(characterImage.DOFade(0f, 0.3f));
-            sequence.Join(backgroundImage.DOColor(colors[2], 0.3f));
+            sequence.Append(characterImage.DOFade(0f, 0.4f));
+            sequence.Join(backgroundImage.DOColor(colors[2], 0.4f));
             yield return sequence.WaitForCompletion();
 
-            // Play script[3]
-            text.text = "";
+            yield return new WaitForSeconds(0.1f);
+
             yield return TypeText(scripts[4]);
         }
 
@@ -145,55 +112,6 @@ namespace ClickClick
             // Fade out everything
             yield return group.DOFade(0f, 1.5f).WaitForCompletion();
             group.gameObject.SetActive(false);
-        }
-
-        private IEnumerator TypeText(string content)
-        {
-            text.text = "";
-            int charIndex = 0;
-
-            while (charIndex < content.Length)
-            {
-                text.text += content[charIndex];
-                PlayRandomTypingSFX();
-                charIndex++;
-                yield return new WaitForSeconds(typingSpeed);
-            }
-
-            // Wait for an appropriate time based on text length to allow reading
-            float readTime = Mathf.Max(defaultDelay, content.Length * 0.05f);
-            yield return new WaitForSeconds(readTime);
-        }
-
-        private void PlayRandomTypingSFX()
-        {
-            // Create array of available typing sounds
-            AudioController[] typingSounds = new AudioController[]
-            {
-                typingSound1,
-                typingSound2,
-                typingSound3,
-                typingSound4,
-                typingSound5,
-                typingSound6
-            };
-
-            // Filter out null references
-            List<AudioController> availableSounds = new List<AudioController>();
-            foreach (var sound in typingSounds)
-            {
-                if (sound != null)
-                {
-                    availableSounds.Add(sound);
-                }
-            }
-
-            // Play random sound if any are available
-            if (availableSounds.Count > 0)
-            {
-                int randomIndex = UnityEngine.Random.Range(0, availableSounds.Count);
-                availableSounds[randomIndex].DoAction();
-            }
         }
     }
 }
