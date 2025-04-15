@@ -46,6 +46,7 @@ namespace ClickClick.Tool
         [SerializeField] private int requiredWaveCount = 1;
         [SerializeField] private float waveDetectionCooldown = 0.5f;
         [SerializeField] private float selectionCooldownDuration = 2.0f;
+        [SerializeField] private float targetStabilizationTime = 0.5f;
 
         [Header("Audio")]
         [SerializeField] private AudioController audioController;
@@ -77,12 +78,17 @@ namespace ClickClick.Tool
         private float lastSelectionTime;
         private bool isInSelectionCooldown = false;
 
+        private float targetChangeTime;
+        private int lastTargetId = -1;
+        private bool isTargetStable = false;
+
         private void Start()
         {
             gestureDetector = new HandGestureDetector();
             lastStateChangeTime = -waveDetectionCooldown;
             lastWaveTime = -waveDetectionCooldown;
             lastSelectionTime = -selectionCooldownDuration;
+            targetChangeTime = -targetStabilizationTime;
             InitializeTargetButton();
 
             hintText.gameObject.SetActive(false);
@@ -172,16 +178,37 @@ namespace ClickClick.Tool
             {
                 isInSelectionCooldown = false;
             }
+
+            // Update target stability state
+            UpdateTargetStability();
         }
 
-        private void ResetWaveDetection()
+        private void UpdateTargetStability()
         {
-            waveCounter = 0;
-            isWaving = false;
-            lastWaveDirection = 0f;
-            recentHandPositions.Clear();
-            // Reset previous hand position to prevent false detection after reset
-            previousHandPosition = Vector3.zero;
+            // No current target, reset stability
+            if (currentTarget == null)
+            {
+                isTargetStable = false;
+                lastTargetId = -1;
+                return;
+            }
+
+            // Target changed
+            if (lastTargetId != currentTarget.id)
+            {
+                isTargetStable = false;
+                lastTargetId = currentTarget.id;
+                targetChangeTime = Time.time;
+                Debug.Log($"Target changed to character {currentTarget.id}, resetting stability");
+                return;
+            }
+
+            // Update stability after hovering over the same target for enough time
+            if (!isTargetStable && Time.time - targetChangeTime > targetStabilizationTime)
+            {
+                isTargetStable = true;
+                Debug.Log($"Target {currentTarget.id} is now stable");
+            }
         }
 
         private IEnumerator TransitionAfterDelay(string sceneName)
@@ -360,6 +387,13 @@ namespace ClickClick.Tool
                 return;
             }
 
+            // Skip wave detection if target is not stable yet
+            if (!isTargetStable)
+            {
+                previousHandPosition = currentHandPosition;
+                return;
+            }
+
             // If this is the first position tracked, just store it without calculating movement
             if (previousHandPosition == Vector3.zero)
             {
@@ -377,7 +411,7 @@ namespace ClickClick.Tool
             }
 
             // Detect movement with enough magnitude
-            if (Mathf.Abs(xMovement) > waveDetectionThreshold)
+            if (Mathf.Abs(xMovement) > waveDetectionThreshold && Mathf.Abs(xMovement) < waveDetectionThreshold * 2)
             {
                 Debug.Log($"Wave detected with magnitude: {Mathf.Abs(xMovement)}");
 
@@ -463,6 +497,16 @@ namespace ClickClick.Tool
             {
                 handLandmarkSelector.enabled = true;
             }));
+        }
+
+        private void ResetWaveDetection()
+        {
+            waveCounter = 0;
+            isWaving = false;
+            lastWaveDirection = 0f;
+            recentHandPositions.Clear();
+            // Reset previous hand position to prevent false detection after reset
+            previousHandPosition = Vector3.zero;
         }
     }
 }

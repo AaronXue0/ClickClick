@@ -4164,9 +4164,10 @@ MonoBehaviour:
   handLandmarkAnnotation: {fileID: 176648958}
   sceneToTransitionTo: Photograph
   waveDetectionThreshold: 0.012
-  requiredWaveCount: 3
+  requiredWaveCount: 4
   waveDetectionCooldown: 0.1
   selectionCooldownDuration: 1
+  targetStabilizationTime: 0.5
   audioController: {fileID: 1193863232}
   targetButtonScaleDownFactor: 0.9
   stateChangeDuration: 0.3
