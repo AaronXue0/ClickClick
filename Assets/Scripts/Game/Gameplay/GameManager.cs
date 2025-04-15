@@ -229,6 +229,15 @@ namespace ClickClick.Gameplay
 
         private void Update()
         {
+            if (Input.GetKey(KeyCode.S))
+            {
+                Time.timeScale = 5f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+
             if (!_isGameStarted || _isGameOver)
             {
                 return;

@@ -357,6 +357,10 @@ namespace ClickClick.Photograph
             capturedPhotoImage.transform.SetParent(photoMask.transform, true);
             capturedPhotoImage.transform.SetSiblingIndex(0);
 
+            // Ensure final scale and size
+            capturedPhotoImage.rectTransform.localScale = Vector3.one;
+            capturedPhotoImage.rectTransform.sizeDelta = new Vector2(1920, 1080);
+
             onCountdownComplete?.Invoke();
 
             // Add delay before showing transition button
