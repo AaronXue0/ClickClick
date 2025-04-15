@@ -17,6 +17,8 @@ namespace ClickClick
             group.gameObject.SetActive(true);
             group.alpha = 1f;
 
+            yield return new WaitForSeconds(0.3f);
+
             // First Cut
             yield return FirstCutCoroutine();
             yield return new WaitForSeconds(defaultDelay);
@@ -101,8 +103,9 @@ namespace ClickClick
             sequence.Append(characterImage.DOFade(0f, 0.4f));
             sequence.Join(backgroundImage.DOColor(colors[2], 0.4f));
             yield return sequence.WaitForCompletion();
+            text.text = "";
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
 
             yield return TypeText(scripts[4]);
         }
