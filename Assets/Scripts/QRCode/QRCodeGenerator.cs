@@ -60,13 +60,6 @@ namespace ClickClick
 
         private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)
         {
-            if (!File.Exists(photoPath))
-            {
-                Debug.LogWarning($"Player photo not found at path: {photoPath}");
-                targetImage.gameObject.SetActive(false);
-                yield break;
-            }
-
             byte[] photoData = File.ReadAllBytes(photoPath);
             Texture2D texture = new Texture2D(2, 2);
 
@@ -87,14 +80,23 @@ namespace ClickClick
                 Destroy(texture);
             }
 
+            yield return new WaitForSeconds(1f);
+
             UploadToGoogleScript();
+        }
+
+        private string googleScriptUrl = "https://script.google.com/macros/s/AKfycbwt0ZiDtTZxi7JNoNjPOMfhBvCWKRSCE8bAqhMUKzhX0w8bWupIFb-QuTnXD_9Cx-kq/exec";
+
+        private void UploadToGoogleScript()
+        {
+            StartCoroutine(CaptureAndUploadScreenshot());
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                // URL = testUrl;
+                UploadToGoogleScript();
             }
         }
 
@@ -145,13 +147,6 @@ namespace ClickClick
                 qrCodeImage.preserveAspect = true; // Maintain aspect ratio
                 qrCodeImage.gameObject.SetActive(true);
             }
-        }
-
-        private string googleScriptUrl = "https://script.google.com/macros/s/AKfycbwt0ZiDtTZxi7JNoNjPOMfhBvCWKRSCE8bAqhMUKzhX0w8bWupIFb-QuTnXD_9Cx-kq/exec";
-
-        private void UploadToGoogleScript()
-        {
-            StartCoroutine(CaptureAndUploadScreenshot());
         }
 
         private IEnumerator CaptureAndUploadScreenshot()
