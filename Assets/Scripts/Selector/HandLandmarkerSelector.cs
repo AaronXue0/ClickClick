@@ -12,7 +12,6 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
     [SerializeField] private int numberOfHands = 2;
     [SerializeField] private HandLandmarkerResultAnnotationController _handLandmarkerResultAnnotationController;
     [SerializeField] private CircularProgressOnHold _circularProgressOnHold;
-    [SerializeField] private CharacterSelector _characterSelector;
 
     private Experimental.TextureFramePool _textureFramePool;
 
@@ -147,10 +146,6 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
         if (_circularProgressOnHold != null)
         {
           _circularProgressOnHold.UpdateGestureObjects(result);
-        }
-        if (_characterSelector != null)
-        {
-          _characterSelector.UpdateGestureObjects(result);
         }
       }
       else

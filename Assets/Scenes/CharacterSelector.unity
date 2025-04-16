@@ -2023,7 +2023,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8A2D\u8A08\u5E2B\u5925\u4F34\u9810\u89BD"
+  m_text: "\u982D\u50CF\u9810\u89BD"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7ce2036b447ede3448bc5147b9fbb167, type: 2}
   m_sharedMaterial: {fileID: -2294176684872917241, guid: 7ce2036b447ede3448bc5147b9fbb167,
@@ -3344,7 +3344,7 @@ MonoBehaviour:
   - "\u6211\u53EB\u505A\u6416\u687F\u6C34\u6BCD\uFF0C\u662F\u9019\u6B21\u7684\u5C0E\u89BD\u54E1"
   - "\u4ECA\u5929\u6211\u5011\u8981\u9AD4\u9A57\u8A2D\u8A08\u5E2B\u5011\\n\u662F\u5982\u4F55\u7D93\u71DF\u6C34\u65CF\u9928\u7684"
   - "\u90A3\u9EBC\u8A71\u4E0D\u591A\u8AAA\uFF0C\u9996\u5148\u6311\u9078\u4E00\u4F4D\u8A2D\u8A08\u5E2B\\n\u4F5C\u70BA\u9019\u6B21\u9AD4\u9A57\u7684\u5C0E\u5E2B\u5427\uFF01"
-  - "\u300C\u548C\u4F60\u60F3\u8981\u9078\u7684\u5C0E\u5E2B\u63EE\u63EE\u624B\uFF0C\u6253\u8072\u62DB\u547C\u300D"
+  - "\u63EE\u63EE\u624B\uFF0C\u548C\u4F60\u60F3\u8981\u7684\u5C0E\u5E2B\u6253\u8072\u62DB\u547C"
   colors:
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 0, a: 0.74509805}
@@ -3352,7 +3352,6 @@ MonoBehaviour:
   defaultDelay: 2
   typingSpeed: 0.1
   sfxParent: {fileID: 5756097943144578092}
-  isTest: 0
   logoSound: {fileID: 1170142547}
 --- !u!1 &1562285179
 GameObject:
@@ -4090,8 +4089,7 @@ MonoBehaviour:
   runningMode: 0
   numberOfHands: 1
   _handLandmarkerResultAnnotationController: {fileID: 1385281029}
-  _circularProgressOnHold: {fileID: 0}
-  _characterSelector: {fileID: 2038873741}
+  _circularProgressOnHold: {fileID: 2038873741}
 --- !u!114 &2038873741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4104,6 +4102,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73487287b24aa41af86d5369e21d0b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duration: 1
+  targetButtonScaleDownFactor: 0.9
+  audioController: {fileID: 1193863232}
+  rightHandGameObject: {fileID: 1803348850}
+  leftHandGameObject: {fileID: 801479940}
+  handLandmarkAnnotation: {fileID: 176648958}
+  sceneToTransitionTo: Photograph
+  allowHandVisibilityChange: 0
+  stateChangeCooldown: 0.2
+  stateChangeDuration: 0.3
   defaultPreviewSprite: {fileID: 21300000, guid: a706d79542de34b01ba744e8a665cdb2,
     type: 3}
   characters:
@@ -4159,6 +4167,7 @@ MonoBehaviour:
   hintText: {fileID: 581033142}
   beginningStory: {fileID: 1439251985}
   handLandmarkSelector: {fileID: 2038873740}
+<<<<<<< HEAD
   rightHandGameObject: {fileID: 1803348850}
   leftHandGameObject: {fileID: 801479940}
   handLandmarkAnnotation: {fileID: 176648958}
@@ -4171,6 +4180,8 @@ MonoBehaviour:
   audioController: {fileID: 1193863232}
   targetButtonScaleDownFactor: 0.9
   stateChangeDuration: 0.3
+=======
+>>>>>>> parent of 5f68d95 (揮手選擇角色)
 --- !u!1001 &2131801598
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4717,27 +4728,27 @@ PrefabInstance:
     - target: {fileID: 4149352226914841631, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149352226914841631, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149352226914841631, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 709
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149352226914841631, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5696373564766018721, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_text
-      value: "\u300C\u548C\u4F60\u60F3\u8981\u9078\u7684\u5C0E\u5E2B\u63EE\u63EE\u624B\uFF0C\u6253\u8072\u62DB\u547C\u300D"
+      value: "\u6B61\u8FCE\u849E\u81E8\u8A2D\u8A08\u8207\u591A\u5A92\u9AD4\u9818\u57DF\u7684\u65B0\u578B\u6C34\u65CF\u9928\uFF01\n\u6211\u53EB\u505A\u6416\u687F\u6C34\u6BCD\uFF0C\u662F\u9019\u6B21\u7684\u5C0E\u89BD\u54E1\n\u4ECA\u5929\u6211\u5011\u8981\u9AD4\u9A57\u8A2D\u8A08\u5E2B\u5011\\n\u662F\u5982\u4F55\u7D93\u71DF\u6C34\u65CF\u9928\u7684\n\u90A3\u9EBC\u8A71\u4E0D\u591A\u8AAA\uFF0C\u9996\u5148\u6311\u9078\u4E00\u672A\u8A2D\u8A08\u5E2B\\n\u4F5C\u70BA\u9AD4\u9A57\u9019\u6B21\u7684\u5C0E\u5E2B\u5427\uFF01\n\u63EE\u63EE\u624B\uFF0C\u548C\u4F60\u60F3\u8981\u7684\u5C0E\u5E2B\u6253\u8072\u62DB\u547C"
       objectReference: {fileID: 0}
     - target: {fileID: 5696373564766018721, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
