@@ -4167,7 +4167,6 @@ MonoBehaviour:
   hintText: {fileID: 581033142}
   beginningStory: {fileID: 1439251985}
   handLandmarkSelector: {fileID: 2038873740}
-<<<<<<< HEAD
   rightHandGameObject: {fileID: 1803348850}
   leftHandGameObject: {fileID: 801479940}
   handLandmarkAnnotation: {fileID: 176648958}
@@ -4180,8 +4179,6 @@ MonoBehaviour:
   audioController: {fileID: 1193863232}
   targetButtonScaleDownFactor: 0.9
   stateChangeDuration: 0.3
-=======
->>>>>>> parent of 5f68d95 (揮手選擇角色)
 --- !u!1001 &2131801598
 PrefabInstance:
   m_ObjectHideFlags: 0
