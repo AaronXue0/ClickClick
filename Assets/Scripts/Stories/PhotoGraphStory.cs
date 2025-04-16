@@ -51,14 +51,9 @@ namespace ClickClick
             yield return new WaitForSeconds(defaultDelay / 5);
 
             // Play through scripts 0-3
-            for (int i = 0; i < 4 && i < scripts.Count; i++)
+            foreach (var script in scripts)
             {
-                yield return TypeText(scripts[i]);
-
-                if (i < 3) // Don't wait after the last script
-                {
-                    yield return new WaitForSeconds(defaultDelay);
-                }
+                yield return TypeText(script);
             }
         }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace ClickClick
 {
@@ -74,6 +75,13 @@ namespace ClickClick
         }
 
         public abstract IEnumerator PlayStoryCoroutine(Action onComplete);
+
+        public IEnumerator FadeIn(Image image)
+        {
+            image.gameObject.SetActive(true);
+            image.color = new Color(1f, 1f, 1f, 0f);
+            yield return image.DOFade(1f, 1f).WaitForCompletion();
+        }
 
         public IEnumerator StartStory(Action onComplete)
         {

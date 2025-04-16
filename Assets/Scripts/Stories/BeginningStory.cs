@@ -21,7 +21,6 @@ namespace ClickClick
 
             if (isTest == false)
             {
-
                 yield return new WaitForSeconds(0.3f);
 
                 // First Cut
@@ -103,8 +102,6 @@ namespace ClickClick
             yield return new WaitForSeconds(defaultDelay);
 
             yield return TypeText(scripts[2]);
-
-            yield return TypeText(scripts[3]);
         }
 
         private IEnumerator FourthCutCoroutine()
@@ -117,7 +114,7 @@ namespace ClickClick
 
             yield return new WaitForSeconds(0.2f);
 
-            yield return TypeText(scripts[4]);
+            yield return TypeText(scripts[3]);
         }
 
         private IEnumerator EndStoryCoroutine()
