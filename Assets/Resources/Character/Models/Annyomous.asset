@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Annyomous
   m_EditorClassIdentifier: 
   characterId: 0
-  characterName: "\u533F\u540D"
+  characterName: "\u533F\u540D(\u4E0D\u9732\u81C9)"
   characterSprite: {fileID: 21300000, guid: a706d79542de34b01ba744e8a665cdb2, type: 3}
