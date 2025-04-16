@@ -220,6 +220,7 @@ namespace ClickClick.Tool
             if (character != null)
             {
                 var characterData = characterGroup.GetCharacterData(character.id);
+                previewImage.enabled = true;
                 previewImage.sprite = characterData.characterSprite;
                 characterNameText.text = characterData.characterName;
             }

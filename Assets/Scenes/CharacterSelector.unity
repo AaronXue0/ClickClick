@@ -3243,7 +3243,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381921896}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3352,6 +3352,7 @@ MonoBehaviour:
   defaultDelay: 2
   typingSpeed: 0.1
   sfxParent: {fileID: 5756097943144578092}
+  isTest: 0
   logoSound: {fileID: 1170142547}
 --- !u!1 &1562285179
 GameObject:
@@ -4167,18 +4168,6 @@ MonoBehaviour:
   hintText: {fileID: 581033142}
   beginningStory: {fileID: 1439251985}
   handLandmarkSelector: {fileID: 2038873740}
-  rightHandGameObject: {fileID: 1803348850}
-  leftHandGameObject: {fileID: 801479940}
-  handLandmarkAnnotation: {fileID: 176648958}
-  sceneToTransitionTo: Photograph
-  waveDetectionThreshold: 0.012
-  requiredWaveCount: 4
-  waveDetectionCooldown: 0.1
-  selectionCooldownDuration: 1
-  targetStabilizationTime: 0.5
-  audioController: {fileID: 1193863232}
-  targetButtonScaleDownFactor: 0.9
-  stateChangeDuration: 0.3
 --- !u!1001 &2131801598
 PrefabInstance:
   m_ObjectHideFlags: 0
