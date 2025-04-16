@@ -6,6 +6,7 @@ using TMPro;
 using DG.Tweening;
 using ClickClick.Data;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using ClickClick.GestureTracking;
 
 namespace ClickClick.Tool
 {
@@ -107,15 +108,29 @@ namespace ClickClick.Tool
         }
 
         private string _sceneName;
+        private bool isPeaceSignDetected = false;
 
         private void FixedUpdate()
         {
-            if (selectedCharacter != null && Input.GetKey(KeyCode.Space))
+            if ((selectedCharacter != null && Input.GetKey(KeyCode.Space)) || isPeaceSignDetected)
             {
+                isPeaceSignDetected = false;
                 isCompleted = true;
                 ResetProgress();
-                SceneTransition.Instance.TransitionToScene(_sceneName);
+                TransitionToScene();
             }
+        }
+
+        private bool isTransitioning = false;
+        private void TransitionToScene()
+        {
+            if (isTransitioning)
+            {
+                return;
+            }
+
+            isTransitioning = true;
+            SceneTransition.Instance.TransitionToScene(_sceneName);
         }
 
         protected override bool IsOverlappingTargetButton(GameObject gestureObject)
@@ -257,6 +272,17 @@ namespace ClickClick.Tool
             {
                 handLandmarkSelector.enabled = true;
             }));
+        }
+
+        protected override void UpdateHandGestureObject(GameObject gestureGroup, HandGesture gesture, int handIndex)
+        {
+            base.UpdateHandGestureObject(gestureGroup, gesture, handIndex);
+
+            // Check for peace sign when a character is selected
+            if (selectedCharacter != null && gesture == HandGesture.Scissors)
+            {
+                isPeaceSignDetected = true;
+            }
         }
     }
 }
