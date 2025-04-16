@@ -17,6 +17,8 @@ namespace ClickClick
             group.gameObject.SetActive(true);
             group.alpha = 1f;
 
+            onCompleteCallback = onComplete;
+
             if (isTest == false)
             {
 
@@ -46,7 +48,7 @@ namespace ClickClick
                 yield return EndStoryCoroutine();
             }
 
-            onComplete?.Invoke();
+            onCompleteCallback?.Invoke();
         }
 
         private IEnumerator FirstCutCoroutine()

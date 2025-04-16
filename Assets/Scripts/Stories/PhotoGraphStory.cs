@@ -16,6 +16,8 @@ namespace ClickClick
             group.gameObject.SetActive(true);
             group.alpha = 1f;
 
+            onCompleteCallback = onComplete;
+
             yield return new WaitForSeconds(0.3f);
 
             // CutA: Show Text, Character and play scripts
@@ -25,7 +27,7 @@ namespace ClickClick
             // End Story
             yield return EndStoryCoroutine();
 
-            onComplete?.Invoke();
+            onCompleteCallback?.Invoke();
         }
 
         private IEnumerator CutACoroutine()

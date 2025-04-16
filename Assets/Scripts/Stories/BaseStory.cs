@@ -28,6 +28,9 @@ namespace ClickClick
         [Header("Test")]
         [SerializeField] protected bool isTest = false;
 
+        protected bool skipStoryRequested = false;
+        protected Action onCompleteCallback;
+
         protected virtual void Awake()
         {
             text.gameObject.SetActive(false);
@@ -42,7 +45,42 @@ namespace ClickClick
             typingSounds = sfxParent.GetComponentsInChildren<AudioController>().ToList();
         }
 
+        protected virtual void Update()
+        {
+            // Skip story when space key is pressed
+            if (Input.GetKeyDown(KeyCode.Space) && !skipStoryRequested)
+            {
+                skipStoryRequested = true;
+                StartCoroutine(SkipStoryCoroutine());
+            }
+        }
+
+        protected IEnumerator SkipStoryCoroutine()
+        {
+            // Instantly fade out everything
+            if (group != null)
+            {
+                group.alpha = 0f;
+                group.gameObject.SetActive(false);
+            }
+
+            // Call the completion callback
+            if (onCompleteCallback != null)
+            {
+                onCompleteCallback.Invoke();
+            }
+
+            yield break;
+        }
+
         public abstract IEnumerator PlayStoryCoroutine(Action onComplete);
+
+        public IEnumerator StartStory(Action onComplete)
+        {
+            skipStoryRequested = false;
+            onCompleteCallback = onComplete;
+            yield return PlayStoryCoroutine(onComplete);
+        }
 
         protected IEnumerator TypeText(string content)
         {
@@ -52,7 +90,7 @@ namespace ClickClick
 
             int charIndex = 0;
 
-            while (charIndex < content.Length)
+            while (charIndex < content.Length && !skipStoryRequested)
             {
                 text.text += content[charIndex];
                 PlayRandomTypingSFX();
@@ -60,9 +98,13 @@ namespace ClickClick
                 yield return new WaitForSeconds(typingSpeed);
             }
 
-            // Wait for an appropriate time based on text length to allow reading
-            float readTime = Mathf.Max(defaultDelay, content.Length * 0.05f);
-            yield return new WaitForSeconds(readTime);
+            // Skip wait if story skip is requested
+            if (!skipStoryRequested)
+            {
+                // Wait for an appropriate time based on text length to allow reading
+                float readTime = Mathf.Max(defaultDelay, content.Length * 0.05f);
+                yield return new WaitForSeconds(readTime);
+            }
         }
 
         protected void PlayRandomTypingSFX()
@@ -87,6 +129,11 @@ namespace ClickClick
                 int randomIndex = UnityEngine.Random.Range(0, availableSounds.Count);
                 availableSounds[randomIndex].DoAction();
             }
+        }
+
+        protected bool ShouldSkipStory()
+        {
+            return skipStoryRequested;
         }
     }
 }
