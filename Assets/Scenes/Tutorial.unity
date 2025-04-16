@@ -715,7 +715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -350.92877, y: -97.780334}
+  m_AnchoredPosition: {x: -350.92883, y: -97.780334}
   m_SizeDelta: {x: -695.857, y: -413.3139}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &397967431
@@ -4963,7 +4963,6 @@ MonoBehaviour:
   logoImage: {fileID: 30797021}
   scripts:
   - "\u300C\u6E96\u5099\u958B\u59CB\u4FEE\u5FA9\u6559\u5B78\u56C9\uFF5E\u300D"
-  - "\u9996\u5148\u4F38\u51FA\u53F3\u624B\u4F86\u9032\u884C\u64CD\u4F5C"
   colors: []
   defaultDelay: 2
   typingSpeed: 0.05
