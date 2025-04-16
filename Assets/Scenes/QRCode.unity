@@ -3220,8 +3220,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u6C34\u6BCD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7ce2036b447ede3448bc5147b9fbb167, type: 2}
-  m_sharedMaterial: {fileID: -2294176684872917241, guid: 7ce2036b447ede3448bc5147b9fbb167,
+  m_fontAsset: {fileID: 11400000, guid: e6f0437919e844e9c8b03025820ec82b, type: 2}
+  m_sharedMaterial: {fileID: -7852624068446478684, guid: e6f0437919e844e9c8b03025820ec82b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
