@@ -4167,6 +4167,7 @@ MonoBehaviour:
   hintText: {fileID: 581033142}
   beginningStory: {fileID: 1439251985}
   handLandmarkSelector: {fileID: 2038873740}
+  requiredPeaceSignHoldDuration: 1
 --- !u!1001 &2131801598
 PrefabInstance:
   m_ObjectHideFlags: 0

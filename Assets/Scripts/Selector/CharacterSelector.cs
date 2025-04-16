@@ -274,6 +274,9 @@ namespace ClickClick.Tool
             }));
         }
 
+        [SerializeField] private float requiredPeaceSignHoldDuration = 1.5f;
+        private float detectedPeaceTime = 0f;
+
         protected override void UpdateHandGestureObject(GameObject gestureGroup, HandGesture gesture, int handIndex)
         {
             base.UpdateHandGestureObject(gestureGroup, gesture, handIndex);
@@ -281,7 +284,11 @@ namespace ClickClick.Tool
             // Check for peace sign when a character is selected
             if (selectedCharacter != null && gesture == HandGesture.Scissors)
             {
-                isPeaceSignDetected = true;
+                detectedPeaceTime += Time.deltaTime;
+                if (detectedPeaceTime >= requiredPeaceSignHoldDuration)
+                {
+                    isPeaceSignDetected = true;
+                }
             }
         }
     }
