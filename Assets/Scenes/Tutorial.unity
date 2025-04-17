@@ -2064,8 +2064,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 776, y: 0}
-  m_SizeDelta: {x: 1228.8, y: 1228.8}
+  m_AnchoredPosition: {x: 782, y: -16.004}
+  m_SizeDelta: {x: 669.56, y: 949.372}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &691861143
 MonoBehaviour:
@@ -2087,7 +2087,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: adf22cfb2815245738b68379b8216e2d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fab06e0be9375cc4d823efa71629885c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2897,15 +2897,15 @@ RectTransform:
   m_GameObject: {fileID: 1026620791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 691861142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15.159973, y: -4.6690063}
-  m_SizeDelta: {x: -148.541, y: -323.476}
+  m_AnchoredPosition: {x: 11.13501, y: 12.434998}
+  m_SizeDelta: {x: -22.271, y: -289.266}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026620793
 MonoBehaviour:
@@ -2928,7 +2928,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "1.\u57FA\u672C\u64CD\u4F5C\u3002\n\u53F3\u624B: \u6BD4\u51FA\u526A\u5200\u77F3\u982D\u5E03\u7684\u624B\u52E2\n\u5DE6\u624B:
-    \u79FB\u52D5\u5230\u5C0D\u61C9\u7684\u9375\u5E3D\n\n2.\u5DE5\u5177\u89E3\u8AAA\u3002\n\u526A\u5200(\u4EE3\u8868)=\u6C34\u8349\u593E\n\u77F3\u982D(\u4EE3\u8868)=\u9020\u666F\u5EFA\u6750\n\u5E03(\u4EE3\u8868)=\u9632\u6F0F\u6C34\u81A0\u5E36\n\u7576\u9375\u5E3D\u51FA\u73FE\u5C0D\u61C9\u7684\u640D\u58DE\u72C0\u614B\uFF0C\u6BD4\u51FA\u526A\u5200\u77F3\u982D\u5E03\u4FEE\u597D\n\n3.\u4FEE\u597D1\u500B\u9375\u5E3D\u7372\u5F97100\u5206\u3002\n<color=red>\u82E5\u9023\u7E8C\u4FEE\u597D\u5169\u500B\u9375\u5E3D.</color>\n\u7B2C2\u500B\u7684\u5206\u6578x2\u500D\u2192x3\u500D\u2192x4\u500D\uFF0C\u6700\u9AD84\u500D\u70BA\u6B62\u3002"
+    \u79FB\u52D5\u5230\u5C0D\u61C9\u7684\u9375\u5E3D\n\n2.\u5DE5\u5177\u89E3\u8AAA\u3002\n\u526A\u5200(\u4EE3\u8868)=\u6C34\u8349\u593E\n\u77F3\u982D(\u4EE3\u8868)=\u9020\u666F\u5EFA\u6750\n\u5E03(\u4EE3\u8868)=\u9632\u6F0F\u6C34\u81A0\u5E36\n\u7576\u9375\u5E3D\u51FA\u73FE\u5C0D\u61C9\u7684\u640D\u58DE\u72C0\u614B\uFF0C\u6BD4\u51FA\u526A\u5200\u77F3\u982D\u5E03\u4FEE\u597D\n\n3.\u4FEE\u597D1\u500B\u9375\u5E3D\u7372\u5F97100\u5206\u3002\n<color=red>\u82E5\u9023\u7E8C\u4FEE\u597D\u5169\u500B\u9375\u5E3D.</color>\n\u7B2C2\u500B\u7684\u5206\u6578x2\u500D\u2192x3\u500D\u2192x4\u500D\uFF0C\u6700\u9AD84\u500D\u70BA\u6B62"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 34a9ad16a7fcc2b45a27e42ff0c3bfd6, type: 2}
   m_sharedMaterial: {fileID: -5842010929344550104, guid: 34a9ad16a7fcc2b45a27e42ff0c3bfd6,
@@ -2970,7 +2970,7 @@ MonoBehaviour:
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 70
+  m_paragraphSpacing: 60
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
@@ -3222,8 +3222,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -392.883, y: 0}
-  m_SizeDelta: {x: 1333.3334, y: 833.3333}
+  m_AnchoredPosition: {x: -381, y: -14}
+  m_SizeDelta: {x: 1533.3326, y: 958.3333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1167292791
 MonoBehaviour:
@@ -6060,14 +6060,12 @@ VideoPlayer:
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
