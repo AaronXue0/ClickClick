@@ -76,7 +76,9 @@ namespace ClickClick.Photograph
 
             LoadPlayerInfo();
 
-            PlayStory();
+            handLandmarkSelector.enabled = true;
+
+            // PlayStory();
         }
 
         private void PlayStory()
