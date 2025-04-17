@@ -225,6 +225,8 @@ namespace ClickClick.Gameplay
                 _countdownSequence.Kill();
                 _countdownSequence = null;
             }
+
+            Instance = null;
         }
 
         private void Update()

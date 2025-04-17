@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using ClickClick.GestureTracking;
 using System.Collections;
 using TMPro;
-namespace ClickClick.Gameplay
+
+namespace ClickClick.Tutorial
 {
     public class FixObject : MonoBehaviour
     {
@@ -18,6 +19,7 @@ namespace ClickClick.Gameplay
         private const float _fixingDuration = 0.1f;
         private Tool _currentTool; // Reference to the tool that's fixing this object
         private bool _isFixed = false;
+        private RectTransform _rectTransform;
 
         [SerializeField] private TextMeshProUGUI _scoreText;
 
@@ -30,6 +32,82 @@ namespace ClickClick.Gameplay
         private void Awake()
         {
             image = GetComponentInChildren<Image>();
+            _rectTransform = GetComponent<RectTransform>();
+        }
+
+        private void Update()
+        {
+            if (_gesture == HandGesture.None || _isFixed)
+                return;
+
+            CheckForOverlappingTools();
+        }
+
+        private void CheckForOverlappingTools()
+        {
+            // Find all Tools in the scene
+            Tool[] tools = FindObjectsOfType<Tool>();
+            bool foundOverlap = false;
+
+            foreach (var tool in tools)
+            {
+                if (!tool.ImageEnabled)
+                    continue;
+
+                // Get the RectTransform of the Tool
+                var toolRectTransform = tool.GetRectTransform();
+
+                // Convert tool position to screen space
+                Vector2 toolScreenPosition;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    _rectTransform,
+                    RectTransformUtility.WorldToScreenPoint(Camera.main, toolRectTransform.position),
+                    Camera.main,
+                    out toolScreenPosition);
+
+                // Calculate overlap with proper offset compensation
+                Rect fixObjectRect = new Rect(
+                    -_rectTransform.rect.width * 0.5f,
+                    -_rectTransform.rect.height * 0.5f,
+                    _rectTransform.rect.width,
+                    _rectTransform.rect.height
+                );
+
+                // Check if the tool's position is within the FixObject's rect
+                if (fixObjectRect.Contains(toolScreenPosition))
+                {
+                    foundOverlap = true;
+
+                    // Check if the tool has the correct gesture
+                    if (tool.GetGesture() == _gesture)
+                    {
+                        // If we're not currently being fixed by this tool, start fixing
+                        if (_currentTool != tool)
+                        {
+                            if (_currentTool != null)
+                            {
+                                CancelFixing();
+                            }
+
+                            _currentTool = tool;
+                            TryFix(tool.GetGesture(), tool);
+                        }
+
+                        // Continue fixing if we're being fixed
+                        if (_isBeingFixed)
+                        {
+                            ContinueFixing(Time.deltaTime);
+                        }
+                    }
+                    break;
+                }
+            }
+
+            // If no overlap found and we have a current tool, cancel fixing
+            if (!foundOverlap && _currentTool != null)
+            {
+                CancelFixing();
+            }
         }
 
         public void AssignGesture(HandGesture gesture, Sprite sprite, Sprite fixedSprite)
@@ -55,6 +133,10 @@ namespace ClickClick.Gameplay
                 {
                     _currentTool = tool;
                     StartFixing();
+                    if (tool != null)
+                    {
+                        tool.PlayFixingAnimation();
+                    }
                 }
             }
         }
@@ -91,15 +173,18 @@ namespace ClickClick.Gameplay
             {
                 _isBeingFixed = false;
                 _fixingTimer = 0f;
-                _currentTool = null;
+
+                if (_currentTool != null)
+                {
+                    _currentTool.StopFixingAnimation();
+                    _currentTool = null;
+                }
             }
         }
 
         public void ObjectFixed()
         {
             Debug.Log("ObjectFixed: " + _gesture);
-
-            GameManager.Instance?.FixedGesture(_gesture, this);
 
             _isBeingFixed = false;
             _fixingTimer = 0f;
@@ -126,8 +211,6 @@ namespace ClickClick.Gameplay
             {
                 _rockSound.DoAction();
             }
-
-            Invoke(nameof(Reset), 1.25f);
         }
 
         public void ShowScoreAnimation(int score)

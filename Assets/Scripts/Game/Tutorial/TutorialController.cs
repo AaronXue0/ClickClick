@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,13 @@ using Mediapipe.Tasks.Vision.HandLandmarker;
 using TMPro;
 using DG.Tweening;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
+
 namespace ClickClick.Tutorial
 {
     public class TutorialController : BaseStory
     {
+        public static TutorialController Instance { get; private set; }
+
         [System.Serializable]
         public class TutorialStep
         {
@@ -33,6 +37,25 @@ namespace ClickClick.Tutorial
         [Header("Tools")]
         [SerializeField] private CanvasGroup[] imageGroups;
         [SerializeField] private string[] toolScripts;
+
+
+        [Header("Tutorial Level")]
+        [SerializeField] private List<string> tutorialLevelScripts;
+        [SerializeField] private GameObject tutorialLevel;
+        [SerializeField] private Tool[] tools;
+        [SerializeField] private FixObject[] fixObjects;
+        [SerializeField] private Sprite[] fixObjectSprites;
+        [SerializeField] private Sprite[] fixedObjectSprites;
+
+        [Header("Scoring Rule")]
+        [SerializeField] private List<string> scoringRuleScripts;
+        [SerializeField] private List<CanvasGroup> scoringRuleImages;
+
+        [Header("CTA")]
+        [SerializeField] private List<string> ctaScripts;
+        [SerializeField] private List<CanvasGroup> ctaImages;
+        [Header("Final")]
+        [SerializeField] private List<string> finalScripts;
 
         [Header("Tutorial Video")]
         [SerializeField] private GameObject tutorialVideo;
@@ -56,9 +79,16 @@ namespace ClickClick.Tutorial
 
         private void Start()
         {
+            Instance = this;
+
             ResetTutorial();
 
             StartCoroutine(PlayStoryCoroutine(OnTutorialCompleted));
+        }
+
+        private void OnDestroy()
+        {
+            Instance = null;
         }
 
         public override IEnumerator PlayStoryCoroutine(Action onComplete)
@@ -76,6 +106,14 @@ namespace ClickClick.Tutorial
             }
 
             yield return StartCoroutine(ShowTools());
+
+            yield return StartCoroutine(TutorialLevelCoroutine());
+
+            yield return StartCoroutine(ScoringRuleCoroutine());
+
+            yield return StartCoroutine(CtaCoroutine());
+
+            yield return StartCoroutine(FinalCoroutine());
 
             onCompleteCallback?.Invoke();
         }
@@ -147,10 +185,116 @@ namespace ClickClick.Tutorial
 
             yield return new WaitForSeconds(0.3f);
 
+            int index = 0;
+
             foreach (var script in toolScripts)
             {
                 yield return TypeText(script);
+                index++;
             }
+
+            yield return new WaitForSeconds(5);
+
+            List<Coroutine> coroutines = new List<Coroutine>();
+            foreach (var imageGroup in imageGroups)
+            {
+                coroutines.Add(StartCoroutine(FadeOutImageGroup(imageGroup)));
+            }
+
+            foreach (var coroutine in coroutines)
+            {
+                yield return coroutine;
+            }
+
+        }
+
+        public List<FixObject> GetFixObjects => fixObjects.ToList();
+
+        private IEnumerator TutorialLevelCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+
+            foreach (var script in tutorialLevelScripts)
+            {
+                yield return TypeText(script);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                fixObjects[i].gameObject.SetActive(true);
+                fixObjects[i].AssignGesture((HandGesture)i + 1, fixObjectSprites[i], fixedObjectSprites[i]);
+            }
+
+            gestureManager.GameStarted();
+
+            tutorialLevel.SetActive(true);
+
+            while (fixObjects.Any(fixObject => !fixObject.IsFixed))
+            {
+                yield return null;
+            }
+            gestureManager.GameEnded();
+
+            yield return new WaitForSeconds(1);
+
+            tutorialLevel.SetActive(false);
+        }
+
+        private IEnumerator ScoringRuleCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+
+            foreach (var script in scoringRuleScripts)
+            {
+                yield return TypeText(script);
+            }
+
+            foreach (var image in scoringRuleImages)
+            {
+                yield return FadeInImageGroup(image);
+            }
+
+            yield return new WaitForSeconds(3);
+
+            List<Coroutine> coroutines = new List<Coroutine>();
+
+            foreach (var image in scoringRuleImages)
+            {
+                coroutines.Add(StartCoroutine(FadeOutImageGroup(image)));
+            }
+
+            foreach (var coroutine in coroutines)
+            {
+                yield return coroutine;
+            }
+        }
+
+        private IEnumerator CtaCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+
+            foreach (var script in ctaScripts)
+            {
+                yield return TypeText(script);
+            }
+
+            foreach (var image in ctaImages)
+            {
+                yield return FadeInImageGroup(image);
+            }
+
+            yield return new WaitForSeconds(3);
+        }
+        private IEnumerator FinalCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+
+            foreach (var script in finalScripts)
+            {
+                yield return TypeText(script);
+            }
+
+            yield return new WaitForSeconds(1);
         }
 
         #endregion
@@ -196,6 +340,11 @@ namespace ClickClick.Tutorial
             outlineImage.sprite = sprite;
 
             yield return outlineImage.DOFade(1f, 0.5f).WaitForCompletion();
+        }
+
+        private IEnumerator FadeOutImageGroup(CanvasGroup imageGroup)
+        {
+            yield return imageGroup.DOFade(0f, 0.5f).WaitForCompletion();
         }
 
         private IEnumerator FadeFromOutlineToFill(Sprite sprite)

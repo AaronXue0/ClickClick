@@ -4,7 +4,7 @@ using ClickClick.GestureTracking;
 using DG.Tweening;
 using ClickClick.Tutorial;
 
-namespace ClickClick.Gameplay
+namespace ClickClick.Tutorial
 {
     public class Tool : MonoBehaviour
     {
@@ -21,7 +21,6 @@ namespace ClickClick.Gameplay
 
         private Image _image;
         private RectTransform _rectTransform;
-        private FixObject _currentFixObject;
         private Sequence _spriteSwapSequence;
         private Vector3 _originalScale;
         private bool _isAnimating = false;
@@ -31,78 +30,15 @@ namespace ClickClick.Gameplay
             _image = GetComponent<Image>();
             _rectTransform = GetComponent<RectTransform>();
             _originalScale = transform.localScale;
+            Time.timeScale = 1;
         }
 
-        private void Start()
+        public RectTransform GetRectTransform()
         {
-            Debug.Log("Tool Start");
+            return _rectTransform;
         }
 
-        void Update()
-        {
-            CheckOverlap();
-        }
-
-        private void CheckOverlap()
-        {
-            bool foundOverlap = false;
-            // Find all FixObjects in the scene
-            var fixObjects = GameManager.Instance?.GetFixObjects;
-
-            Debug.Log("CheckOverlap: " + fixObjects.Count);
-
-            foreach (var fixObject in fixObjects)
-            {
-                Debug.Log("CheckOverlap: " + fixObject.name);
-                if (!fixObject.HasGesture || fixObject.IsFixed) continue;
-
-                // Get the RectTransform of the FixObject
-                var fixObjectRect = fixObject.GetComponent<RectTransform>();
-
-                // Check if rectangles overlap
-                if (RectTransformUtility.RectangleContainsScreenPoint(fixObjectRect, _rectTransform.position))
-                {
-                    foundOverlap = true;
-
-                    // If we're not currently fixing this object, start fixing it
-                    if (_currentFixObject != fixObject)
-                    {
-                        // If we were fixing another object, cancel that first
-                        if (_currentFixObject != null)
-                        {
-                            _currentFixObject.CancelFixing();
-                            StopFixingAnimation();
-                        }
-
-                        _currentFixObject = fixObject;
-                        fixObject.TryFix(_gesture, this);
-
-                        if (fixObject.IsBeingFixed)
-                        {
-                            PlayFixingAnimation();
-                        }
-                    }
-
-                    // Continue fixing the current object
-                    if (_currentFixObject != null && _currentFixObject.IsBeingFixed)
-                    {
-                        _currentFixObject.ContinueFixing(Time.deltaTime);
-                    }
-
-                    break;
-                }
-            }
-
-            // If we're not overlapping with any fixObjects but we have a current one, cancel fixing
-            if (!foundOverlap && _currentFixObject != null)
-            {
-                _currentFixObject.CancelFixing();
-                _currentFixObject = null;
-                StopFixingAnimation();
-            }
-        }
-
-        private void PlayFixingAnimation()
+        public void PlayFixingAnimation()
         {
             if (_isAnimating) return;
 
@@ -169,15 +105,6 @@ namespace ClickClick.Gameplay
 
         public void SetGesture(HandGesture gesture)
         {
-            // If the gesture is changing and we're currently fixing an object,
-            // cancel the fixing process
-            if (_gesture != gesture && _currentFixObject != null && _currentFixObject.IsBeingFixed)
-            {
-                _currentFixObject.CancelFixing();
-                _currentFixObject = null;
-                StopFixingAnimation();
-            }
-
             _gesture = gesture;
         }
 

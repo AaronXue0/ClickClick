@@ -20,15 +20,23 @@ namespace ClickClick.GestureTracking
 
         private HandGesture rightHandGesture;
 
-        public bool EnableGestureDetection = false;
+        private bool EnableGestureDetection = false;
+
+        public void GameStarted()
+        {
+            _isGameActive = true;
+            EnableGestureDetection = true;
+        }
+
+        public void GameEnded()
+        {
+            _isGameActive = false;
+            EnableGestureDetection = false;
+        }
 
         private void Start()
         {
             gestureDetector = new HandGestureDetector();
-        }
-
-        private void OnDestroy()
-        {
         }
 
         private void Update()
