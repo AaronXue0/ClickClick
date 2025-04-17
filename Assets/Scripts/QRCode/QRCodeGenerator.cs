@@ -26,8 +26,14 @@ namespace ClickClick
         [SerializeField] private TMP_Text characterName;
         [SerializeField] private string testUrl = "https://www.google.com";
 
-        [Header("Text")]
-        [SerializeField] private TMP_Text scoreAndRankText;
+        [Header("Score and Rank")]
+        [SerializeField] private UnityEngine.UI.Image giftImage;
+        [SerializeField] private int requiredScore = 12000;
+        [SerializeField] private TMP_Text scoreText;
+        [SerializeField] private TMP_Text rankText;
+        [SerializeField] private UnityEngine.Color giftColor;
+        [SerializeField] private UnityEngine.Color normalColor;
+
 
         private void Awake()
         {
@@ -37,6 +43,7 @@ namespace ClickClick
         private void Start()
         {
             UpdateAvatar();
+            UpdateScoreAndRankText();
         }
 
         private void UpdateAvatar()
@@ -48,14 +55,42 @@ namespace ClickClick
                 playerData = DataManager.Instance.GetTopPlayers(1)[0];
             }
 
-            Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId);
+            Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId) ?? null;
             characterImage.sprite = characterSprite;
             StartCoroutine(LoadPlayerPhoto(avatarImage, playerData.PlayerPhotoPath));
 
             characterName.text = DataManager.Instance.GetCharacterName(playerData.CharacterId);
+        }
 
-            // Update score and rank text
-            scoreAndRankText.text = $"總分：{playerData.Score}\n排名：{playerData.Rank}";
+        private void UpdateScoreAndRankText()
+        {
+            int score;
+            int rank;
+
+            if (DataManager.Instance == null || DataManager.Instance.GetCurrentPlayer() == null)
+            {
+                score = 12000;
+                rank = 1;
+            }
+            else
+            {
+                score = DataManager.Instance.GetCurrentPlayer().Score;
+                rank = DataManager.Instance.GetCurrentPlayer().Rank;
+            }
+
+            scoreText.text = $"總分：{score}";
+            rankText.text = $"排名：{rank}";
+
+            if (score >= requiredScore)
+            {
+                giftImage.gameObject.SetActive(true);
+                scoreText.color = giftColor;
+            }
+            else
+            {
+                giftImage.gameObject.SetActive(false);
+                scoreText.color = normalColor;
+            }
         }
 
         private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)
