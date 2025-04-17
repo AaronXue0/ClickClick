@@ -57,7 +57,8 @@ namespace ClickClick
 
             Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId) ?? null;
             characterImage.sprite = characterSprite;
-            StartCoroutine(LoadPlayerPhoto(avatarImage, playerData.PlayerPhotoPath));
+
+            StartCoroutine(LoadPlayerPhoto(avatarImage, playerData?.PlayerPhotoPath ?? ""));
 
             characterName.text = DataManager.Instance.GetCharacterName(playerData.CharacterId);
         }
@@ -95,24 +96,27 @@ namespace ClickClick
 
         private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)
         {
-            byte[] photoData = File.ReadAllBytes(photoPath);
-            Texture2D texture = new Texture2D(2, 2);
+            if (string.IsNullOrEmpty(photoPath) == false)
+            {
+                byte[] photoData = File.ReadAllBytes(photoPath);
+                Texture2D texture = new Texture2D(2, 2);
 
-            if (texture.LoadImage(photoData))
-            {
-                Sprite photoSprite = Sprite.Create(
-                    texture,
-                    new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f)
-                );
-                targetImage.sprite = photoSprite;
-                targetImage.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.LogError($"Failed to load player photo from path: {photoPath}");
-                targetImage.gameObject.SetActive(false);
-                Destroy(texture);
+                if (texture.LoadImage(photoData))
+                {
+                    Sprite photoSprite = Sprite.Create(
+                        texture,
+                        new Rect(0, 0, texture.width, texture.height),
+                        new Vector2(0.5f, 0.5f)
+                    );
+                    targetImage.sprite = photoSprite;
+                    targetImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to load player photo from path: {photoPath}");
+                    targetImage.gameObject.SetActive(false);
+                    Destroy(texture);
+                }
             }
 
             yield return new WaitForSeconds(1f);

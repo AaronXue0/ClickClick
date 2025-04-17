@@ -226,6 +226,8 @@ namespace ClickClick.Gameplay
                 _countdownSequence = null;
             }
 
+            Time.timeScale = 1f;
+
             Instance = null;
         }
 
@@ -233,7 +235,7 @@ namespace ClickClick.Gameplay
         {
             if (Input.GetKey(KeyCode.S))
             {
-                Time.timeScale = 5f;
+                Time.timeScale = 50f;
             }
             else
             {
