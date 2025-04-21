@@ -13,6 +13,7 @@ namespace ClickClick.Rank
         [SerializeField] private float revealDuration = 3f; // Duration of the reveal animation
         [SerializeField] private float numberChangeInterval = 0.05f; // How fast numbers change
 
+        [SerializeField] private GameObject gestureObject;
         [SerializeField] private GameObject targetButton;
 
         [Header("Audio")]
@@ -247,6 +248,7 @@ namespace ClickClick.Rank
                 rank.SetScoreDisplay();
             }
 
+            gestureObject.SetActive(true);
             targetButton.SetActive(true);
         }
 
