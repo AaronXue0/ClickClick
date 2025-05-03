@@ -8,6 +8,7 @@ using System.Collections;
 using Mediapipe.Tasks.Vision.ImageSegmenter;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System;
 
 namespace Mediapipe.Unity.Sample.ImageSegmentation
 {
@@ -15,9 +16,15 @@ namespace Mediapipe.Unity.Sample.ImageSegmentation
   {
     [SerializeField] private ImageSegmenterResultAnnotationController _imageSegmenterResultAnnotationController;
 
+    // Reference to the VirtualBackgroundController
+    [SerializeField] private MonoBehaviour _virtualBackgroundController;
+
     private Experimental.TextureFramePool _textureFramePool;
 
     public readonly ImageSegmentationConfig config = new ImageSegmentationConfig();
+
+    // Event that fires when new segmentation results are available
+    public event Action<ImageSegmenterResult> OnSegmentationResultAvailable;
 
     public override void Stop()
     {
@@ -117,6 +124,8 @@ namespace Mediapipe.Unity.Sample.ImageSegmentation
             if (taskApi.TrySegment(image, imageProcessingOptions, ref result))
             {
               _imageSegmenterResultAnnotationController.DrawNow(result);
+              // Notify subscribers about the new segmentation result
+              OnSegmentationResultAvailable?.Invoke(result);
             }
             else
             {
@@ -127,6 +136,8 @@ namespace Mediapipe.Unity.Sample.ImageSegmentation
             if (taskApi.TrySegmentForVideo(image, GetCurrentTimestampMillisec(), imageProcessingOptions, ref result))
             {
               _imageSegmenterResultAnnotationController.DrawNow(result);
+              // Notify subscribers about the new segmentation result
+              OnSegmentationResultAvailable?.Invoke(result);
             }
             else
             {
@@ -140,6 +151,11 @@ namespace Mediapipe.Unity.Sample.ImageSegmentation
       }
     }
 
-    private void OnImageSegmentationOutput(ImageSegmenterResult result, Image image, long timestamp) => _imageSegmenterResultAnnotationController.DrawLater(result);
+    private void OnImageSegmentationOutput(ImageSegmenterResult result, Image image, long timestamp)
+    {
+      _imageSegmenterResultAnnotationController.DrawLater(result);
+      // Notify subscribers about the new segmentation result
+      OnSegmentationResultAvailable?.Invoke(result);
+    }
   }
 }
