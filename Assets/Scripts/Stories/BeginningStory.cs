@@ -87,7 +87,6 @@ namespace ClickClick
             // Fade out logo
             yield return logoImage.DOFade(0f, 0.5f).WaitForCompletion();
             logoImage.gameObject.SetActive(false);
-
         }
 
         private IEnumerator ThirdCutCoroutine()

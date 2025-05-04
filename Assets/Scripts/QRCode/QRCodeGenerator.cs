@@ -19,6 +19,7 @@ namespace ClickClick
 
         [Header("Loading")]
         [SerializeField] private UnityEngine.UI.Image loadingImage;
+        [SerializeField] private TMP_Text loadingText;
 
         [Header("Avatart")]
         [SerializeField] private UnityEngine.UI.Image characterImage;
@@ -203,6 +204,10 @@ namespace ClickClick
             string base64Image = System.Convert.ToBase64String(imageBytes);
             string fileName = "screenshot_" + System.DateTime.Now.Ticks + ".png";
 
+            // Show loading text
+            loadingText.gameObject.SetActive(true);
+            loadingText.text = "正在生成 QR Code...";
+
             // Manually build POST data
             string postData = $"fileName={UnityWebRequest.EscapeURL(fileName)}&imageBase64={UnityWebRequest.EscapeURL(base64Image)}";
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(postData);
@@ -218,10 +223,12 @@ namespace ClickClick
             {
                 Debug.Log("Upload success! File URL: " + www.downloadHandler.text);
                 URL = www.downloadHandler.text;
+                loadingText.gameObject.SetActive(false);
             }
             else
             {
                 Debug.LogError("Upload failed: " + www.error);
+                loadingText.gameObject.SetActive(false);
             }
 
             Destroy(screenImage);
