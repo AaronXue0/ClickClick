@@ -23,12 +23,12 @@ namespace ClickClick
             {
                 yield return new WaitForSeconds(0.3f);
 
-                // First Cut
-                yield return FirstCutCoroutine();
-                yield return new WaitForSeconds(defaultDelay);
-
                 // Second Cut
                 yield return SecondCutCoroutine();
+                yield return new WaitForSeconds(defaultDelay);
+
+                // First Cut
+                yield return FirstCutCoroutine();
                 yield return new WaitForSeconds(defaultDelay);
 
                 // Third Cut
@@ -52,36 +52,6 @@ namespace ClickClick
 
         private IEnumerator FirstCutCoroutine()
         {
-            text.gameObject.SetActive(true);
-            yield return TypeText(scripts[0]);
-        }
-
-        private IEnumerator SecondCutCoroutine()
-        {
-            // Fade out text first
-            Color tempTextColor = text.color;
-            yield return text.DOFade(0f, 0.5f).WaitForCompletion();
-            text.gameObject.SetActive(false);
-            text.color = tempTextColor;
-
-            logoImage.gameObject.SetActive(true);
-            logoImage.transform.localScale = Vector3.zero;
-            logoImage.color = new Color(1f, 1f, 1f, 0f);
-
-            // Fade in and scale up logo
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(logoImage.DOFade(1f, 1f));
-            sequence.Join(logoImage.transform.DOScale(1f, 1.5f).SetEase(Ease.OutBack));
-            logoSound.DoAction();
-            yield return sequence.WaitForCompletion();
-        }
-
-        private IEnumerator ThirdCutCoroutine()
-        {
-            // Fade out logo
-            yield return logoImage.DOFade(0f, 0.5f).WaitForCompletion();
-            logoImage.gameObject.SetActive(false);
-
             // Fade in character and change background color
             characterImage.gameObject.SetActive(true);
             characterImage.color = new Color(1f, 1f, 1f, 0f);
@@ -95,6 +65,36 @@ namespace ClickClick
 
             yield return sequence.WaitForCompletion();
             yield return new WaitForSeconds(defaultDelay / 5);
+
+            yield return TypeText(scripts[0]);
+        }
+
+        private IEnumerator SecondCutCoroutine()
+        {
+            logoImage.gameObject.SetActive(true);
+            logoImage.transform.localScale = Vector3.zero;
+            logoImage.color = new Color(1f, 1f, 1f, 0f);
+
+            // Fade in and scale up logo
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(logoImage.DOFade(1f, 1f));
+            sequence.Join(logoImage.transform.DOScale(1f, 1.5f).SetEase(Ease.OutBack));
+            logoSound.DoAction();
+            yield return sequence.WaitForCompletion();
+
+            yield return new WaitForSeconds(defaultDelay);
+
+            // Fade out logo
+            yield return logoImage.DOFade(0f, 0.5f).WaitForCompletion();
+            logoImage.gameObject.SetActive(false);
+
+        }
+
+        private IEnumerator ThirdCutCoroutine()
+        {
+            // Fade out logo
+            yield return logoImage.DOFade(0f, 0.5f).WaitForCompletion();
+            logoImage.gameObject.SetActive(false);
 
             // Play script[1] and script[2]
             yield return TypeText(scripts[1]);
