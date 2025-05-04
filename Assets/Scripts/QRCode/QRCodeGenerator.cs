@@ -28,6 +28,8 @@ namespace ClickClick
 
         [Header("Score and Rank")]
         [SerializeField] private UnityEngine.UI.Image giftImage;
+        [SerializeField] private Sprite giftSprite;
+        [SerializeField] private Sprite noGiftSprite;
         [SerializeField] private int requiredScore = 12000;
         [SerializeField] private TMP_Text scoreText;
         [SerializeField] private TMP_Text rankText;
@@ -55,9 +57,8 @@ namespace ClickClick
                 playerData = DataManager.Instance.GetTopPlayers(1)[0];
             }
 
-            Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId) ?? null;
+            Sprite characterSprite = DataManager.Instance.GetCharacterSprite(playerData.CharacterId);
             characterImage.sprite = characterSprite;
-
             StartCoroutine(LoadPlayerPhoto(avatarImage, playerData?.PlayerPhotoPath ?? ""));
 
             characterName.text = DataManager.Instance.GetCharacterName(playerData.CharacterId);
@@ -80,18 +81,20 @@ namespace ClickClick
             }
 
             scoreText.text = $"總分：{score}";
-            rankText.text = $"排名：{rank}";
+            rankText.text = $"{rank}";
 
             if (score >= requiredScore)
             {
-                giftImage.gameObject.SetActive(true);
+                giftImage.sprite = giftSprite;
                 scoreText.color = giftColor;
             }
             else
             {
-                giftImage.gameObject.SetActive(false);
+                giftImage.sprite = noGiftSprite;
                 scoreText.color = normalColor;
             }
+
+            giftImage.gameObject.SetActive(true);
         }
 
         private IEnumerator LoadPlayerPhoto(UnityEngine.UI.Image targetImage, string photoPath)
