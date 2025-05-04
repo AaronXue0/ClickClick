@@ -28,7 +28,7 @@ namespace ClickClick.Gameplay
         [SerializeField] private List<FixObject> _fixObjects = new List<FixObject>();
 
         [Header("Level Generation")]
-        private float _initialSpawnInterval = 2.5f;
+        private float _initialSpawnInterval = 2f;
         private float _minimumSpawnInterval = 0.5f;
         private float _speedUpInterval = 10f;
         private float _speedUpMultiplier = 0.7f;
