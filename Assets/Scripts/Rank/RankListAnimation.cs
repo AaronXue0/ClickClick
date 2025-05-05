@@ -248,6 +248,8 @@ namespace ClickClick.Rank
                 rank.SetScoreDisplay();
             }
 
+            yield return new WaitForSeconds(2f);
+
             gestureObject.SetActive(true);
             targetButton.SetActive(true);
         }
