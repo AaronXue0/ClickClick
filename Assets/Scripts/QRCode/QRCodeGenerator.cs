@@ -46,6 +46,7 @@ namespace ClickClick
 
         private void Start()
         {
+            requiredScore = DataManager.Instance.GoalScore;
             UpdateAvatar();
             UpdateScoreAndRankText();
         }

@@ -9,6 +9,7 @@ using Mediapipe.Tasks.Vision.HandLandmarker;
 using TMPro;
 using DG.Tweening;
 using Mediapipe.Unity.Sample.HandLandmarkDetection;
+using ClickClick.Manager;
 
 namespace ClickClick.Tutorial
 {
@@ -54,6 +55,8 @@ namespace ClickClick.Tutorial
         [Header("CTA")]
         [SerializeField] private List<string> ctaScripts;
         [SerializeField] private List<CanvasGroup> ctaImages;
+        [SerializeField] private TMP_Text ctaText;
+
         [Header("Final")]
         [SerializeField] private List<string> finalScripts;
 
@@ -84,6 +87,8 @@ namespace ClickClick.Tutorial
             ResetTutorial();
 
             StartCoroutine(PlayStoryCoroutine(OnTutorialCompleted));
+
+            ctaText.text = $"{DataManager.Instance.GoalScore}";
         }
 
         private void OnDestroy()
