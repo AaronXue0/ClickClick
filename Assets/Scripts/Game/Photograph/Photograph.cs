@@ -30,6 +30,8 @@ namespace ClickClick.Photograph
 
         [Header("Photo Mask")]
         [SerializeField] private RectTransform photoMaskRectTransform;
+        [SerializeField] private Image photoMaskLayerImage;
+        [SerializeField] private Sprite[] photoMaskSprites;
         [SerializeField] private Image photoMask;
         [SerializeField] private Image playerCharacterIcon;
         [SerializeField] private Image avatarImage;
@@ -473,6 +475,8 @@ namespace ClickClick.Photograph
                 Sprite characterSprite = DataManager.Instance.GetCharacterSprite();
                 playerCharacterIcon.sprite = characterSprite;
                 avatarImage.sprite = characterSprite;
+
+                photoMaskLayerImage.sprite = photoMaskSprites[DataManager.Instance.GetCurrentPlayer().CharacterId];
             }
         }
     }
