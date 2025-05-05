@@ -206,7 +206,7 @@ namespace ClickClick
 
             // Show loading text
             loadingText.gameObject.SetActive(true);
-            loadingText.text = "正在生成 QR Code...";
+            loadingText.text = "正在產生QRCODE...";
 
             // Manually build POST data
             string postData = $"fileName={UnityWebRequest.EscapeURL(fileName)}&imageBase64={UnityWebRequest.EscapeURL(base64Image)}";
