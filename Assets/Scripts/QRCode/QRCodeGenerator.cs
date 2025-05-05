@@ -22,6 +22,7 @@ namespace ClickClick
         [SerializeField] private TMP_Text loadingText;
 
         [Header("Avatart")]
+        [SerializeField] private UnityEngine.UI.Image photoMaskLayerImage;
         [SerializeField] private UnityEngine.UI.Image characterImage;
         [SerializeField] private UnityEngine.UI.Image avatarImage;
         [SerializeField] private TMP_Text characterName;
@@ -62,6 +63,7 @@ namespace ClickClick
             characterImage.sprite = characterSprite;
             StartCoroutine(LoadPlayerPhoto(avatarImage, playerData?.PlayerPhotoPath ?? ""));
 
+            photoMaskLayerImage.sprite = DataManager.Instance.GetCharacterPhotoMaskSprite(playerData.CharacterId);
             characterName.text = DataManager.Instance.GetCharacterName(playerData.CharacterId);
         }
 
