@@ -9,5 +9,6 @@ namespace ClickClick.Data
         [HideInInspector] public int characterId;
         public string characterName;
         public Sprite characterSprite;
+        public Sprite photoMaskSprite;
     }
 }

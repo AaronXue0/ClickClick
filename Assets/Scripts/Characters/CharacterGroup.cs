@@ -36,6 +36,11 @@ namespace ClickClick.Data
             return characterDatas[characterId].characterSprite;
         }
 
+        public Sprite GetCharacterPhotoMaskSprite(int characterId)
+        {
+            return characterDatas[characterId].photoMaskSprite;
+        }
+
         public Sprite GetCharacterSprite(string characterName)
         {
             return characterDatas.Find(character => character.characterName == characterName).characterSprite;

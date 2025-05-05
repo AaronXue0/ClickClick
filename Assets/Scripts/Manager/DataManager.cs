@@ -161,6 +161,11 @@ namespace ClickClick.Manager
             return characterGroup.GetCharacterSprite(GetCurrentPlayer().CharacterId);
         }
 
+        public Sprite GetCharacterPhotoMaskSprite(int characterId)
+        {
+            return characterGroup.GetCharacterPhotoMaskSprite(characterId);
+        }
+
         public string GetCharacterName(int characterId)
         {
             return characterGroup.GetCharacterName(characterId);

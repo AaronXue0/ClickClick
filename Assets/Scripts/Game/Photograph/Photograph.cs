@@ -476,7 +476,7 @@ namespace ClickClick.Photograph
                 playerCharacterIcon.sprite = characterSprite;
                 avatarImage.sprite = characterSprite;
 
-                photoMaskLayerImage.sprite = photoMaskSprites[DataManager.Instance.GetCurrentPlayer().CharacterId];
+                photoMaskLayerImage.sprite = DataManager.Instance.GetCharacterPhotoMaskSprite(DataManager.Instance.GetCurrentPlayer().CharacterId);
             }
         }
     }

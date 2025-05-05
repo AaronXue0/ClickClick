@@ -3438,6 +3438,7 @@ MonoBehaviour:
   defaultDelay: 2
   typingSpeed: 0.1
   sfxParent: {fileID: 5756097943144578092}
+  animator: {fileID: 7890987287036662797}
   isTest: 0
   logoSound: {fileID: 1170142547}
 --- !u!1 &1562285179
@@ -4809,6 +4810,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1439251984}
     m_Modifications:
+    - target: {fileID: 744063709756265517, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111237171385439098, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cb58e08e463584332889aa80d31e22a0,
+        type: 3}
     - target: {fileID: 1441364008611206058, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_Name
@@ -4916,6 +4928,26 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6145925277284257958, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145925277284257958, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145925277284257958, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 710
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145925277284257958, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -270
+      objectReference: {fileID: 0}
     - target: {fileID: 6545908966086141786, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_Color.a
@@ -4932,11 +4964,21 @@ PrefabInstance:
         type: 3}
       insertIndex: 2
       addedObject: {fileID: 989129532}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 744063709756265517, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7890987287036662797}
   m_SourcePrefab: {fileID: 100100000, guid: b6511e6052d7e4c1c9800f662d48a338, type: 3}
 --- !u!1 &5756097943144578092 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7364766856702982595, guid: b6511e6052d7e4c1c9800f662d48a338,
+    type: 3}
+  m_PrefabInstance: {fileID: 5756097943144578091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5756097943144578093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 744063709756265517, guid: b6511e6052d7e4c1c9800f662d48a338,
     type: 3}
   m_PrefabInstance: {fileID: 5756097943144578091}
   m_PrefabAsset: {fileID: 0}
@@ -4979,12 +5021,34 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5756097943144578091}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5756097943144578093}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7890987287036662797
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5756097943144578093}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 18134f63e570441249a4a0ff6380d694, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8571076843365958024
 GameObject:
   m_ObjectHideFlags: 0

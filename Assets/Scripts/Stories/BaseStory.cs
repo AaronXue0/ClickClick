@@ -25,6 +25,7 @@ namespace ClickClick
         [Header("Sound")]
         [SerializeField] protected GameObject sfxParent;
         private List<AudioController> typingSounds;
+        [SerializeField] private Animator animator;
 
         [Header("Test")]
         [SerializeField] protected bool isTest = false;
@@ -112,6 +113,11 @@ namespace ClickClick
                 // Wait for an appropriate time based on text length to allow reading
                 float readTime = Mathf.Max(defaultDelay, content.Length * 0.05f);
                 yield return new WaitForSeconds(readTime);
+
+                if (animator != null)
+                {
+                    animator.SetTrigger("blink");
+                }
             }
         }
 
