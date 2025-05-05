@@ -7,6 +7,18 @@ namespace ClickClick.Manager
 {
     public class DataManager : SingletonManager<DataManager>
     {
+        private static int defaultGoalScore = 12000;
+        private int _goalScore = defaultGoalScore;
+        public int GoalScore
+        {
+            get => _goalScore;
+            set
+            {
+                _goalScore = value;
+                SaveGoalScore();
+            }
+        }
+
         [SerializeField] private CharacterGroup characterGroup;
         private GoogleSheetsManager googleSheetsManager;
 
@@ -36,6 +48,18 @@ namespace ClickClick.Manager
             googleSheetsManager = GetComponent<GoogleSheetsManager>();
 
             LoadPlayersData();
+            LoadGoalScore();
+        }
+
+        private void SaveGoalScore()
+        {
+            PlayerPrefs.SetInt("GoalScore", _goalScore);
+            PlayerPrefs.Save();
+        }
+
+        private void LoadGoalScore()
+        {
+            _goalScore = PlayerPrefs.GetInt("GoalScore", defaultGoalScore);
         }
 
         #region Player
@@ -121,9 +145,11 @@ namespace ClickClick.Manager
             currentPlayerId = 0;
             currentPlayer = null;
             CurrentPhotoPath = null;
+            _goalScore = defaultGoalScore;
 
             // Save empty state to PlayerPrefs
             SavePlayersData();
+            SaveGoalScore();
         }
         #endregion
 

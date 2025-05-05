@@ -13,6 +13,11 @@ namespace ClickClick.Dev
         [SerializeField] private Button MenuButton;
         [SerializeField] private Button ResetButton;
 
+        [Header("Goal Score")]
+        [SerializeField] private TMP_InputField _goalScoreInput;
+        [SerializeField] private Button _updateGoalScoreButton;
+        [SerializeField] private TextMeshProUGUI _currentGoalScoreText;
+
         [Header("Message")]
         [SerializeField] private GameObject _messagePanel;
         [SerializeField] private TextMeshProUGUI _messageText;
@@ -38,6 +43,11 @@ namespace ClickClick.Dev
             ResetButton.onClick.AddListener(OnResetButtonClick);
             _muteBgmButton.onClick.AddListener(OnMuteBgmButtonClick);
             _unmuteBgmButton.onClick.AddListener(OnUnmuteBgmButtonClick);
+            _updateGoalScoreButton.onClick.AddListener(OnUpdateGoalScoreButtonClick);
+
+            // Initialize goal score input with current value
+            _goalScoreInput.text = DataManager.Instance.GoalScore.ToString();
+            _currentGoalScoreText.text = $"目前目標分數: {DataManager.Instance.GoalScore}";
         }
 
         private void OnMuteBgmButtonClick()
@@ -101,6 +111,33 @@ namespace ClickClick.Dev
             RevertPnaelStatus();
 
             _enableClose = true;
+        }
+
+        private void OnUpdateGoalScoreButtonClick()
+        {
+            if (int.TryParse(_goalScoreInput.text, out int newGoalScore))
+            {
+                DataManager.Instance.GoalScore = newGoalScore;
+                _messageText.text = $"目標分數已更新為: {newGoalScore}";
+                _messagePanel.SetActive(true);
+                StartCoroutine(HideMessageAfterDelay(2f));
+            }
+            else
+            {
+                _messageText.text = "請輸入有效的數字";
+                _messagePanel.SetActive(true);
+                StartCoroutine(HideMessageAfterDelay(2f));
+            }
+
+            _goalScoreInput.text = "";
+            _currentGoalScoreText.text = $"目前目標分數: {DataManager.Instance.GoalScore}";
+        }
+
+        private IEnumerator HideMessageAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _messagePanel.SetActive(false);
+            _messageText.text = "";
         }
 
         private void RevertPnaelStatus()
