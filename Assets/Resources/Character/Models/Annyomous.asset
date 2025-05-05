@@ -15,3 +15,4 @@ MonoBehaviour:
   characterId: 0
   characterName: "\u533F\u540D(\u4E0D\u9732\u81C9)"
   characterSprite: {fileID: 21300000, guid: a706d79542de34b01ba744e8a665cdb2, type: 3}
+  photoMaskSprite: {fileID: 21300000, guid: 540aaa67689f346e2ac0a79c216c736b, type: 3}
