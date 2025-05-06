@@ -46,8 +46,6 @@ namespace ClickClick
             {
                 yield return EndStoryCoroutine();
             }
-
-            onCompleteCallback?.Invoke();
         }
 
         private IEnumerator FirstCutCoroutine()
@@ -106,7 +104,6 @@ namespace ClickClick
         private IEnumerator FourthCutCoroutine()
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(characterImage.DOFade(0f, 0.4f));
             sequence.Join(backgroundImage.DOColor(colors[2], 0.4f));
             yield return sequence.WaitForCompletion();
             text.text = "";
@@ -118,6 +115,7 @@ namespace ClickClick
 
         private IEnumerator EndStoryCoroutine()
         {
+            onCompleteCallback?.Invoke();
             // Fade out everything
             yield return group.DOFade(0f, 1.5f).WaitForCompletion();
             group.gameObject.SetActive(false);
