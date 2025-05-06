@@ -278,18 +278,33 @@ namespace ClickClick.Tutorial
         {
             yield return new WaitForSeconds(1);
 
+            // Start both coroutines simultaneously
+            Coroutine textCoroutine = StartCoroutine(TypeTextCoroutine());
+            Coroutine imageCoroutine = StartCoroutine(FadeInImagesCoroutine());
+
+            // Wait for both to complete
+            yield return textCoroutine;
+            yield return imageCoroutine;
+
+            yield return new WaitForSeconds(3);
+        }
+
+        private IEnumerator TypeTextCoroutine()
+        {
             foreach (var script in ctaScripts)
             {
                 yield return TypeText(script);
             }
+        }
 
+        private IEnumerator FadeInImagesCoroutine()
+        {
             foreach (var image in ctaImages)
             {
                 yield return FadeInImageGroup(image);
             }
-
-            yield return new WaitForSeconds(3);
         }
+
         private IEnumerator FinalCoroutine()
         {
             yield return new WaitForSeconds(1);
