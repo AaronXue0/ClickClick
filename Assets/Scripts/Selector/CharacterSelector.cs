@@ -119,6 +119,39 @@ namespace ClickClick.Tool
                 ResetProgress();
                 TransitionToScene();
             }
+
+            // Add reset functionality when R key is pressed
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ResetAllStatus();
+            }
+        }
+
+        private void ResetAllStatus()
+        {
+            // Reset all states
+            currentTarget = null;
+            selectedCharacter = null;
+            isCompleted = false;
+            isTransitioning = false;
+            isPeaceSignDetected = false;
+            detectedPeaceTime = 0f;
+
+            // Reset progress and preview
+            ResetProgress();
+            UpdatePreview(null);
+
+            // Reset all button scales
+            foreach (var character in characters)
+            {
+                character.characterButton.transform.DOScale(
+                    originalButtonScales[character.characterButton],
+                    stateChangeDuration
+                );
+                character.progressImage.fillAmount = 0f;
+            }
+
+            Debug.Log("Character selector status has been reset");
         }
 
         private bool isTransitioning = false;
