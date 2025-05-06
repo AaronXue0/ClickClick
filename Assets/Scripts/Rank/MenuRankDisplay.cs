@@ -21,6 +21,11 @@ namespace ClickClick.Rank
         private const int TOP_PLAYERS_COUNT = 4;
         private DataManager dataManager;
 
+        private void OnEnable()
+        {
+            System.GC.Collect();
+        }
+
         private void Awake()
         {
             rankContainer.SetActive(false);
