@@ -24,11 +24,22 @@ namespace ClickClick
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+                SetupCanvas();
             }
             else
             {
                 Destroy(gameObject);
             }
+        }
+
+        private void SetupCanvas()
+        {
+            // 確保 Canvas 的渲染順序最高
+            canvas.sortingOrder = 32767;
+            // 確保 fadeImage 在 Canvas 的最上層
+            fadeImage.transform.SetAsLastSibling();
+            // 初始時隱藏 fadeImage
+            fadeImage.gameObject.SetActive(false);
         }
 
         public void TransitionToScene(string sceneName)
@@ -38,43 +49,49 @@ namespace ClickClick
 
         private IEnumerator TransitionCoroutine(string sceneName)
         {
+            // 確保 fadeImage 已經準備好
+            fadeImage.gameObject.SetActive(true);
             canvas.worldCamera = Camera.main;
             canvas.gameObject.SetActive(true);
             audioController.DoAction();
 
             transitionParticle.Play();
-            // Start the fade in
+
+            // 開始淡入
             yield return StartCoroutine(FadeIn());
 
-            // Wait for the transition animation to complete
+            // 等待轉場動畫完成
             yield return new WaitForSeconds(transitionDuration);
 
-            // Start asynchronous loading with manual activation control
+            // 開始異步加載場景
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-            asyncLoad.allowSceneActivation = false; // Prevent automatic scene activation
+            asyncLoad.allowSceneActivation = false;
 
-            // Optionally, you can monitor loading progress here (asyncLoad.progress goes from 0 to 0.9)
             while (asyncLoad.progress < 0.9f)
             {
-                // Insert code here for updating a progress bar, if needed.
-                yield return null; // wait one frame
+                yield return null;
             }
 
-            // At this point, the loading is nearly complete.
-            // Update the canvas camera to the new scene's camera.
+            // 更新 Canvas 的相機
             canvas.worldCamera = Camera.main;
 
-            // Now, allow the scene to activate.
+            // 允許場景激活
             asyncLoad.allowSceneActivation = true;
 
+            // 等待場景完全加載
             while (!asyncLoad.isDone)
             {
                 yield return null;
             }
 
-            // Start the fade out effect to reveal the new scene smoothly.
+            // 確保 fadeImage 仍然在最上層
+            fadeImage.transform.SetAsLastSibling();
+
+            // 開始淡出
             yield return StartCoroutine(FadeOut());
 
+            // 完成後隱藏 fadeImage
+            fadeImage.gameObject.SetActive(false);
             canvas.gameObject.SetActive(false);
         }
 
@@ -91,6 +108,9 @@ namespace ClickClick
                 fadeImage.color = Color.Lerp(startColor, targetColor, t);
                 yield return null;
             }
+
+            // 確保最終顏色完全設置
+            fadeImage.color = targetColor;
         }
 
         private IEnumerator FadeOut()
@@ -106,6 +126,9 @@ namespace ClickClick
                 fadeImage.color = Color.Lerp(startColor, targetColor, t);
                 yield return null;
             }
+
+            // 確保最終顏色完全設置
+            fadeImage.color = targetColor;
         }
     }
 }
