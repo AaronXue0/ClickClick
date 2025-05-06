@@ -908,8 +908,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7E3D\u5206\uFF1A100000"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9b6a530b23ac744ecaaa20f4c43c7036, type: 2}
-  m_sharedMaterial: {fileID: -7852624068446478684, guid: 9b6a530b23ac744ecaaa20f4c43c7036,
+  m_fontAsset: {fileID: 11400000, guid: 77ccc8e1243984a2d97a9ca745e3d5fb, type: 2}
+  m_sharedMaterial: {fileID: 8353337317795325046, guid: 77ccc8e1243984a2d97a9ca745e3d5fb,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
