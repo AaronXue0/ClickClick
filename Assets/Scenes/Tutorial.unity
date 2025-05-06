@@ -5227,8 +5227,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u300C\u6E96\u5099\u958B\u59CB\u4FEE\u5FA9\u5DE5\u4F5C\u56C9\uFF5E\u300D"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: af8c37bdc27e242d681cc3909a1c4dd2, type: 2}
-  m_sharedMaterial: {fileID: -7852624068446478684, guid: af8c37bdc27e242d681cc3909a1c4dd2,
+  m_fontAsset: {fileID: 11400000, guid: 9b6a530b23ac744ecaaa20f4c43c7036, type: 2}
+  m_sharedMaterial: {fileID: -7852624068446478684, guid: 9b6a530b23ac744ecaaa20f4c43c7036,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6312,22 +6312,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: db46f9893f9cb4f849be2f93a6ceca04, type: 3}
   - {fileID: 21300000, guid: f6dd90b5f524b4bbf805f42cc3acc471, type: 3}
   scoringRuleScripts:
-  - "\u592A\u597D\u4E86\uFF0C\u8B93\u6211\u4F86\u8AAA\u660E\u8A08\u5206\u6A5F\u5236\u5427\uFF01"
   - "\u6BCF\u4FEE\u5FA9\u4E00\u500B\u9375\u5E3D\u5C31\u80FD\u7372\u5F97100\u5206"
-  - "\u9023\u7E8C\u6D88\u9664\u53EF\u4EE5\u7372\u5F97\u8F03\u597D\u7684\u7E3E\u6548"
-  - "\u5206\u5225\u662Fx1, x2, x3, \u6700\u9AD84\u500D"
-  scoringRuleImages:
-  - {fileID: 471121963}
-  - {fileID: 1404802667}
-  - {fileID: 1724224300}
-  - {fileID: 603043860}
+  scoringRuleImages: []
   ctaScripts:
   - "\u8A66\u8457\u6311\u6230\u770B\u770B\uFF0C\u7372\u5F97\u795E\u79D8\u7684\u5C0F\u79AE\u7269\u5427\uFF01"
   ctaImages:
   - {fileID: 1587075285}
   ctaText: {fileID: 478262256}
-  finalScripts:
-  - "\u90A3\u9EBC\u518D\u8907\u7FD2\u4E00\u4E0B\uFF0C\u6E96\u5099\u597D\u5C31\u958B\u59CB\u5427\uFF01"
+  finalScripts: []
   tutorialVideo: {fileID: 8571076843645350788}
   interactionObject: {fileID: 1288489121}
   hlrManager: {fileID: 1953713084}
