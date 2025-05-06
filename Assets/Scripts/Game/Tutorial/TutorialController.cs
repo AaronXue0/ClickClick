@@ -259,7 +259,7 @@ namespace ClickClick.Tutorial
                 yield return FadeInImageGroup(image);
             }
 
-            yield return new WaitForSeconds(3);
+            // yield return new WaitForSeconds(3);
 
             List<Coroutine> coroutines = new List<Coroutine>();
 
