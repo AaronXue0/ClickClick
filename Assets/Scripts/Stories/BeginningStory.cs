@@ -25,7 +25,6 @@ namespace ClickClick
 
                 // Second Cut
                 yield return SecondCutCoroutine();
-                yield return new WaitForSeconds(defaultDelay);
 
                 // First Cut
                 yield return FirstCutCoroutine();

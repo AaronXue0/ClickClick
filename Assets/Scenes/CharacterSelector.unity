@@ -2955,9 +2955,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionParticle: {fileID: 0}
   canvas: {fileID: 1039423926}
-  transitionDuration: 0.5
+  transitionDuration: 1
   fadeImage: {fileID: 1703531906}
-  fadeDuration: 0.5
+  fadeDuration: 0.75
   audioController: {fileID: 53191440}
 --- !u!4 &1221056881
 Transform:
