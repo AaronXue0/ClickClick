@@ -2131,14 +2131,14 @@ RectTransform:
   m_GameObject: {fileID: 989129531}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4702717101401793169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &989129533
@@ -3432,7 +3432,7 @@ MonoBehaviour:
   - "\u8EAB\u70BA\u98FC\u80B2\u54E1\u7684\u4F60\u5F97\u76E1\u5FEB\u8DDF\u8457\u751F\u7269\u5011\u628A\u9375\u5E3D\u4FEE\u597D\uFF01"
   - "\u73FE\u5728\u8ACB\u7528\u55AE\u624B\u6311\u9078\u4E00\u500B\u751F\u7269\u4F5C\u70BA\u4F60\u7684\u5925\u4F34\u5427\uFF01"
   colors:
-  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0.74509805}
   - {r: 0, g: 0, b: 0, a: 0.74509805}
   - {r: 0, g: 0, b: 0, a: 0.39215687}
   defaultDelay: 2
@@ -3441,6 +3441,8 @@ MonoBehaviour:
   animator: {fileID: 7890987287036662797}
   isTest: 0
   logoSound: {fileID: 1170142547}
+  videoObject: {fileID: 2098766169}
+  videoPlayer: {fileID: 989129531}
 --- !u!1 &1562285179
 GameObject:
   m_ObjectHideFlags: 0
@@ -4282,14 +4284,14 @@ RectTransform:
   m_GameObject: {fileID: 2098766169}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4702717101401793169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &2098766171
@@ -4948,10 +4950,15 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -270
       objectReference: {fileID: 0}
+    - target: {fileID: 6257841449341505580, guid: b6511e6052d7e4c1c9800f662d48a338,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6545908966086141786, guid: b6511e6052d7e4c1c9800f662d48a338,
         type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0.5294118
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

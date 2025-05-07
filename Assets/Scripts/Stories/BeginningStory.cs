@@ -11,9 +11,18 @@ namespace ClickClick
     public class BeginningStory : BaseStory
     {
         [SerializeField] protected AudioController logoSound;
+        
+        [Header("Video")]
+
+        [SerializeField] private GameObject videoObject;
+
+        [SerializeField] private GameObject videoPlayer;
 
         public override IEnumerator PlayStoryCoroutine(Action onComplete)
         {
+            videoObject.SetActive(true);
+            videoPlayer.SetActive(true);
+
             group.gameObject.SetActive(true);
             group.alpha = 1f;
 

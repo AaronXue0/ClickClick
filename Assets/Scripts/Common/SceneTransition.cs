@@ -84,6 +84,8 @@ namespace ClickClick
                 yield return null;
             }
 
+            yield return new WaitForSeconds(transitionDuration);
+            
             // 確保 fadeImage 仍然在最上層
             fadeImage.transform.SetAsLastSibling();
 
