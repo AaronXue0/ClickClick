@@ -254,8 +254,8 @@ namespace ClickClick.Photograph
 
             // Create a temporary RenderTexture
             RenderTexture tempRT = RenderTexture.GetTemporary(
-                sourceTexture.width,
-                sourceTexture.height,
+                1280,  // Set width to 1280
+                720,   // Set height to 720
                 0,
                 RenderTextureFormat.Default,
                 RenderTextureReadWrite.Linear
@@ -266,8 +266,8 @@ namespace ClickClick.Photograph
 
             // Create a new Texture2D and read the RenderTexture content
             Texture2D texture = new Texture2D(
-                tempRT.width,
-                tempRT.height,
+                1280,  // Set width to 1280
+                720,   // Set height to 720
                 TextureFormat.RGB24,
                 false
             );
@@ -380,7 +380,7 @@ namespace ClickClick.Photograph
 
             // Ensure final scale and size
             capturedPhotoImage.rectTransform.localScale = Vector3.one;
-            capturedPhotoImage.rectTransform.sizeDelta = new Vector2(1920, 1080);
+            capturedPhotoImage.rectTransform.sizeDelta = new Vector2(1280, 720);
 
             onCountdownComplete?.Invoke();
 
