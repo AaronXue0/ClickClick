@@ -131,7 +131,7 @@ namespace ClickClick
             UploadToGoogleScript();
         }
 
-        private string googleScriptUrl = "https://script.google.com/macros/s/AKfycbwt0ZiDtTZxi7JNoNjPOMfhBvCWKRSCE8bAqhMUKzhX0w8bWupIFb-QuTnXD_9Cx-kq/exec";
+        private string googleScriptUrl = "https://script.google.com/macros/s/AKfycbx4J3-IXd5vrE-2XRDpK-m7m8CA3una_nsKcgRxSExs53wZBaoPRKU2VYKRgNKDEoRy/exec";
 
         private void UploadToGoogleScript()
         {
